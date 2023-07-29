@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
+@SuppressWarnings({"SpellCheckingInspection"})
 public class Constants {
   public static final String DOWNLOAD_ME = "DOWNLOAD_ME";
   public static final String MARKER_URL_CONTENT = "A_FILENAME_PLACEHOLDER_FOR_THE_DESCRIPTION_NeVeR_OcCuRs_iN_ReAl_WoRlD_DaTa";
