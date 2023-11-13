@@ -8,12 +8,13 @@ import java.awt.*;
 
 public class UploadScannerPanel {
   private final MontoyaApi api;
-  private JPanel mainPanel;
+  private final JPanel mainPanel;
   private JTabbedPane tabbedPane;
 
-  public UploadScannerPanel(MontoyaApi api) {
-    this.api = api;
-    buildPanel();
+  public UploadScannerPanel(MontoyaApi montoyaApi) {
+    api         = montoyaApi;
+    mainPanel   = new JPanel(new BorderLayout());
+    tabbedPane  = new JTabbedPane();
     addTabs();
     registerPanel();
   }
@@ -36,14 +37,10 @@ public class UploadScannerPanel {
   }
 
   private void addDoneUploadsTab() {
-
+    // This tab will keep track of uploads and downloads
   }
 
   private void addGlobalConfigurationTab() {
-  }
-
-  private void buildPanel() {
-    mainPanel = new JPanel(new BorderLayout());
-    tabbedPane = new JTabbedPane();
+    // This was use in the previous project, is this useful?
   }
 }

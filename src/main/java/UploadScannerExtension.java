@@ -3,27 +3,35 @@ import burp.api.montoya.MontoyaApi;
 import view.UploadScannerPanel;
 
 @SuppressWarnings("unused")
-public class UploadScanner implements BurpExtension {
+public class UploadScannerExtension implements BurpExtension {
   MontoyaApi api;
-  UploadScannerPanel ui;
+  UploadScannerPanel view;
+
   @Override
-  public void initialize(MontoyaApi api) {
-      this.api = api;
-      log("Initializing Extension...", false);
-      api.extension().setName("Upload Scanner");
-      createUI();
-      log("Extension Initialized.", false);
+  public void initialize(MontoyaApi montoyaApi) {
+    log("Initializing Extension...", false);
+
+    api   = montoyaApi;
+    view  = createUI();
+    api.extension().setName("Upload Scanner");
+
+    log("Extension Initialized.", false);
   }
 
-  private void createUI() {
+  private UploadScannerPanel createUI() {
+    UploadScannerPanel temporaryPanel = null;
+
     try {
       log("Generating UI", false);
-      ui = new UploadScannerPanel(api);
+      temporaryPanel = new UploadScannerPanel(api);
       log("UI Generated", false);
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       log("Failed to generate UI", true);
       log(e.toString(), true);
     }
+
+    return temporaryPanel;
   }
 
   private void log(String output, boolean error){
