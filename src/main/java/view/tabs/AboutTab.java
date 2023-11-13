@@ -1,17 +1,18 @@
-package view.tabs.about;
-
-import burp.api.montoya.MontoyaApi;
-import view.tabs.TabFactory;
+package view.tabs;
 
 import javax.swing.*;
 
-public class AboutTabFactory extends TabFactory {
+public class AboutTab extends JPanel {
+  private final String tabName;
+  private final JLabel aboutText;
 
-  public AboutTabFactory(String tabName, MontoyaApi api) {
-    super(tabName, api);
+  public AboutTab() {
+    tabName   = "About";
+    aboutText = getAboutText();
+    add(aboutText);
   }
 
-  private void createUIComponents(JPanel panel) {
+  private JLabel getAboutText() {
     JLabel aboutText = new JLabel();
     aboutText.setText("""
         <html>
@@ -32,13 +33,10 @@ public class AboutTabFactory extends TabFactory {
         </ul>
         </html>""");
     aboutText.putClientProperty("html.disable", null);
-    panel.add(aboutText);
+    return aboutText;
   }
 
-  @Override
-  public JPanel createTab() {
-    JPanel panel = new JPanel();
-    createUIComponents(panel);
-    return panel;
+  public String getTabName() {
+    return tabName;
   }
 }
