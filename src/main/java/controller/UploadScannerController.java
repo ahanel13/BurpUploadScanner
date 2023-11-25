@@ -7,7 +7,7 @@ import view.tabs.AboutTab;
 public class UploadScannerController {
     private final UploadScannerPanel view;
     private final MontoyaApi api;
-    public UploadScannerController(MontoyaApi montoyaApi, UploadScannerPanel scannerPanel) {
+    public UploadScannerController(MontoyaApi montoyaApi, UploadScannerPanel scannerPanel) throws Exception {
         api    = montoyaApi;
         view   = scannerPanel;
 
@@ -21,14 +21,14 @@ public class UploadScannerController {
         api.userInterface().registerSuiteTab("Upload Scanner", view);
     }
 
-    private void addTabs() {
+    private void addTabs() throws Exception {
         // Order matters
         addAboutTab();
         addGlobalConfigurationTab();
         addDoneUploadsTab();
     }
 
-    private void addAboutTab() {
+    private void addAboutTab() throws Exception {
         AboutTab about = new AboutTab();
         view.addTab(about.getTabName(),about);
     }

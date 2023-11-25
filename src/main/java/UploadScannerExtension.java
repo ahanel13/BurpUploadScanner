@@ -3,6 +3,8 @@ import burp.api.montoya.MontoyaApi;
 import controller.UploadScannerController;
 import view.UploadScannerPanel;
 
+import java.io.IOException;
+
 @SuppressWarnings("unused")
 public class UploadScannerExtension implements BurpExtension {
   MontoyaApi api;
@@ -11,19 +13,30 @@ public class UploadScannerExtension implements BurpExtension {
 
   @Override
   public void initialize(MontoyaApi montoyaApi) {
-    log("Initializing Extension...", false);
+    try {
+      log("Initializing Extension...", false);
 
-    api         = montoyaApi;
-    view        = new UploadScannerPanel();
-    controller  = getExtensionController();
+      api         = montoyaApi;
+      view        = new UploadScannerPanel();
+      controller  = getExtensionController();
 
-    api.extension().setName("Upload Scanner");
+      api.extension().setName("Upload Scanner");
 
-    log("Extension Initialized.", false);
+      log("Extension Initialized.", false);
+    } catch (Exception e){
+      log(e.toString(), true);
+    }
   }
 
-  private UploadScannerController getExtensionController() {
-    return new UploadScannerController(api, view);
+  private UploadScannerController getExtensionController() throws Exception {
+    try {
+      return new UploadScannerController(api, view);
+    } catch (IOException e) {
+      log(e.toString(), true);
+      log("Unloading Extension", false);
+      api.extension().unload();
+    }
+    return null;
   }
 
   private void log(String output, boolean error){
