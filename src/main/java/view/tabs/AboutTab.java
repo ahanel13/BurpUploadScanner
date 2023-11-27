@@ -15,7 +15,7 @@ public class AboutTab extends JPanel {
   }
 
   private JEditorPane getAboutText() throws Exception {
-    String      htmlContent = ResourceLoader.loadResource("about.html");
+    String      htmlContent = ResourceLoader.loadResource("tabs/about.html");
     JEditorPane aboutText   = new JEditorPane("text/html", htmlContent);
 
     aboutText.setEditable(false);

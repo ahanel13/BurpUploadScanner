@@ -8,7 +8,7 @@ public class ResourceLoaderTest {
   @Test
   public void testLoadResource() throws Exception {
     String expectedHtml = getExpectedHtml();
-    String actualHtml   = ResourceLoader.loadResource("about.html");
+    String actualHtml   = ResourceLoader.loadResource("tabs/about.html");
 
     // Normalize line endings
     expectedHtml = expectedHtml.replace("\r\n", "\n");

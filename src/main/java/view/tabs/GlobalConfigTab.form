@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.tabs.GlobalConfigTab">
+  <grid id="27dc6" binding="mainPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="1397" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="c90b1" class="javax.swing.JLabel">
+        <constraints border-constraint="North"/>
+        <properties>
+          <labelFor value="3aa3c"/>
+          <text value="Global Configs"/>
+        </properties>
+      </component>
+      <grid id="3418c" binding="configGroups" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <maximumSize width="250" height="32767"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="d66df" binding="moduleOptions" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints/>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="df5f0" binding="fileFormatOptions" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints/>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="908bc" binding="scanningOptions" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <grid id="b3f98" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                <constraints/>
+                <properties>
+                  <minimumSize width="250" height="40"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="16a32" class="javax.swing.JLabel" binding="throttleTimeLabel">
+                    <constraints/>
+                    <properties>
+                      <labelFor value="9dad6"/>
+                      <text resource-bundle="tabs/globalConfigTab" key="default.throttle.time"/>
+                    </properties>
+                  </component>
+                  <component id="9dad6" class="javax.swing.JTextField" binding="throttleValue">
+                    <constraints/>
+                    <properties>
+                      <text value="0.0"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <component id="9e3fa" class="javax.swing.JCheckBox" binding="replaceFileSize">
+                <constraints/>
+                <properties>
+                  <horizontalTextPosition value="10"/>
+                  <selected value="true"/>
+                  <text value="Replace File Size"/>
+                </properties>
+              </component>
+              <component id="f8e47" class="javax.swing.JCheckBox" binding="replaceFileName">
+                <constraints/>
+                <properties>
+                  <horizontalTextPosition value="10"/>
+                  <selected value="true"/>
+                  <text value="Replace File Name"/>
+                </properties>
+              </component>
+              <component id="23893" class="javax.swing.JCheckBox" binding="replaceContentType">
+                <constraints/>
+                <properties>
+                  <horizontalTextPosition value="10"/>
+                  <selected value="true"/>
+                  <text value="Replace Content Type"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="ff709" binding="payloadOptions" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="57475" class="javax.swing.JCheckBox" binding="wgetCurlPayloads">
+                <constraints border-constraint="Center"/>
+                <properties>
+                  <horizontalTextPosition value="10"/>
+                  <text value="Send wget &amp; Curl Payloads"/>
+                </properties>
+              </component>
+              <grid id="bc61e" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                <constraints border-constraint="West"/>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="cd10c" class="javax.swing.JLabel" binding="sleepTimeLabel">
+                    <constraints/>
+                    <properties>
+                      <text resource-bundle="tabs/globalConfigTab" key="sleep.time.used.in.rce.payloads"/>
+                    </properties>
+                  </component>
+                  <component id="405a8" class="javax.swing.JTextField" binding="sleepTime">
+                    <constraints/>
+                    <properties>
+                      <text value="6.0"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+            </children>
+          </grid>
+          <grid id="3112f" binding="generalOptions" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="2880a" class="javax.swing.JCheckBox" binding="addToLoggingChkBox">
+                <constraints border-constraint="Center"/>
+                <properties>
+                  <horizontalTextPosition value="10"/>
+                  <selected value="true"/>
+                  <text resource-bundle="tabs/globalConfigTab" key="add.to.logging.tab"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <grid id="4cd76" binding="footerButtons" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="2">
+        <constraints border-constraint="South"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="fb1f0" class="javax.swing.JButton" binding="resetBtn">
+            <constraints/>
+            <properties>
+              <text value="Reset"/>
+            </properties>
+          </component>
+          <component id="da9bb" class="javax.swing.JButton" binding="saveBtn">
+            <constraints/>
+            <properties>
+              <text value="Save"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <component id="3aa3c" class="javax.swing.JTextField" binding="tabDescription">
+        <constraints border-constraint="West"/>
+        <properties>
+          <editable value="false"/>
+          <text resource-bundle="tabs/globalConfigTab" key="these.configuration.options.are.used.when.a.new.scan.is.created.once.the.configurations.for.that.scan.has.been.made.those.supercede.the.gloabl.options"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
