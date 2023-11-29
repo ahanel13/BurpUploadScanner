@@ -1,12 +1,15 @@
-package view.tabs;
+package view.templates;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Method;
-import java.util.ResourceBundle;
 
-public class GlobalConfigTab {
+//todo: move the config specific UI to the BaseConfig Class
+public class IntellijBaseConfig {
+    public IntellijBaseConfig() {
+        tabName = TAB_NAME;
+    }
+
     public JPanel mainPanel;
 
     public String getTabName() {
@@ -45,26 +48,31 @@ public class GlobalConfigTab {
         return sleepTime;
     }
 
-    private final String     tabName = "Global Config";
-    private       JPanel     configGroups;
-    private       JPanel     moduleOptions;
-    private       JPanel     fileFormatOptions;
-    private       JPanel     scanningOptions;
-    private       JTextField throttleValue;
-    private       JPanel     payloadOptions;
-    private       JPanel     generalOptions;
-    private       JCheckBox  addToLoggingChkBox;
-    private       JLabel     throttleTimeLabel;
-    private       JButton    resetBtn;
-    private       JButton    saveBtn;
-    private       JTextField tabDescription;
-    private       JPanel     footerButtons;
-    private       JCheckBox  replaceFileName;
-    private       JCheckBox  replaceContentType;
-    private       JCheckBox  replaceFileSize;
-    private       JCheckBox  wgetCurlPayloads;
-    private       JTextField sleepTime;
-    private       JLabel     sleepTimeLabel;
+    // Labels and Containers
+    private final String tabName;
+    private       JPanel configGroups;
+    private       JPanel moduleOptions;
+    private       JPanel fileFormatOptions;
+    private       JPanel scanningOptions;
+    private       JLabel throttleTimeLabel;
+    private       JPanel payloadOptions;
+    private       JPanel generalOptions;
+    private       JLabel sleepTimeLabel;
+    private       JPanel footerButtons;
+
+    // UI Inputs
+    private JTextField throttleValue;
+    private JCheckBox  addToLoggingChkBox;
+    private JCheckBox  replaceFileName;
+    private JCheckBox  replaceContentType;
+    private JCheckBox  replaceFileSize;
+    private JCheckBox  wgetCurlPayloads;
+    private JTextField sleepTime;
+    private JButton    resetBtn;
+    private JButton    saveBtn;
+
+    // CONSTANTS
+    private final String TAB_NAME = "Global Config";
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
@@ -87,9 +95,6 @@ public class GlobalConfigTab {
     private void $$$setupUI$$$() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout(0, 0));
-        final JLabel label1 = new JLabel();
-        label1.setText("Global Configs");
-        mainPanel.add(label1, BorderLayout.NORTH);
         configGroups = new JPanel();
         configGroups.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         configGroups.setMaximumSize(new Dimension(250, 32767));
@@ -108,7 +113,7 @@ public class GlobalConfigTab {
         panel1.setMinimumSize(new Dimension(250, 40));
         scanningOptions.add(panel1);
         throttleTimeLabel = new JLabel();
-        this.$$$loadLabelText$$$(throttleTimeLabel, this.$$$getMessageFromBundle$$$("tabs/globalConfigTab", "default.throttle.time"));
+        throttleTimeLabel.setText("Throttle Time");
         panel1.add(throttleTimeLabel);
         throttleValue = new JTextField();
         throttleValue.setText("0.0");
@@ -141,7 +146,7 @@ public class GlobalConfigTab {
         panel2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         payloadOptions.add(panel2, BorderLayout.WEST);
         sleepTimeLabel = new JLabel();
-        this.$$$loadLabelText$$$(sleepTimeLabel, this.$$$getMessageFromBundle$$$("tabs/globalConfigTab", "sleep.time.used.in.rce.payloads"));
+        sleepTimeLabel.setText("Sleep Time used in RCE Payloads");
         panel2.add(sleepTimeLabel);
         sleepTime = new JTextField();
         sleepTime.setText("6.0");
@@ -152,7 +157,7 @@ public class GlobalConfigTab {
         addToLoggingChkBox = new JCheckBox();
         addToLoggingChkBox.setHorizontalTextPosition(10);
         addToLoggingChkBox.setSelected(true);
-        this.$$$loadButtonText$$$(addToLoggingChkBox, this.$$$getMessageFromBundle$$$("tabs/globalConfigTab", "add.to.logging.tab"));
+        addToLoggingChkBox.setText("Add to Logging Tab");
         generalOptions.add(addToLoggingChkBox, BorderLayout.CENTER);
         footerButtons = new JPanel();
         footerButtons.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
@@ -163,83 +168,7 @@ public class GlobalConfigTab {
         saveBtn = new JButton();
         saveBtn.setText("Save");
         footerButtons.add(saveBtn);
-        tabDescription = new JTextField();
-        tabDescription.setEditable(false);
-        tabDescription.setText(this.$$$getMessageFromBundle$$$("tabs/globalConfigTab", "these.configuration.options.are.used.when.a.new.scan.is.created.once.the.configurations.for.that.scan.has.been.made.those.supercede.the.gloabl.options"));
-        mainPanel.add(tabDescription, BorderLayout.WEST);
-        label1.setLabelFor(tabDescription);
         throttleTimeLabel.setLabelFor(throttleValue);
-    }
-
-    private static Method $$$cachedGetBundleMethod$$$ = null;
-
-    private String $$$getMessageFromBundle$$$(String path, String key) {
-        ResourceBundle bundle;
-        try {
-            Class<?> thisClass = this.getClass();
-            if ($$$cachedGetBundleMethod$$$ == null) {
-                Class<?> dynamicBundleClass = thisClass.getClassLoader().loadClass("com.intellij.DynamicBundle");
-                $$$cachedGetBundleMethod$$$ = dynamicBundleClass.getMethod("getBundle", String.class, Class.class);
-            }
-            bundle = (ResourceBundle) $$$cachedGetBundleMethod$$$.invoke(null, path, thisClass);
-        } catch (Exception e) {
-            bundle = ResourceBundle.getBundle(path);
-        }
-        return bundle.getString(key);
-    }
-
-    /**
-     * @noinspection ALL
-     */
-    private void $$$loadLabelText$$$(JLabel component, String text) {
-        StringBuffer result        = new StringBuffer();
-        boolean      haveMnemonic  = false;
-        char         mnemonic      = '\0';
-        int          mnemonicIndex = -1;
-        for (int i = 0; i < text.length(); i++) {
-            if (text.charAt(i) == '&') {
-                i++;
-                if (i == text.length()) break;
-                if (!haveMnemonic && text.charAt(i) != '&') {
-                    haveMnemonic  = true;
-                    mnemonic      = text.charAt(i);
-                    mnemonicIndex = result.length();
-                }
-            }
-            result.append(text.charAt(i));
-        }
-        component.setText(result.toString());
-        if (haveMnemonic) {
-            component.setDisplayedMnemonic(mnemonic);
-            component.setDisplayedMnemonicIndex(mnemonicIndex);
-        }
-    }
-
-    /**
-     * @noinspection ALL
-     */
-    private void $$$loadButtonText$$$(AbstractButton component, String text) {
-        StringBuffer result        = new StringBuffer();
-        boolean      haveMnemonic  = false;
-        char         mnemonic      = '\0';
-        int          mnemonicIndex = -1;
-        for (int i = 0; i < text.length(); i++) {
-            if (text.charAt(i) == '&') {
-                i++;
-                if (i == text.length()) break;
-                if (!haveMnemonic && text.charAt(i) != '&') {
-                    haveMnemonic  = true;
-                    mnemonic      = text.charAt(i);
-                    mnemonicIndex = result.length();
-                }
-            }
-            result.append(text.charAt(i));
-        }
-        component.setText(result.toString());
-        if (haveMnemonic) {
-            component.setMnemonic(mnemonic);
-            component.setDisplayedMnemonicIndex(mnemonicIndex);
-        }
     }
 
     /**
