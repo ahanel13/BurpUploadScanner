@@ -5,6 +5,9 @@ import controller.tabControllers.GlobalConfigController;
 import model.ConfigModel;
 import view.UploadScannerPanel;
 import view.tabs.AboutTab;
+import view.templates.IntellijBaseConfig;
+
+import java.io.IOException;
 
 public class UploadScannerController {
 
@@ -43,9 +46,10 @@ public class UploadScannerController {
         // This tab will keep track of uploads and downloads
     }
 
-    private void addGlobalConfigurationTab() {
-        globalConfigModel      = new ConfigModel();
-        globalConfigController = new GlobalConfigController(globalConfigModel);
-        view.addTab(globalConfigController.getTabName(), globalConfigController.getTab());
+    private void addGlobalConfigurationTab() throws IOException {
+        defaultScanOptions      = new ScanConfigModel(persistedObject);
+        IntellijBaseConfig defaultScanOptionsView = new IntellijBaseConfig();
+        defaultConfigController = new ScanConfigController(defaultScanOptions, defaultScanOptionsView);
+        view.addTab(defaultConfigController.getTabName(), defaultConfigController.getTab());
     }
 }
