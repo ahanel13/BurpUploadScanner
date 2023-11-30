@@ -1,8 +1,9 @@
 package controller;
 
 import burp.api.montoya.MontoyaApi;
-import controller.tabControllers.GlobalConfigController;
-import model.ConfigModel;
+import burp.api.montoya.persistence.PersistedObject;
+import controller.tabControllers.ScanConfigController;
+import model.ScanConfigModel;
 import view.UploadScannerPanel;
 import view.tabs.AboutTab;
 import view.templates.IntellijBaseConfig;
@@ -12,8 +13,9 @@ import java.io.IOException;
 public class UploadScannerController {
 
     public UploadScannerController(MontoyaApi montoyaApi, UploadScannerPanel scannerPanel) throws Exception {
-        api  = montoyaApi;
-        view = scannerPanel;
+        api                   = montoyaApi;
+        view                  = scannerPanel;
+        persistedObject       = api.persistence().extensionData();
 
         api.logging().logToOutput("Generating UI");
         addTabs();
@@ -21,10 +23,11 @@ public class UploadScannerController {
         api.logging().logToOutput("UI Generated");
     }
 
-    private final UploadScannerPanel     view;
-    private final MontoyaApi             api;
-    private       GlobalConfigController globalConfigController;
-    private       ConfigModel            globalConfigModel;
+    private final UploadScannerPanel       view;
+    private final MontoyaApi               api;
+    private final PersistedObject          persistedObject;
+    private       ScanConfigModel          defaultScanOptions;
+    private       ScanConfigController     defaultConfigController;
 
     private void registerView() {
         api.userInterface().registerSuiteTab("Upload Scanner", view);

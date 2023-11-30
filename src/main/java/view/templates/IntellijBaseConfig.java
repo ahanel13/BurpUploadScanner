@@ -16,10 +16,6 @@ public class IntellijBaseConfig {
         return tabName;
     }
 
-    public void addSaveButtonListener(ActionListener listener) {
-        throttleValue.addActionListener(listener);
-    }
-
     public JTextField getThrottleValue() {
         return throttleValue;
     }
@@ -47,6 +43,43 @@ public class IntellijBaseConfig {
     public JTextField getSleepTime() {
         return sleepTime;
     }
+
+    public void addSaveButtonListener(ActionListener listener) {
+        saveBtn.addActionListener(listener);
+    }
+
+    public void addResetButtonListener(ActionListener listener) {
+        resetBtn.addActionListener(listener);
+    }
+
+    public void setReplaceContentType(boolean replaceContentType) {
+        this.replaceContentType.setSelected(replaceContentType);
+    }
+
+    public void setReplaceFileName(boolean replaceFileName) {
+        this.replaceFileName.setSelected(replaceFileName);
+    }
+
+    public void setReplaceFileSize(boolean replaceFileSize) {
+        this.replaceFileSize.setSelected(replaceFileSize);
+    }
+
+    public void setAddToLoggingChkBox(boolean addToLogging) {
+        this.addToLoggingChkBox.setSelected(addToLogging);
+    }
+
+    public void setWgetCurlPayloads(boolean wgetCurlPayloads) {
+        this.wgetCurlPayloads.setSelected(wgetCurlPayloads);
+    }
+
+    public void setSleepTime(short sleepTime) {
+        this.sleepTime.setText(String.valueOf(sleepTime));
+    }
+
+    public void setThrottleValue(short throttleValue) {
+        this.throttleValue.setText(String.valueOf(throttleValue));
+    }
+
 
     // Labels and Containers
     private final String tabName;
@@ -178,4 +211,12 @@ public class IntellijBaseConfig {
         return mainPanel;
     }
 
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("IntellijBaseConfig");
+        frame.setContentPane(new IntellijBaseConfig().mainPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+    }
 }
