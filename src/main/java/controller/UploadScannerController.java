@@ -1,9 +1,11 @@
 package controller;
 
 import burp.api.montoya.MontoyaApi;
-import burp.api.montoya.ui.contextmenu.ContextMenuItemsProvider;
+import burp.api.montoya.http.message.HttpRequestResponse;
 import controller.tabControllers.GlobalConfigController;
+import controller.tabControllers.ScanTabController;
 import model.ConfigModel;
+import model.ScanModel;
 import view.UploadScannerMenuContext;
 import view.UploadScannerPanel;
 import view.tabs.AboutTab;
@@ -14,14 +16,14 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UploadScannerController implements ContextMenuItemsProvider {
+public class UploadScannerController {
 
     public UploadScannerController(MontoyaApi montoyaApi, UploadScannerPanel scannerPanel,
                                    UploadScannerMenuContext burpMenuContext) throws Exception {
-        api         = montoyaApi;
-        view        = scannerPanel;
-        menuContext = burpMenuContext;
-        scanTabList = new ArrayList<>();
+        api                   = montoyaApi;
+        view                  = scannerPanel;
+        menuContext           = burpMenuContext;
+        scanTabControllerList = new ArrayList<>();
 
         api.logging().logToOutput("Generating UI");
         addTabs();
@@ -33,17 +35,20 @@ public class UploadScannerController implements ContextMenuItemsProvider {
     private final UploadScannerMenuContext menuContext;
     private final UploadScannerPanel       view;
     private final MontoyaApi               api;
-    private final List<ScanTab>            scanTabList;
-    private       ConfigModel              globalConfigModel;
-    private       GlobalConfigController   globalConfigController;
+    private final List<ScanTabController>  scanTabControllerList;
+    private       ConfigModel              defaultScanOptions;
+    private       GlobalConfigController   defaultScanOptionsController;
 
     private void registerMenuContext() {
         api.userInterface().registerContextMenuItemsProvider(menuContext);
         menuContext.addEventListenerToMenuItem(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ScanTab newScanTab = new ScanTab(globalConfigModel, menuContext.getRequestResponse());
-                scanTabList.add(newScanTab);
+                HttpRequestResponse requestResponse = menuContext.getRequestResponse();
+                ScanModel           scanModel       = new ScanModel(defaultScanOptions, requestResponse);
+                ScanTab             scanTabView     = view.addScanTab(requestResponse);
+                ScanTabController   newScanTab      = new ScanTabController(scanModel, scanTabView);
+                scanTabControllerList.add(newScanTab);
             }
         });
     }
@@ -69,8 +74,8 @@ public class UploadScannerController implements ContextMenuItemsProvider {
     }
 
     private void addGlobalConfigurationTab() {
-        globalConfigModel      = new ConfigModel();
-        globalConfigController = new GlobalConfigController(globalConfigModel);
-        view.addTab(globalConfigController.getTabName(), globalConfigController.getTab());
+        defaultScanOptions           = new ConfigModel();
+        defaultScanOptionsController = new GlobalConfigController(defaultScanOptions);
+        view.addTab(defaultScanOptionsController.getTabName(), defaultScanOptionsController.getTab());
     }
 }
