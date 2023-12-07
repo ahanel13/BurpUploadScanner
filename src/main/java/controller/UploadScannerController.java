@@ -8,8 +8,6 @@ import view.UploadScannerPanel;
 import view.tabs.AboutTab;
 import view.templates.IntellijBaseConfig;
 
-import java.io.IOException;
-
 public class UploadScannerController {
 
     public UploadScannerController(MontoyaApi montoyaApi, UploadScannerPanel scannerPanel) throws Exception {
@@ -49,8 +47,8 @@ public class UploadScannerController {
         // This tab will keep track of uploads and downloads
     }
 
-    private void addGlobalConfigurationTab() throws IOException {
-        defaultScanOptions      = new ScanConfigModel(persistedObject);
+    private void addGlobalConfigurationTab() throws Exception {
+        defaultScanOptions      = new ScanConfigModel(api, persistedObject);
         IntellijBaseConfig defaultScanOptionsView = new IntellijBaseConfig();
         defaultConfigController = new ScanConfigController(defaultScanOptions, defaultScanOptionsView);
         view.addTab(defaultConfigController.getTabName(), defaultConfigController.getTab());

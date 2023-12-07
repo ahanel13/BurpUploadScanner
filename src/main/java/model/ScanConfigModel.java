@@ -1,67 +1,23 @@
 package model;
 
+import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.persistence.PersistedObject;
+import model.utilities.BurpPersistedObject;
 import model.utilities.ResourceLoader;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.Properties;
 
-public class ScanConfigModel implements Serializable {
-    public ScanConfigModel(PersistedObject persistedObject) throws IOException {
-        _persistedScanConfigModel = persistedObject.getChildObject(_SCAN_CONFIG_MODEL_KEY);
+public class ScanConfigModel extends BurpPersistedObject {
+    public ScanConfigModel(MontoyaApi api, PersistedObject persistedObject) throws Exception {
+        super(api, _SCAN_CONFIG_MODEL_KEY);
         _defaultProps             = ResourceLoader.loadPropertyFile(_SCAN_CONFIG_MODEL_PROPERTIES);
 
-        // Check if there is data stored in persistence
-        if (_persistedScanConfigModel != null) {
-            // Retrieve values from persistence
-            _addToLoggingTab    = persistedObject.getBoolean(_ADD_TO_LOGGING_TAB_KEY);
-            _throttleTime       = persistedObject.getShort(_THROTTLE_TIME_KEY);
-            _replaceFileName    = persistedObject.getBoolean(_REPLACE_FILE_NAME_KEY);
-            _replaceContentType = persistedObject.getBoolean(_REPLACE_CONTENT_TYPE_KEY);
-            _replaceFileSize    = persistedObject.getBoolean(_REPLACE_FILE_SIZE_KEY);
-            _sleepTime          = persistedObject.getShort(_SLEEP_TIME_KEY);
-            _wgetCurlPayloads   = persistedObject.getBoolean(_WGET_CURL_PAYLOADS_KEY);
-        } else {
+        try {
+            _retrieve();
+        } catch (Exception e){
             setDefaultValues();
         }
-    }
-
-    public void setAddToLoggingTab(boolean addToLoggingTab) {
-        this._addToLoggingTab = addToLoggingTab;
-        _persistedScanConfigModel.setBoolean(_ADD_TO_LOGGING_TAB_KEY, this._addToLoggingTab);
-    }
-
-    public void setThrottleTime(short throttleTime) {
-        this._throttleTime = throttleTime;
-        _persistedScanConfigModel.setInteger(_THROTTLE_TIME_KEY, this._throttleTime);
-
-    }
-
-    public void setReplaceFileName(boolean replaceFileName) {
-        this._replaceFileName = replaceFileName;
-        _persistedScanConfigModel.setBoolean(_REPLACE_FILE_NAME_KEY, this._replaceFileName);
-    }
-
-    public void setReplaceContentType(boolean replaceContentType) {
-        this._replaceContentType = replaceContentType;
-        _persistedScanConfigModel.setBoolean(_REPLACE_CONTENT_TYPE_KEY, this._replaceContentType);
-
-    }
-
-    public void setReplaceFileSize(boolean replaceFileSize) {
-        this._replaceFileSize = replaceFileSize;
-        _persistedScanConfigModel.setBoolean(_REPLACE_FILE_SIZE_KEY, this._replaceFileSize);
-    }
-
-    public void setSleepTime(short sleepTime) {
-        this._sleepTime = sleepTime;
-        _persistedScanConfigModel.setShort(_SLEEP_TIME_KEY, this._sleepTime);
-    }
-
-    public void setWgetCurlPayloads(boolean wgetCurlPayloads) {
-        this._wgetCurlPayloads = wgetCurlPayloads;
-        _persistedScanConfigModel.setBoolean(_WGET_CURL_PAYLOADS_KEY, this._wgetCurlPayloads);
     }
 
     public boolean addToLoggingTab() {
@@ -106,7 +62,6 @@ public class ScanConfigModel implements Serializable {
     private static final String          _WGET_CURL_PAYLOADS_KEY       = "wget.curl.payloads";
     private static final String          _SCAN_CONFIG_MODEL_KEY        = "scan.config.model";
     private static final String          _SCAN_CONFIG_MODEL_PROPERTIES = "ScanConfigModel.properties";
-    private final        PersistedObject _persistedScanConfigModel;
     private final        Properties      _defaultProps;
 
     // Logging Options

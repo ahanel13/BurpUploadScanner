@@ -43,13 +43,11 @@ public class ScanConfigController {
         view.addSaveButtonListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                model.setReplaceContentType(view.getReplaceContentType().isSelected());
-                model.setReplaceFileName(view.getReplaceFileName().isSelected());
-                model.setAddToLoggingTab(view.getAddToLoggingChkBox().isSelected());
-                model.setReplaceFileSize(view.getReplaceFileSize().isSelected());
-                model.setWgetCurlPayloads(view.getWgetCurlPayloads().isSelected());
-                model.setSleepTime(Short.parseShort(view.getSleepTime().getText()));
-                model.setThrottleTime(Short.parseShort(view.getThrottleValue().getText()));
+                try {
+                    model.save();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
     }
