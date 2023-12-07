@@ -15,13 +15,13 @@ public class ScanConfigModel implements Serializable {
         // Check if there is data stored in persistence
         if (_persistedScanConfigModel != null) {
             // Retrieve values from persistence
-            _addToLoggingTab    = persistedObject.getBoolean(_ADD_TO_LOGGING_TAB_KEY);
-            _throttleTime       = persistedObject.getShort(_THROTTLE_TIME_KEY);
-            _replaceFileName    = persistedObject.getBoolean(_REPLACE_FILE_NAME_KEY);
-            _replaceContentType = persistedObject.getBoolean(_REPLACE_CONTENT_TYPE_KEY);
-            _replaceFileSize    = persistedObject.getBoolean(_REPLACE_FILE_SIZE_KEY);
-            _sleepTime          = persistedObject.getShort(_SLEEP_TIME_KEY);
-            _wgetCurlPayloads   = persistedObject.getBoolean(_WGET_CURL_PAYLOADS_KEY);
+            _addToLoggingTab    = persistedObject.getBoolean (_ADD_TO_LOGGING_TAB_KEY);
+            _throttleTime       = persistedObject.getShort   (_THROTTLE_TIME_KEY);
+            _replaceFileName    = persistedObject.getBoolean (_REPLACE_FILE_NAME_KEY);
+            _replaceContentType = persistedObject.getBoolean (_REPLACE_CONTENT_TYPE_KEY);
+            _replaceFileSize    = persistedObject.getBoolean (_REPLACE_FILE_SIZE_KEY);
+            _sleepTime          = persistedObject.getShort   (_SLEEP_TIME_KEY);
+            _wgetCurlPayloads   = persistedObject.getBoolean (_WGET_CURL_PAYLOADS_KEY);
         } else {
             setDefaultValues();
         }
@@ -123,12 +123,12 @@ public class ScanConfigModel implements Serializable {
     private boolean _wgetCurlPayloads;
 
     private void setDefaultValues() {
-        _addToLoggingTab    = Boolean.parseBoolean(_defaultProps.getProperty(_ADD_TO_LOGGING_TAB_KEY));
-        _throttleTime       = Short.parseShort(_defaultProps.getProperty(_THROTTLE_TIME_KEY));
-        _replaceFileName    = Boolean.parseBoolean(_defaultProps.getProperty(_REPLACE_FILE_NAME_KEY));
-        _replaceContentType = Boolean.parseBoolean(_defaultProps.getProperty(_REPLACE_CONTENT_TYPE_KEY));
-        _replaceFileSize    = Boolean.parseBoolean(_defaultProps.getProperty(_REPLACE_FILE_SIZE_KEY));
-        _sleepTime          = Short.parseShort(_defaultProps.getProperty(_SLEEP_TIME_KEY));
-        _wgetCurlPayloads   = Boolean.parseBoolean(_defaultProps.getProperty(_WGET_CURL_PAYLOADS_KEY));
+        _addToLoggingTab    = Boolean.parseBoolean  (_defaultProps.getProperty(_ADD_TO_LOGGING_TAB_KEY));
+        _throttleTime       = Short.parseShort      (_defaultProps.getProperty(_THROTTLE_TIME_KEY));
+        _replaceFileName    = Boolean.parseBoolean  (_defaultProps.getProperty(_REPLACE_FILE_NAME_KEY));
+        _replaceContentType = Boolean.parseBoolean  (_defaultProps.getProperty(_REPLACE_CONTENT_TYPE_KEY));
+        _replaceFileSize    = Boolean.parseBoolean  (_defaultProps.getProperty(_REPLACE_FILE_SIZE_KEY));
+        _sleepTime          = Short.parseShort      (_defaultProps.getProperty(_SLEEP_TIME_KEY));
+        _wgetCurlPayloads   = Boolean.parseBoolean  (_defaultProps.getProperty(_WGET_CURL_PAYLOADS_KEY));
     }
 }
