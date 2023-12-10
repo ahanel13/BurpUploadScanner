@@ -22,7 +22,7 @@ public class BaseConfigTemplate extends JPanel {
     initializeUIComponents();
     _properties          = ResourceLoader.loadPropertyFile(BASE_CONFIG_TEMPLATE_PROPERTIES);
 //    _constraints         = getComponentConstraints();
-    uniformComponentSize = new Dimension(200, 50);
+    _uniformCompSize = new Dimension(200, 50);
 
     // Config Groups
     configGroups = new JPanel();
@@ -51,73 +51,73 @@ public class BaseConfigTemplate extends JPanel {
   }
 
   private void getUniformSize(Component component) {
-    component.setPreferredSize(uniformComponentSize);
-    component.setMinimumSize(uniformComponentSize);
-    component.setMaximumSize(uniformComponentSize);
+    component.setPreferredSize(_uniformCompSize);
+    component.setMinimumSize(_uniformCompSize);
+    component.setMaximumSize(_uniformCompSize);
   }
 
   public String getThrottleValue() {
-    return throttleValue.getText();
+    return _throttleValue.getText();
   }
 
   public JCheckBox getAddToLoggingChkBox() {
-    return addToLoggingChkBox;
+    return _addToLoggingChkBox;
   }
 
   public JCheckBox getReplaceFileName() {
-    return replaceFileName;
+    return _replaceFileName;
   }
 
   public JCheckBox getReplaceContentType() {
-    return replaceContentType;
+    return _replaceContentType;
   }
 
   public JCheckBox getReplaceFileSize() {
-    return replaceFileSize;
+    return _replaceFileSize;
   }
 
   public JCheckBox getWgetCurlPayloads() {
-    return wgetCurlPayloads;
+    return _wgetCurlPayloads;
   }
 
   public String getSleepTime() {
-    return sleepTime.getText();
+    return _sleepTime.getText();
   }
 
   public void addSaveButtonListener(ActionListener listener) {
-    saveBtn.addActionListener(listener);
+    _saveBtn.addActionListener(listener);
   }
 
   public void addResetButtonListener(ActionListener listener) {
-    resetBtn.addActionListener(listener);
+    _resetBtn.addActionListener(listener);
   }
 
   public void setReplaceContentType(boolean replaceContentType) {
-    this.replaceContentType.setSelected(replaceContentType);
+    _replaceContentType.setSelected(replaceContentType);
   }
 
   public void setReplaceFileName(boolean replaceFileName) {
-    this.replaceFileName.setSelected(replaceFileName);
+    _replaceFileName.setSelected(replaceFileName);
   }
 
   public void setReplaceFileSize(boolean replaceFileSize) {
-    this.replaceFileSize.setSelected(replaceFileSize);
+    _replaceFileSize.setSelected(replaceFileSize);
   }
 
   public void setAddToLoggingChkBox(boolean addToLogging) {
-    this.addToLoggingChkBox.setSelected(addToLogging);
+    _addToLoggingChkBox.setSelected(addToLogging);
   }
 
   public void setWgetCurlPayloads(boolean wgetCurlPayloads) {
-    this.wgetCurlPayloads.setSelected(wgetCurlPayloads);
+    _wgetCurlPayloads.setSelected(wgetCurlPayloads);
   }
 
   public void setSleepTime(short sleepTime) {
-    this.sleepTime.setText(String.valueOf(sleepTime));
+    _sleepTime.setText(String.valueOf(sleepTime));
   }
 
   public void setThrottleValue(short throttleValue) {
-    this.throttleValue.setText(String.valueOf(throttleValue));
+    _throttleValue.setText(String.valueOf(throttleValue));
   }
 
   // CONSTANTS
@@ -138,73 +138,73 @@ public class BaseConfigTemplate extends JPanel {
   private static final String SLEEP_TIME_LABEL                = "sleep.time.label";
 
   // UI components
-  private JLabel  throttleTimeLabel;
-  private JPanel  scanningOptions;
-  private JPanel  payloadOptions;
-  private JPanel  generalOptions;
-  private JLabel  sleepTimeLabel;
-  private JPanel  footerButtons;
-  private JPanel  configGroups;
-  private JButton resetBtn;
-  private JButton saveBtn;
+  private JLabel  _throttleTimeLabel;
+  private JPanel  _scanningOptions;
+  private JPanel  _payloadOptions;
+  private JPanel  _generalOptions;
+  private JLabel  _sleepTimeLabel;
+  private JPanel  _footerButtons;
+  private JPanel  _configGroups;
+  private JButton _resetBtn;
+  private JButton _saveBtn;
 
   // UI inputs
-  private JCheckBox  addToLoggingChkBox;
-  private JCheckBox  replaceContentType;
-  private JCheckBox  wgetCurlPayloads;
-  private JCheckBox  replaceFileName;
-  private JCheckBox  replaceFileSize;
-  private JTextField throttleValue;
-  private JTextField sleepTime;
+  private JCheckBox  _addToLoggingChkBox;
+  private JCheckBox  _replaceContentType;
+  private JCheckBox  _wgetCurlPayloads;
+  private JCheckBox  _replaceFileName;
+  private JCheckBox  _replaceFileSize;
+  private JTextField _throttleValue;
+  private JTextField _sleepTime;
 
   private final Properties _properties;
-  private final Dimension uniformComponentSize;
+  private final Dimension  _uniformCompSize;
 
   private void addPayloadOptions() {
-    payloadOptions.setLayout(new BorderLayout(0, 0));
-    configGroups.add(payloadOptions);
+    _payloadOptions.setLayout(new BorderLayout(0, 0));
+    _configGroups.add(_payloadOptions);
 
-    wgetCurlPayloads = new JCheckBox();
-    wgetCurlPayloads.setHorizontalTextPosition(10);
-    wgetCurlPayloads.setText(_properties.getProperty(WGET_CURL_LABEL));
-    wgetCurlPayloads.setMnemonic(' ');
-    wgetCurlPayloads.setDisplayedMnemonicIndex(10);
-    payloadOptions.add(wgetCurlPayloads, BorderLayout.CENTER);
+    _wgetCurlPayloads = new JCheckBox();
+    _wgetCurlPayloads.setHorizontalTextPosition(10);
+    _wgetCurlPayloads.setText(_properties.getProperty(WGET_CURL_LABEL));
+    _wgetCurlPayloads.setMnemonic(' ');
+    _wgetCurlPayloads.setDisplayedMnemonicIndex(10);
+    _payloadOptions.add(_wgetCurlPayloads, BorderLayout.CENTER);
   }
 
   private void addScanningOptions() {
-    scanningOptions.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-    configGroups.add(scanningOptions);
+    _scanningOptions.setLayout(new BoxLayout(_scanningOptions, BoxLayout.Y_AXIS));
+    _configGroups.add(_scanningOptions);
 
-    replaceFileSize = new JCheckBox();
-    replaceFileSize.setHorizontalTextPosition(10);
-    replaceFileSize.setSelected(true);
-    replaceFileSize.setText(_properties.getProperty(REPLACE_FILE_SIZE));
-    scanningOptions.add(replaceFileSize);
+    _replaceFileSize = new JCheckBox();
+    _replaceFileSize.setHorizontalTextPosition(10);
+    _replaceFileSize.setSelected(true);
+    _replaceFileSize.setText(_properties.getProperty(REPLACE_FILE_SIZE));
+    _scanningOptions.add(_replaceFileSize);
 
-    replaceFileName = new JCheckBox();
-    replaceFileName.setHorizontalTextPosition(10);
-    replaceFileName.setSelected(true);
-    replaceFileName.setText(_properties.getProperty(REPLACE_FILE_NAME));
-    scanningOptions.add(replaceFileName);
+    _replaceFileName = new JCheckBox();
+    _replaceFileName.setHorizontalTextPosition(10);
+    _replaceFileName.setSelected(true);
+    _replaceFileName.setText(_properties.getProperty(REPLACE_FILE_NAME));
+    _scanningOptions.add(_replaceFileName);
 
-    replaceContentType = new JCheckBox();
-    replaceContentType.setHorizontalTextPosition(10);
-    replaceContentType.setSelected(true);
-    replaceContentType.setText(_properties.getProperty(REPLACE_CONTENT_TYPE));
-    scanningOptions.add(replaceContentType);
+    _replaceContentType = new JCheckBox();
+    _replaceContentType.setHorizontalTextPosition(10);
+    _replaceContentType.setSelected(true);
+    _replaceContentType.setText(_properties.getProperty(REPLACE_CONTENT_TYPE));
+    _scanningOptions.add(_replaceContentType);
   }
 
   private void addGeneralOptions() {
-    generalOptions = new JPanel();
-    generalOptions.setLayout(new BorderLayout(0, 0));
-    configGroups.add(generalOptions);
+    _generalOptions = new JPanel();
+    _generalOptions.setLayout(new BorderLayout(0, 0));
+    _configGroups.add(_generalOptions);
 
-    addToLoggingChkBox = new JCheckBox();
-    addToLoggingChkBox.setHorizontalTextPosition(10);
-    addToLoggingChkBox.setSelected(true);
-    addToLoggingChkBox.setText(_properties.getProperty(ADD_TO_LOGGING));
-    generalOptions.add(addToLoggingChkBox, BorderLayout.CENTER);
+    _addToLoggingChkBox = new JCheckBox();
+    _addToLoggingChkBox.setHorizontalTextPosition(10);
+    _addToLoggingChkBox.setSelected(true);
+    _addToLoggingChkBox.setText(_properties.getProperty(ADD_TO_LOGGING));
+    _generalOptions.add(_addToLoggingChkBox, BorderLayout.CENTER);
   }
 
   private void addThrottleTimeGroup() {
@@ -213,9 +213,9 @@ public class BaseConfigTemplate extends JPanel {
     throttleTimeGroup.setMinimumSize(new Dimension(250, 40));
     scanningOptions.add(throttleTimeGroup);
 
-    throttleTimeLabel = new JLabel();
-    throttleTimeLabel.setText(_properties.getProperty(THROTTLE_TIME));
-    throttleTimeGroup.add(throttleTimeLabel);
+    _throttleTimeLabel = new JLabel();
+    _throttleTimeLabel.setText(_properties.getProperty(THROTTLE_TIME));
+    throttleTimeGroup.add(_throttleTimeLabel);
 
     throttleValue = new JTextField();
     throttleTimeGroup.add(throttleValue);
@@ -226,27 +226,27 @@ public class BaseConfigTemplate extends JPanel {
     sleepOptions.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
     payloadOptions.add(sleepOptions, BorderLayout.WEST);
 
-    sleepTimeLabel = new JLabel();
-    sleepTimeLabel.setText(_properties.getProperty(SLEEP_TIME_LABEL));
-    sleepOptions.add(sleepTimeLabel);
+    _sleepTimeLabel = new JLabel();
+    _sleepTimeLabel.setText(_properties.getProperty(SLEEP_TIME_LABEL));
+    sleepOptions.add(_sleepTimeLabel);
 
     sleepTime = new JTextField();
     sleepOptions.add(sleepTime);
   }
 
   private void addFooterUi() {
-    footerButtons = new JPanel();
-    footerButtons.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
-    add(footerButtons, BorderLayout.SOUTH);
+    _footerButtons = new JPanel();
+    _footerButtons.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+    add(_footerButtons, BorderLayout.SOUTH);
 
-    resetBtn = new JButton();
-    resetBtn.setText("Reset");
-    footerButtons.add(resetBtn);
+    _resetBtn = new JButton();
+    _resetBtn.setText("Reset");
+    _footerButtons.add(_resetBtn);
 
-    saveBtn = new JButton();
-    saveBtn.setText("Save");
-    footerButtons.add(saveBtn);
-    throttleTimeLabel.setLabelFor(throttleValue);
+    _saveBtn = new JButton();
+    _saveBtn.setText("Save");
+    _footerButtons.add(_saveBtn);
+    _throttleTimeLabel.setLabelFor(_throttleValue);
   }
 
   private void initializeUIComponents() {
