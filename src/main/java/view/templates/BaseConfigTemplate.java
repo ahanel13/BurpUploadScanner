@@ -16,22 +16,15 @@ public class BaseConfigTemplate extends JPanel {
   public BaseConfigTemplate() throws IOException {
     super(); // Call the parent class constructor without BoxLayout
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Set BoxLayout here
-    setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
-    setMaximumSize(new Dimension(MAX_WIDTH, MAX_HEIGHT));
+    setBackground(new Color(165, 110, 110));
 
     initializeUIComponents();
     _properties          = ResourceLoader.loadPropertyFile(BASE_CONFIG_TEMPLATE_PROPERTIES);
 //    _constraints         = getComponentConstraints();
     _uniformCompSize = new Dimension(200, 50);
 
-    // Config Groups
-    configGroups = new JPanel();
-    configGroups.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-    configGroups.setMaximumSize(new Dimension(250, 32767));
-    add(configGroups, BorderLayout.CENTER);
-
     // Config Groups: Scanning Options
-    addScanningOptions();
+    addFileOptions();
     addThrottleTimeGroup();
     addPayloadOptions();
     addSleepOptions();
@@ -42,12 +35,6 @@ public class BaseConfigTemplate extends JPanel {
   @Override
   public Dimension getPreferredSize() {
     return new Dimension(PREFERRED_WIDTH, PREFERRED_HEIGHT);
-  }
-
-  @Override
-  public Component add(Component comp) {
-    addImpl(comp, null, -1);
-    return  comp; // why does this function return the given argument?
   }
 
   private void getUniformSize(Component component) {
@@ -121,12 +108,13 @@ public class BaseConfigTemplate extends JPanel {
   }
 
   // CONSTANTS
-  private static final int MIN_WIDTH        = 250;
+  private static final int MIN_WIDTH        = 500;
   private static final int MIN_HEIGHT       = 500;
   private static final int MAX_WIDTH        = 1000;
   private static final int MAX_HEIGHT       = 1000;
   private static final int PREFERRED_WIDTH  = 500;
   private static final int PREFERRED_HEIGHT = 500;
+  private static final int STD_JTEXT_COLS   = 3;
 
   private static final String BASE_CONFIG_TEMPLATE_PROPERTIES = "BaseConfigView.properties";
   private static final String WGET_CURL_LABEL                 = "wget.curl.label";
@@ -138,16 +126,19 @@ public class BaseConfigTemplate extends JPanel {
   private static final String SLEEP_TIME_LABEL                = "sleep.time.label";
 
   // UI components
-  private JLabel  _throttleTimeLabel;
-  private JPanel  _scanningOptions;
-  private JPanel  _payloadOptions;
-  private JPanel  _generalOptions;
-  private JLabel  _sleepTimeLabel;
+  private JPanel _generalOptions;
+  private JPanel _fileOptions;
+  private JPanel _payloadOptions;
+
+  // Scanning Config Components
+  private JLabel _throttleTimeLabel;
+  private JLabel _sleepTimeLabel;
+
+  // Footer Components
   private JPanel  _footerButtons;
-  private JPanel  _configGroups;
   private JButton _resetBtn;
   private JButton _saveBtn;
-
+  
   // UI inputs
   private JCheckBox  _addToLoggingChkBox;
   private JCheckBox  _replaceContentType;
@@ -162,7 +153,7 @@ public class BaseConfigTemplate extends JPanel {
 
   private void addPayloadOptions() {
     _payloadOptions.setLayout(new BorderLayout(0, 0));
-    _configGroups.add(_payloadOptions);
+    add(_payloadOptions);
 
     _wgetCurlPayloads = new JCheckBox();
     _wgetCurlPayloads.setHorizontalTextPosition(10);
@@ -172,33 +163,33 @@ public class BaseConfigTemplate extends JPanel {
     _payloadOptions.add(_wgetCurlPayloads, BorderLayout.CENTER);
   }
 
-  private void addScanningOptions() {
-    _scanningOptions.setLayout(new BoxLayout(_scanningOptions, BoxLayout.Y_AXIS));
-    _configGroups.add(_scanningOptions);
+  private void addFileOptions() {
+    _fileOptions.setLayout(new BoxLayout(_fileOptions, BoxLayout.Y_AXIS));
+    add(_fileOptions);
 
     _replaceFileSize = new JCheckBox();
     _replaceFileSize.setHorizontalTextPosition(10);
     _replaceFileSize.setSelected(true);
     _replaceFileSize.setText(_properties.getProperty(REPLACE_FILE_SIZE));
-    _scanningOptions.add(_replaceFileSize);
+    _fileOptions.add(_replaceFileSize);
 
     _replaceFileName = new JCheckBox();
     _replaceFileName.setHorizontalTextPosition(10);
     _replaceFileName.setSelected(true);
     _replaceFileName.setText(_properties.getProperty(REPLACE_FILE_NAME));
-    _scanningOptions.add(_replaceFileName);
+    _fileOptions.add(_replaceFileName);
 
     _replaceContentType = new JCheckBox();
     _replaceContentType.setHorizontalTextPosition(10);
     _replaceContentType.setSelected(true);
     _replaceContentType.setText(_properties.getProperty(REPLACE_CONTENT_TYPE));
-    _scanningOptions.add(_replaceContentType);
+    _fileOptions.add(_replaceContentType);
   }
 
   private void addGeneralOptions() {
     _generalOptions = new JPanel();
     _generalOptions.setLayout(new BorderLayout(0, 0));
-    _configGroups.add(_generalOptions);
+    add(_generalOptions);
 
     _addToLoggingChkBox = new JCheckBox();
     _addToLoggingChkBox.setHorizontalTextPosition(10);
@@ -208,35 +199,39 @@ public class BaseConfigTemplate extends JPanel {
   }
 
   private void addThrottleTimeGroup() {
+    // Panel Group
     final JPanel throttleTimeGroup = new JPanel();
     throttleTimeGroup.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-    throttleTimeGroup.setMinimumSize(new Dimension(250, 40));
-    scanningOptions.add(throttleTimeGroup);
+    throttleTimeGroup.setMinimumSize(_uniformCompSize);
+    throttleTimeGroup.setAlignmentX(Component.CENTER_ALIGNMENT);
 
     _throttleTimeLabel = new JLabel();
     _throttleTimeLabel.setText(_properties.getProperty(THROTTLE_TIME));
     throttleTimeGroup.add(_throttleTimeLabel);
 
-    throttleValue = new JTextField();
-    throttleTimeGroup.add(throttleValue);
+    _throttleValue = new JTextField(STD_JTEXT_COLS);
+    throttleTimeGroup.add(_throttleValue);
+
+    add(throttleTimeGroup);
   }
 
   private void addSleepOptions() {
+    // Panel Group
     final JPanel sleepOptions = new JPanel();
-    sleepOptions.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-    payloadOptions.add(sleepOptions, BorderLayout.WEST);
+    sleepOptions.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+    _payloadOptions.add(sleepOptions, BorderLayout.CENTER);
 
     _sleepTimeLabel = new JLabel();
     _sleepTimeLabel.setText(_properties.getProperty(SLEEP_TIME_LABEL));
     sleepOptions.add(_sleepTimeLabel);
 
-    sleepTime = new JTextField();
-    sleepOptions.add(sleepTime);
+    _sleepTime = new JTextField(STD_JTEXT_COLS);
+    sleepOptions.add(_sleepTime);
   }
 
   private void addFooterUi() {
     _footerButtons = new JPanel();
-    _footerButtons.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+    _footerButtons.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
     add(_footerButtons, BorderLayout.SOUTH);
 
     _resetBtn = new JButton();
@@ -250,11 +245,17 @@ public class BaseConfigTemplate extends JPanel {
   }
 
   private void initializeUIComponents() {
-    configGroups    = new JPanel();
-    scanningOptions = new JPanel();
-    payloadOptions  = new JPanel();
-    generalOptions  = new JPanel();
-    footerButtons   = new JPanel();
+    _fileOptions = new JPanel();
+    _fileOptions.setBackground(new Color(110, 165, 117));
+
+    _payloadOptions  = new JPanel();
+    _payloadOptions.setBackground(new Color(110, 117, 165));
+
+    _generalOptions = new JPanel();
+    _generalOptions.setBackground(new Color(165, 110, 149));
+
+    _footerButtons = new JPanel();
+    _footerButtons.setBackground(new Color(0, 255, 145));
   }
 
   public static void main(String[] args) throws IOException {
