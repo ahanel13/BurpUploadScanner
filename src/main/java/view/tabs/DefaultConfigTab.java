@@ -3,14 +3,17 @@ package view.tabs;
 import view.templates.BaseConfigTemplate;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class DefaultConfigTab extends JPanel {
 
   public DefaultConfigTab() throws IOException {
+    setLayout(new BorderLayout());
     _baseConfigTemplate = new BaseConfigTemplate();
-    add(_baseConfigTemplate);
+    add(_baseConfigTemplate, BorderLayout.CENTER);
+    addFooterUi();
   }
 
   public static final String TAB_NAME = "Global Config";
@@ -29,10 +32,6 @@ public class DefaultConfigTab extends JPanel {
   _baseConfigTemplate.setReplaceContentType(b);
   }
 
-  public void addResetButtonListener(ActionListener actionListener) {
-    _baseConfigTemplate.addResetButtonListener(actionListener);
-  }
-
   public void setWgetCurlPayloads(boolean b) {
   _baseConfigTemplate.setWgetCurlPayloads(b);
   }
@@ -45,8 +44,11 @@ public class DefaultConfigTab extends JPanel {
   _baseConfigTemplate.setThrottleValue(i);
   }
 
-  public void addSaveButtonListener(ActionListener actionListener) {
-    _baseConfigTemplate.addSaveButtonListener(actionListener);
+  public void addSaveButtonListener(ActionListener listener) {
+    _saveBtn.addActionListener(listener);
+  }
+  public void addResetButtonListener(ActionListener listener) {
+    _resetBtn.addActionListener(listener);
   }
 
   public AbstractButton getReplaceContentType() {
@@ -75,5 +77,33 @@ public class DefaultConfigTab extends JPanel {
 
   public String getThrottleValue() {
     return _baseConfigTemplate.getThrottleValue();
+  }
+
+  private JPanel _footerButtons;
+  private JButton _resetBtn;
+  private JButton _saveBtn;
+
+  private void addFooterUi() {
+    _footerButtons = new JPanel();
+    _footerButtons.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+
+    _resetBtn = new JButton();
+    _resetBtn.setText("Reset");
+    _footerButtons.add(_resetBtn);
+
+    _saveBtn = new JButton();
+    _saveBtn.setText("Save");
+    _footerButtons.add(_saveBtn);
+
+    add(_footerButtons, BorderLayout.SOUTH);
+  }
+
+  public static void main(String[] args) throws IOException {
+    JFrame frame = new JFrame("DefaultConfigTab");
+    DefaultConfigTab debugView = new DefaultConfigTab();
+    frame.setContentPane(debugView);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.pack();
+    frame.setVisible(true);
   }
 }

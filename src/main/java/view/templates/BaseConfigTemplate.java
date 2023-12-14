@@ -6,7 +6,6 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -14,8 +13,7 @@ import java.util.Properties;
 public class BaseConfigTemplate extends JPanel {
 
   public BaseConfigTemplate() throws IOException {
-    super(); // Call the parent class constructor without BoxLayout
-    setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Set BoxLayout here
+    setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     setBorder(new EmptyBorder(20,20,20,20));
 
     initializeUIComponents();
@@ -54,14 +52,6 @@ public class BaseConfigTemplate extends JPanel {
 
   public String getSleepTime() {
     return _sleepTime.getText();
-  }
-
-  public void addSaveButtonListener(ActionListener listener) {
-    _saveBtn.addActionListener(listener);
-  }
-
-  public void addResetButtonListener(ActionListener listener) {
-    _resetBtn.addActionListener(listener);
   }
 
   public void setReplaceContentType(boolean replaceContentType) {
@@ -120,11 +110,6 @@ public class BaseConfigTemplate extends JPanel {
   // Scanning Config Components
   private JLabel _throttleTimeLabel;
   private JLabel _sleepTimeLabel;
-
-  // Footer Components
-  private JPanel  _footerButtons;
-  private JButton _resetBtn;
-  private JButton _saveBtn;
 
   // UI inputs
   private JCheckBox  _addToLoggingChkBox;
@@ -260,26 +245,10 @@ public class BaseConfigTemplate extends JPanel {
     _payloadOptions.add(sleepOptions);
   }
 
-  private void addFooterUi() {
-    _footerButtons = new JPanel();
-    _footerButtons.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-    add(_footerButtons, BorderLayout.SOUTH);
-
-    _resetBtn = new JButton();
-    _resetBtn.setText("Reset");
-    _footerButtons.add(_resetBtn);
-
-    _saveBtn = new JButton();
-    _saveBtn.setText("Save");
-    _footerButtons.add(_saveBtn);
-    _throttleTimeLabel.setLabelFor(_throttleValue);
-  }
-
   private void initializeUIComponents() {
     _fileOptions    = new JPanel();
     _payloadOptions = new JPanel();
     _generalOptions = new JPanel();
-    _footerButtons  = new JPanel();
   }
 
   public static void main(String[] args) throws IOException {
@@ -297,13 +266,11 @@ public class BaseConfigTemplate extends JPanel {
     final Color FILE_OPTIONS_COLOR    = new Color(110, 165, 117);
     final Color PAYLOAD_OPTIONS_COLOR = new Color(110, 117, 165);
     final Color GENERAL_OPTIONS_COLOR = new Color(165, 110, 149);
-    final Color FOOTER_BUTTONS_COLOR  = new Color(0, 255, 145);
     final Color BACKGROUND_COLOR      = new Color(165, 110, 110);
 
     _fileOptions.setBackground(FILE_OPTIONS_COLOR);
     _payloadOptions.setBackground(PAYLOAD_OPTIONS_COLOR);
     _generalOptions.setBackground(GENERAL_OPTIONS_COLOR);
-    _footerButtons.setBackground(FOOTER_BUTTONS_COLOR);
     setBackground(BACKGROUND_COLOR);
   }
 }
