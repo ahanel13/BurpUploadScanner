@@ -50,11 +50,16 @@ public class UploadScannerController {
         menuContext.addEventListenerToMenuItem(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                HttpRequestResponse requestResponse = menuContext.getRequestResponse();
-                ScanModel           scanModel       = new ScanModel(defaultScanOptions, requestResponse);
-                ScanTab             scanTabView     = view.addScanTab(requestResponse);
-                ScanTabController   newScanTab      = new ScanTabController(scanModel, scanTabView);
-                scanTabControllerList.add(newScanTab);
+                try{
+                    
+                    HttpRequestResponse requestResponse = menuContext.getRequestResponse();
+                    ScanModel           scanModel       = new ScanModel(defaultScanOptions, requestResponse);
+                    ScanTab             scanTabView     = view.addScanTab(requestResponse);
+                    ScanTabController   newScanTab      = new ScanTabController(scanModel, scanTabView);
+                    scanTabControllerList.add(newScanTab);
+                } catch(IOException ex){
+                    throw new RuntimeException(ex);
+                }
             }
         });
     }
