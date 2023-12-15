@@ -3,7 +3,7 @@ package controller.tabControllers;
 import model.ScanConfigModel;
 import view.tabs.DefaultConfigTab;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -32,6 +32,7 @@ public class ScanConfigController {
     private void updateView(){
         view.setReplaceFileName     (model.replaceFileName());
         view.setReplaceFileSize     (model.replaceFileSize());
+        view.setReplaceContentType  (model.replaceContentType());
         view.setAddToLoggingChkBox  (model.addToLoggingTab());
         view.setWgetCurlPayloads    (model.wgetCurlPayloads());
         view.setSleepTime           (model.sleepTime());
@@ -42,13 +43,16 @@ public class ScanConfigController {
         view.addSaveButtonListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // File Settings
                 model.setReplaceContentType             (view.getReplaceContentType().isSelected());
                 model.setReplaceFileName                (view.getReplaceFileName().isSelected());
-                model.setAddToLoggingTab                (view.getAddToLoggingChkBox().isSelected());
                 model.setReplaceFileSize                (view.getReplaceFileSize().isSelected());
+                
                 model.setWgetCurlPayloads               (view.getWgetCurlPayloads().isSelected());
                 model.setSleepTime(Short.parseShort     (view.getSleepTime()));
+                
                 model.setThrottleTime(Short.parseShort  (view.getThrottleValue()));
+                model.setAddToLoggingTab                (view.getAddToLoggingChkBox().isSelected());
             }
         });
     }
