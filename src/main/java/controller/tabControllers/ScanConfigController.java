@@ -10,9 +10,9 @@ import java.io.IOException;
 
 public class ScanConfigController {
 
-    public ScanConfigController(ScanConfigModel scanConfigModel, DefaultConfigTab defaultScanOptionsView) {
+    public ScanConfigController(ScanConfigModel scanConfigModel, DefaultConfigTab defaultConfigTab) {
         model = scanConfigModel;
-        view  = defaultScanOptionsView;
+        view  = defaultConfigTab;
         addSaveButtonListener();
         addResetButtonListener();
         updateView();
@@ -28,7 +28,7 @@ public class ScanConfigController {
 
     private final ScanConfigModel    model;
     private final DefaultConfigTab   view;
-
+    
     private void updateView(){
         view.setReplaceFileName     (model.replaceFileName());
         view.setReplaceFileSize     (model.replaceFileSize());
@@ -53,6 +53,8 @@ public class ScanConfigController {
                 
                 model.setThrottleTime(Short.parseShort  (view.getThrottleValue()));
                 model.setAddToLoggingTab                (view.getAddToLoggingChkBox().isSelected());
+                
+                model.persist();
             }
         });
     }
