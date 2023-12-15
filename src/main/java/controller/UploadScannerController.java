@@ -2,28 +2,33 @@ package controller;
 
 import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.http.message.HttpRequestResponse;
-import controller.tabControllers.GlobalConfigController;
+import burp.api.montoya.persistence.PersistedObject;
+import controller.tabControllers.ScanConfigController;
 import controller.tabControllers.ScanTabController;
-import model.ConfigModel;
+import model.ScanConfigModel;
 import model.ScanModel;
 import view.UploadScannerMenuContext;
 import view.UploadScannerPanel;
 import view.tabs.AboutTab;
+import view.tabs.DefaultConfigTab;
 import view.tabs.ScanTab;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UploadScannerController {
 
     public UploadScannerController(MontoyaApi montoyaApi, UploadScannerPanel scannerPanel,
-                                   UploadScannerMenuContext burpMenuContext) throws Exception {
+                                   UploadScannerMenuContext context
+    ) throws Exception {
         api                   = montoyaApi;
         view                  = scannerPanel;
-        menuContext           = burpMenuContext;
+        persistedObject       = api.persistence().extensionData();
         scanTabControllerList = new ArrayList<>();
+        menuContext               = context;
 
         api.logging().logToOutput("Generating UI");
         addTabs();
@@ -32,12 +37,13 @@ public class UploadScannerController {
         api.logging().logToOutput("UI Generated");
     }
 
-    private final UploadScannerMenuContext menuContext;
     private final UploadScannerPanel       view;
     private final MontoyaApi               api;
+    private final PersistedObject          persistedObject;
+    private       ScanConfigModel          defaultScanOptions;
+    private       ScanConfigController     defaultConfigController;
+    private final UploadScannerMenuContext menuContext;
     private final List<ScanTabController>  scanTabControllerList;
-    private       ConfigModel              defaultScanOptions;
-    private       GlobalConfigController   defaultScanOptionsController;
 
     private void registerMenuContext() {
         api.userInterface().registerContextMenuItemsProvider(menuContext);
@@ -73,9 +79,10 @@ public class UploadScannerController {
         // This tab will keep track of uploads and downloads
     }
 
-    private void addGlobalConfigurationTab() {
-        defaultScanOptions           = new ConfigModel();
-        defaultScanOptionsController = new GlobalConfigController(defaultScanOptions);
-        view.addTab(defaultScanOptionsController.getTabName(), defaultScanOptionsController.getTab());
+    private void addGlobalConfigurationTab() throws IOException {
+        DefaultConfigTab defaultScanOptionsView = new DefaultConfigTab();
+        defaultScanOptions                      = new ScanConfigModel(persistedObject);
+        defaultConfigController                 = new ScanConfigController(defaultScanOptions, defaultScanOptionsView);
+        view.addTab(defaultConfigController.getTabName(), defaultConfigController.getTab());
     }
 }
