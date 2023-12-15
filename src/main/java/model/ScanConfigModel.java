@@ -64,33 +64,13 @@ public class ScanConfigModel implements Serializable {
         _persistedScanConfigModel.setBoolean(_WGET_CURL_PAYLOADS_KEY, this._wgetCurlPayloads);
     }
 
-    public boolean addToLoggingTab() {
-        return _addToLoggingTab;
-    }
-
-    public short throttleTime() {
-        return _throttleTime;
-    }
-
-    public boolean replaceFileName() {
-        return _replaceFileName;
-    }
-
-    public boolean replaceContentType() {
-        return _replaceContentType;
-    }
-
-    public boolean replaceFileSize() {
-        return _replaceFileSize;
-    }
-
-    public short sleepTime() {
-        return _sleepTime;
-    }
-
-    public boolean wgetCurlPayloads() {
-        return _wgetCurlPayloads;
-    }
+    public boolean addToLoggingTab()    { return _addToLoggingTab; }
+    public short   throttleTime()       { return _throttleTime; }
+    public boolean replaceFileName()    { return _replaceFileName; }
+    public boolean replaceContentType() { return _replaceContentType; }
+    public boolean replaceFileSize()    { return _replaceFileSize; }
+    public short   sleepTime()          { return _sleepTime; }
+    public boolean wgetCurlPayloads()   { return _wgetCurlPayloads; }
 
     public void reset() throws IOException {
         setDefaultValues();
