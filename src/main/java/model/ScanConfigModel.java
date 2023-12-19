@@ -6,7 +6,7 @@ import model.utilities.ResourceLoader;
 import java.io.IOException;
 import java.util.Properties;
 
-public class ScanConfigModel{
+public class ScanConfigModel implements Cloneable{
   // PUBLIC FUNCTIONS //
   public ScanConfigModel(PersistedObject persistedObject) throws IOException{
     _extensionData            = persistedObject;
@@ -31,6 +31,18 @@ public class ScanConfigModel{
   }
   
 // PUBLIC METHODS //
+  @Override
+  public ScanConfigModel clone(){
+    try{
+      // class only has primitives, essentially a deep copy
+      
+      return (ScanConfigModel) super.clone();
+    }
+    catch(CloneNotSupportedException e){
+      throw new AssertionError();
+    }
+  }
+  
   public void persist(){
     _persistedScanConfigModel.setBoolean(_ADD_TO_LOGGING_TAB_KEY, this._addToLoggingTab);
     _persistedScanConfigModel.setBoolean(_REPLACE_FILE_NAME_KEY, this._replaceFileName);
