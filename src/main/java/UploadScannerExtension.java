@@ -14,7 +14,7 @@ public class UploadScannerExtension implements BurpExtension {
             log("Initializing Extension...", false);
 
             api         = montoyaApi;
-            view        = new UploadScannerPanel();
+            view        = new UploadScannerPanel(api.userInterface());
             menuContext = new UploadScannerMenuContext();
             controller  = getExtensionController();
 
