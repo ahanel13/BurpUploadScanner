@@ -22,6 +22,10 @@ public class ScanTab extends JPanel {
         add(mainSplitPane, BorderLayout.CENTER);
     }
     
+    public BaseConfigTemplate baseConfigTemplate(){
+        return baseConfigTemplate;
+    }
+    
     private BaseConfigTemplate baseConfigTemplate;
     private JPanel             scanTabConfig;
     

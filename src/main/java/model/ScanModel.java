@@ -7,8 +7,12 @@ public class ScanModel {
         _scanConfigModel = scanConfigModel.clone();
         _requestResponse = requestResponse;
     }
-
-    private ScanConfigModel     _configModel;
+    
+    public ScanConfigModel scanConfigModel(){
+        return _scanConfigModel;
+    }
+    
+    private ScanConfigModel     _scanConfigModel;
     private HttpRequestResponse _requestResponse;
 
 }

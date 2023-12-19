@@ -55,6 +55,8 @@ public class ScanConfigController {
                 model.setAddToLoggingTab                (view.getAddToLoggingChkBox().isSelected());
                 
                 model.persist();
+                
+                //Todo: add error handling when a valid short cannot be cast.
             }
         });
     }
