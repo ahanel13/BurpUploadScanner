@@ -6,9 +6,9 @@ import model.utilities.ResourceLoader;
 import java.io.IOException;
 import java.util.Properties;
 
-public class ScanConfigModel implements Cloneable{
+public class BaseConfigModel implements Cloneable{
   // PUBLIC FUNCTIONS //
-  public ScanConfigModel(PersistedObject persistedObject) throws IOException{
+  public BaseConfigModel(PersistedObject persistedObject) throws IOException{
     _extensionData            = persistedObject;
     _persistedScanConfigModel = persistedObject.getChildObject(_SCAN_CONFIG_MODEL_KEY);
     _defaultProps             = ResourceLoader.loadPropertyFile(_SCAN_CONFIG_MODEL_PROPERTIES);
@@ -32,11 +32,11 @@ public class ScanConfigModel implements Cloneable{
   
 // PUBLIC METHODS //
   @Override
-  public ScanConfigModel clone(){
+  public BaseConfigModel clone(){
     try{
       // class only has primitives, essentially a deep copy
       
-      return (ScanConfigModel) super.clone();
+      return (BaseConfigModel) super.clone();
     }
     catch(CloneNotSupportedException e){
       throw new AssertionError();

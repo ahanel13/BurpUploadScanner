@@ -3,16 +3,16 @@ package model;
 import burp.api.montoya.http.message.HttpRequestResponse;
 
 public class ScanModel {
-    public ScanModel(ScanConfigModel scanConfigModel, HttpRequestResponse requestResponse) {
-        _scanConfigModel = scanConfigModel.clone();
+    public ScanModel(BaseConfigModel baseConfigModel, HttpRequestResponse requestResponse) {
+        _baseConfigModel = baseConfigModel.clone();
         _requestResponse = requestResponse;
     }
     
-    public ScanConfigModel scanConfigModel(){
-        return _scanConfigModel;
+    public BaseConfigModel scanConfigModel(){
+        return _baseConfigModel;
     }
     
-    private ScanConfigModel     _scanConfigModel;
+    private BaseConfigModel     _baseConfigModel;
     private HttpRequestResponse _requestResponse;
 
 }

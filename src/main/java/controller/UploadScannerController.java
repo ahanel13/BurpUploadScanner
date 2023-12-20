@@ -3,14 +3,14 @@ package controller;
 import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.persistence.PersistedObject;
-import controller.tabControllers.ScanConfigController;
+import controller.tabControllers.BaseConfigController;
 import controller.tabControllers.ScanTabController;
-import model.ScanConfigModel;
+import model.BaseConfigModel;
 import model.ScanModel;
 import view.UploadScannerMenuContext;
 import view.UploadScannerPanel;
 import view.tabs.AboutTab;
-import view.tabs.DefaultConfigTab;
+import view.tabs.BaseConfigTab;
 import view.tabs.ScanTab;
 
 import java.awt.event.ActionEvent;
@@ -39,9 +39,9 @@ public class UploadScannerController {
 
     private final UploadScannerPanel       view;
     private final MontoyaApi               api;
-    private final PersistedObject          persistedObject;
-    private       ScanConfigModel          defaultScanOptions;
-    private       ScanConfigController     defaultConfigController;
+    private final PersistedObject      persistedObject;
+    private       BaseConfigModel      defaultScanOptions;
+    private       BaseConfigController defaultConfigController;
     private final UploadScannerMenuContext menuContext;
     private final List<ScanTabController>  scanTabControllerList;
 
@@ -85,9 +85,9 @@ public class UploadScannerController {
     }
 
     private void addGlobalConfigurationTab() throws IOException {
-        DefaultConfigTab defaultScanOptionsView = new DefaultConfigTab();
-        defaultScanOptions                      = new ScanConfigModel(persistedObject);
-        defaultConfigController                 = new ScanConfigController(defaultScanOptions, defaultScanOptionsView);
+        BaseConfigTab defaultScanOptionsView = new BaseConfigTab();
+        defaultScanOptions                      = new BaseConfigModel(persistedObject);
+        defaultConfigController                 = new BaseConfigController(defaultScanOptions, defaultScanOptionsView);
         view.addTab(defaultConfigController.getTabName(), defaultConfigController.getTab());
     }
 }

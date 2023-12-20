@@ -1,33 +1,33 @@
 package controller.tabControllers;
 
-import model.ScanConfigModel;
-import view.tabs.DefaultConfigTab;
+import model.BaseConfigModel;
+import view.tabs.BaseConfigTab;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class ScanConfigController {
+public class BaseConfigController{
 
-    public ScanConfigController(ScanConfigModel scanConfigModel, DefaultConfigTab defaultConfigTab) {
-        model = scanConfigModel;
-        view  = defaultConfigTab;
+    public BaseConfigController(BaseConfigModel baseConfigModel, BaseConfigTab baseConfigTab) {
+        model = baseConfigModel;
+        view  = baseConfigTab;
         addSaveButtonListener();
         addResetButtonListener();
         updateView();
     }
 
     public String getTabName() {
-        return DefaultConfigTab.TAB_NAME;
+        return BaseConfigTab.TAB_NAME;
     }
 
     public JPanel getTab() {
         return view;
     }
 
-    private final ScanConfigModel    model;
-    private final DefaultConfigTab   view;
+    private final BaseConfigModel model;
+    private final BaseConfigTab   view;
     
     private void updateView(){
         view.setReplaceFileName     (model.replaceFileName());

@@ -7,10 +7,10 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class DefaultConfigTab extends JPanel {
+public class BaseConfigTab extends JPanel {
   public static final String TAB_NAME = "Global Config";
 
-  public DefaultConfigTab() throws IOException {
+  public BaseConfigTab() throws IOException {
     setLayout(new BorderLayout());
     _baseConfigTemplate = new BaseConfigTemplate();
     add(_baseConfigTemplate, BorderLayout.CENTER);
