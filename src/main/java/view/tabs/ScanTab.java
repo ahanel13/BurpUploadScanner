@@ -4,6 +4,7 @@ import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.ui.UserInterface;
 import burp.api.montoya.ui.editor.HttpRequestEditor;
 import burp.api.montoya.ui.editor.HttpResponseEditor;
+import view.templates.ActionPanelTemplate;
 import view.templates.BaseConfigTemplate;
 
 import javax.swing.*;
@@ -31,15 +32,18 @@ public class ScanTab extends JPanel {
         return baseConfigTemplate;
     }
     
+   
     private enum editorTabs{
         uploadRequest, uploadResponse, preflightRequest, preflightResponse,
         downloadRequest, DownloadResponse
     }
+    
     private final HttpRequestResponse _requestResponse;
     private final UserInterface       _apiUI;
-    private BaseConfigTemplate baseConfigTemplate;
-    private JPanel             _scanTabConfig;
-    private JTabbedPane        _editorPanels;
+    private       JPanel              _actionPanel;
+    private       BaseConfigTemplate  baseConfigTemplate;
+    private       JPanel              _scanTabConfig;
+    private       JTabbedPane         _editorPanels;
     
     private JScrollPane initializeLeftPanel() throws IOException {
         // Main Left Pane
@@ -56,15 +60,14 @@ public class ScanTab extends JPanel {
     
     private JSplitPane initializeRightSplitPane() {
         // Action Section (Upper Right Side)
-        JPanel rightTopPanel = new JPanel();
+        _actionPanel = new ActionPanelTemplate();
         
         // Request editor Section (Lower Right Side)
         _editorPanels = getRequestEditorPanels();
         
         // Splitting the right side vertically
-        JSplitPane rightSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, rightTopPanel, _editorPanels);
-        rightSplitPane.setDividerLocation(0.33);
-        rightSplitPane.setResizeWeight(0.25);
+        JSplitPane rightSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, _actionPanel, _editorPanels);
+        rightSplitPane.setDividerLocation(0.20);
         
         return rightSplitPane;
     }
