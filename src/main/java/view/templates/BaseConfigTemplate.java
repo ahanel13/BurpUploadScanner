@@ -9,10 +9,10 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.Properties;
 
-public class BaseConfigTemplate extends JPanel{
+public class BaseConfigTemplate extends JPanel {
   
   // PUBLIC FUNCTIONS //
-  public BaseConfigTemplate() throws IOException{
+  public BaseConfigTemplate() throws IOException {
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     setBorder(new EmptyBorder(20, 20, 20, 20));
     
@@ -29,24 +29,24 @@ public class BaseConfigTemplate extends JPanel{
   }
   
   // PUBLIC METHODS //
-  public JCheckBox getReplaceContentType() { return _replaceContentType; }
-  public JCheckBox getAddToLoggingChkBox() { return _addToLoggingChkBox; }
-  public JCheckBox getWgetCurlPayloads()   { return _wgetCurlPayloads; }
-  public JCheckBox getReplaceFileName()    { return _replaceFileName; }
-  public JCheckBox getReplaceFileSize()    { return _replaceFileSize; }
-  public String    getThrottleValue()      { return _throttleValue.getText(); }
-  public String    getSleepTime()          { return _sleepTime.getText(); }
+  public JCheckBox getReplaceContentType() {return _replaceContentType;}
+  public JCheckBox getAddToLoggingChkBox()                      {return _addToLoggingChkBox;}
+  public JCheckBox getWgetCurlPayloads()                        {return _wgetCurlPayloads;}
+  public JCheckBox getReplaceFileName()                         {return _replaceFileName;}
+  public JCheckBox getReplaceFileSize()                         {return _replaceFileSize;}
+  public String getThrottleValue()                              {return _throttleValue.getText();}
+  public String getSleepTime()                                  {return _sleepTime.getText();}
   
-  public void setReplaceContentType(boolean replaceContentType){ _replaceContentType.setSelected(replaceContentType); }
-  public void setReplaceFileName(boolean replaceFileName)      { _replaceFileName.setSelected(replaceFileName); }
-  public void setReplaceFileSize(boolean replaceFileSize)      { _replaceFileSize.setSelected(replaceFileSize); }
-  public void setAddToLoggingChkBox(boolean addToLogging)      { _addToLoggingChkBox.setSelected(addToLogging); }
-  public void setWgetCurlPayloads(boolean wgetCurlPayloads)    { _wgetCurlPayloads.setSelected(wgetCurlPayloads); }
-  public void setSleepTime(short sleepTime)                    { _sleepTime.setText(String.valueOf(sleepTime)); }
-  public void setThrottleValue(short throttleValue)            { _throttleValue.setText(String.valueOf(throttleValue)); }
+  public void setReplaceContentType(boolean replaceContentType) {_replaceContentType.setSelected(replaceContentType);}
+  public void setReplaceFileName(boolean replaceFileName)       {_replaceFileName.setSelected(replaceFileName);}
+  public void setReplaceFileSize(boolean replaceFileSize)       {_replaceFileSize.setSelected(replaceFileSize);}
+  public void setAddToLoggingChkBox(boolean addToLogging)       {_addToLoggingChkBox.setSelected(addToLogging);}
+  public void setWgetCurlPayloads(boolean wgetCurlPayloads)     {_wgetCurlPayloads.setSelected(wgetCurlPayloads);}
+  public void setSleepTime(short sleepTime)                     {_sleepTime.setText(String.valueOf(sleepTime));}
+  public void setThrottleValue(short throttleValue)             {_throttleValue.setText(String.valueOf(throttleValue));}
   
   // PACKAGE-PRIVATE METHODS //
-  void addColors(){
+  void addColors() {
     // Color constants
     final Color FILE_OPTIONS_COLOR    = new Color(110, 165, 117);
     final Color PAYLOAD_OPTIONS_COLOR = new Color(110, 117, 165);
@@ -77,11 +77,11 @@ public class BaseConfigTemplate extends JPanel{
   private final Properties _properties;
   
   // UI components
-  private JPanel _generalOptions;
-  private JPanel _fileOptions;
-  private JPanel _payloadOptions;
-  private JLabel _throttleTimeLabel;
-  private JLabel _sleepTimeLabel;
+  private final JPanel _generalOptions;
+  private final JPanel _fileOptions;
+  private final JPanel _payloadOptions;
+  private       JLabel _throttleTimeLabel;
+  private       JLabel _sleepTimeLabel;
   
   // UI inputs
   private JCheckBox  _addToLoggingChkBox;
@@ -96,7 +96,7 @@ public class BaseConfigTemplate extends JPanel{
   // PRIVATE METHODS //
   ////////////////////////////////////////
   // Adding UI Components to main JPanel
-  private void addPayloadOptions(){
+  private void addPayloadOptions() {
     _payloadOptions.setLayout(new BoxLayout(_payloadOptions, BoxLayout.Y_AXIS));
     _payloadOptions.setBorder(STD_BORDER);
     _payloadOptions.setAlignmentX(CENTER_ALIGNMENT);
@@ -104,7 +104,7 @@ public class BaseConfigTemplate extends JPanel{
     add(_payloadOptions);
   }
   
-  private void addFileOptions(){
+  private void addFileOptions() {
     _fileOptions.setLayout(new BoxLayout(_fileOptions, BoxLayout.Y_AXIS));
     _fileOptions.setBorder(STD_BORDER);
     _fileOptions.add(getReplaceFileSizeOpt());
@@ -113,7 +113,7 @@ public class BaseConfigTemplate extends JPanel{
     add(_fileOptions);
   }
   
-  private void addGeneralOptions(){
+  private void addGeneralOptions() {
     _generalOptions.setLayout(new BoxLayout(_generalOptions, BoxLayout.Y_AXIS));
     _generalOptions.setBorder(STD_BORDER);
     _generalOptions.add(getAddToLoggingOpt());
@@ -123,7 +123,7 @@ public class BaseConfigTemplate extends JPanel{
   
   // Initializers for groups of components
   //////////////////////////////////////////////
-  private void addSleepOptions(){
+  private void addSleepOptions() {
     final JPanel sleepOptions = getTextFileGroupPanel();
     
     _sleepTimeLabel = new JLabel();
@@ -136,37 +136,37 @@ public class BaseConfigTemplate extends JPanel{
     _payloadOptions.add(sleepOptions);
   }
   
-  private JPanel getWgetCurlOpt(){
+  private JPanel getWgetCurlOpt() {
     _wgetCurlPayloads = createOptionCheckBox(WGET_CURL_LABEL);
-    JPanel opts       = getCheckBoxBorderJPanel();
+    JPanel opts = getCheckBoxBorderJPanel();
     opts.add(_wgetCurlPayloads, BorderLayout.EAST);
     return opts;
   }
   
-  private JPanel getReplaceFileSizeOpt(){
-    _replaceFileSize   = createOptionCheckBox(REPLACE_FILE_SIZE);
+  private JPanel getReplaceFileSizeOpt() {
+    _replaceFileSize = createOptionCheckBox(REPLACE_FILE_SIZE);
     JPanel fileSizeOpt = getCheckBoxBorderJPanel();
     fileSizeOpt.add(_replaceFileSize, BorderLayout.EAST);
     return fileSizeOpt;
   }
   
-  private JPanel getReplaceFileNameOpt(){
-    _replaceFileName          = createOptionCheckBox(REPLACE_FILE_NAME);
+  private JPanel getReplaceFileNameOpt() {
+    _replaceFileName = createOptionCheckBox(REPLACE_FILE_NAME);
     JPanel replaceFileNameOpt = getCheckBoxBorderJPanel();
     replaceFileNameOpt.add(_replaceFileName, BorderLayout.EAST);
     
     return replaceFileNameOpt;
   }
   
-  private JPanel getReplaceFileContentOpt(){
-    _replaceContentType       = createOptionCheckBox(REPLACE_CONTENT_TYPE);
+  private JPanel getReplaceFileContentOpt() {
+    _replaceContentType = createOptionCheckBox(REPLACE_CONTENT_TYPE);
     JPanel replaceFileContOpt = getCheckBoxBorderJPanel();
     replaceFileContOpt.add(_replaceContentType, BorderLayout.EAST);
     
     return replaceFileContOpt;
   }
   
-  private JPanel getCheckBoxBorderJPanel(){
+  private JPanel getCheckBoxBorderJPanel() {
     JPanel tempPanel = new JPanel();
     tempPanel.setLayout(new BorderLayout());
     tempPanel.setAlignmentX(CENTER_ALIGNMENT);
@@ -174,14 +174,14 @@ public class BaseConfigTemplate extends JPanel{
     return tempPanel;
   }
   
-  private JPanel getAddToLoggingOpt(){
+  private JPanel getAddToLoggingOpt() {
     _addToLoggingChkBox = createOptionCheckBox(ADD_TO_LOGGING);
-    JPanel opt          = getCheckBoxBorderJPanel();
+    JPanel opt = getCheckBoxBorderJPanel();
     opt.add(_addToLoggingChkBox);
     return opt;
   }
   
-  private JPanel getTextFileGroupPanel(){
+  private JPanel getTextFileGroupPanel() {
     JPanel tempPanel = new JPanel();
     tempPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
     tempPanel.setMaximumSize(STD_INPUT_SIZE);
@@ -189,7 +189,7 @@ public class BaseConfigTemplate extends JPanel{
     return tempPanel;
   }
   
-  private JPanel getThrottleTimeGroup(){
+  private JPanel getThrottleTimeGroup() {
     final JPanel throttleTimeGroup = getTextFileGroupPanel();
     
     _throttleTimeLabel = new JLabel();
