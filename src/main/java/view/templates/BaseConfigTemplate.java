@@ -47,44 +47,52 @@ public class BaseConfigTemplate extends JPanel {
   public void setSleepTime(short sleepTime)                     {_sleepTime.setText(String.valueOf(sleepTime));}
   public void setThrottleValue(short throttleValue)             {_throttleValue.setText(String.valueOf(throttleValue));}
   
-  public void hidFileTypes(){
-    gifFileType.setVisible(false);
-    pngFileType.setVisible(false);
-    jpegFileType.setVisible(false);
-    tiffFileType.setVisible(false);
-    icoFileType.setVisible(false);
-    svgFileType.setVisible(false);
-    mvgFileType.setVisible(false);
-    pdfFileType.setVisible(false);
-    mp4FileType.setVisible(false);
-    docxFileType.setVisible(false);
-    xlsxFileType.setVisible(false);
-    swfFileType.setVisible(false);
-    csvFileType.setVisible(false);
-    zipFileType.setVisible(false);
-    gzipFileType.setVisible(false);
-    htmlFileType.setVisible(false);
-    xmlFileType.setVisible(false);
+  public void setScanChecksVisibility(boolean visibility) {
+    activescanScanCheck.setVisible(visibility);
+    imagetragickScanCheck.setVisible(visibility);
+    magickScanCheck.setVisible(visibility);
+    gsScanCheck.setVisible(visibility);
+    libavformatScanCheck.setVisible(visibility);
+    phpScanCheck.setVisible(visibility);
+    jspScanCheck.setVisible(visibility);
+    aspScanCheck.setVisible(visibility);
+    htaccessScanCheck.setVisible(visibility);
+    cgiScanCheck.setVisible(visibility);
+    ssiScanCheck.setVisible(visibility);
+    xxeScanCheck.setVisible(visibility);
+    xssScanCheck.setVisible(visibility);
+    eicarScanCheck.setVisible(visibility);
+    pdfScanCheck.setVisible(visibility);
+    ssrfScanCheck.setVisible(visibility);
+    csv_spreadsheetScanCheck.setVisible(visibility);
+    path_traversalScanCheck.setVisible(visibility);
+    polyglotScanCheck.setVisible(visibility);
+    fingerpingScanCheck.setVisible(visibility);
+    quirksScanCheck.setVisible(visibility);
+    url_replacerScanCheck.setVisible(visibility);
+    recursive_uploaderScanCheck.setVisible(visibility);
+    fuzzerScanCheck.setVisible(visibility);
+    dosScanCheck.setVisible(visibility);
   }
   
-  public void showFileTypes(){
-    gifFileType.setVisible(true);
-    pngFileType.setVisible(true);
-    jpegFileType.setVisible(true);
-    tiffFileType.setVisible(true);
-    icoFileType.setVisible(true);
-    svgFileType.setVisible(true);
-    mvgFileType.setVisible(true);
-    pdfFileType.setVisible(true);
-    mp4FileType.setVisible(true);
-    docxFileType.setVisible(true);
-    xlsxFileType.setVisible(true);
-    swfFileType.setVisible(true);
-    csvFileType.setVisible(true);
-    zipFileType.setVisible(true);
-    gzipFileType.setVisible(true);
-    htmlFileType.setVisible(true);
-    xmlFileType.setVisible(true);
+  public void setFileTypesVisibility(boolean visibility){
+    gifFileType.setVisible(visibility);
+    pngFileType.setVisible(visibility);
+    jpegFileType.setVisible(visibility);
+    tiffFileType.setVisible(visibility);
+    icoFileType.setVisible(visibility);
+    svgFileType.setVisible(visibility);
+    mvgFileType.setVisible(visibility);
+    pdfFileType.setVisible(visibility);
+    mp4FileType.setVisible(visibility);
+    docxFileType.setVisible(visibility);
+    xlsxFileType.setVisible(visibility);
+    swfFileType.setVisible(visibility);
+    csvFileType.setVisible(visibility);
+    zipFileType.setVisible(visibility);
+    gzipFileType.setVisible(visibility);
+    htmlFileType.setVisible(visibility);
+    xmlFileType.setVisible(visibility);
   }
   
   // PACKAGE-PRIVATE METHODS //
@@ -102,8 +110,9 @@ public class BaseConfigTemplate extends JPanel {
   }
   
   // PRIVATE DATA //
-  private static final Dimension STD_INPUT_SIZE = new Dimension(200, 30);
+  private static final int       STD_WIDTH      = 250;
   private static final int       STD_JTEXT_COLS = 3;
+  private static final Dimension STD_INPUT_SIZE = new Dimension(STD_WIDTH, 30);
   private static final Border    STD_BORDER     = new EmptyBorder(5, 5, 5, 5);
   
   // Property Keys
@@ -115,6 +124,34 @@ public class BaseConfigTemplate extends JPanel {
   private static final String ADD_TO_LOGGING       = "add.to.logging.tab";
   private static final String THROTTLE_TIME        = "throttle.time";
   private static final String SLEEP_TIME_LABEL     = "sleep.time.label";
+  
+  private static final String SHOW_SCAN_CHECKS     = "show.scan.checks";
+  private static final String activescan           = "activescan";
+  private static final String imagetragick         = "imagetragick";
+  private static final String magick               = "magick";
+  private static final String gs                   = "gs";
+  private static final String libavformat          = "libavformat";
+  private static final String php                  = "php";
+  private static final String jsp                  = "jsp";
+  private static final String asp                  = "asp";
+  private static final String htaccess             = "htaccess";
+  private static final String cgi                  = "cgi";
+  private static final String ssi                  = "ssi";
+  private static final String xxe                  = "xxe";
+  private static final String xss                  = "xss";
+  private static final String eicar                = "eicar";
+  private static final String pdf                  = "pdf";
+  private static final String ssrf                 = "ssrf";
+  private static final String csv_spreadsheet      = "csv_spreadsheet";
+  private static final String path_traversal       = "path_traversal";
+  private static final String polyglot             = "polyglot";
+  private static final String fingerping           = "fingerping";
+  private static final String quirks               = "quirks";
+  private static final String url_replacer         = "url_replacer";
+  private static final String recursive_uploader   = "recursive_uploader";
+  private static final String fuzzer               = "fuzzer";
+  private static final String dos                  = "dos";
+  
   private static final String SHOW_FILES           = "show.files";
   private static final String GIF                  = "GIF";
   private static final String PNG                  = "PNG";
@@ -144,6 +181,33 @@ public class BaseConfigTemplate extends JPanel {
   private       JLabel _sleepTimeLabel;
   
   // UI inputs
+  private JCheckBox showScanChecks;
+  private JCheckBox activescanScanCheck;
+  private JCheckBox imagetragickScanCheck;
+  private JCheckBox magickScanCheck;
+  private JCheckBox gsScanCheck;
+  private JCheckBox libavformatScanCheck;
+  private JCheckBox phpScanCheck;
+  private JCheckBox jspScanCheck;
+  private JCheckBox aspScanCheck;
+  private JCheckBox htaccessScanCheck;
+  private JCheckBox cgiScanCheck;
+  private JCheckBox ssiScanCheck;
+  private JCheckBox xxeScanCheck;
+  private JCheckBox xssScanCheck;
+  private JCheckBox eicarScanCheck;
+  private JCheckBox pdfScanCheck;
+  private JCheckBox ssrfScanCheck;
+  private JCheckBox csv_spreadsheetScanCheck;
+  private JCheckBox path_traversalScanCheck;
+  private JCheckBox polyglotScanCheck;
+  private JCheckBox fingerpingScanCheck;
+  private JCheckBox quirksScanCheck;
+  private JCheckBox url_replacerScanCheck;
+  private JCheckBox recursive_uploaderScanCheck;
+  private JCheckBox fuzzerScanCheck;
+  private JCheckBox dosScanCheck;
+  
   private JCheckBox showFileType;
   private JCheckBox gifFileType;
   private JCheckBox pngFileType;
@@ -176,7 +240,63 @@ public class BaseConfigTemplate extends JPanel {
   ////////////////////////////////////////
   // Adding UI Components to main JPanel
   private void addScanCheckOptions() {
-  
+    showScanChecks              = createOptionCheckBox(SHOW_SCAN_CHECKS);
+    activescanScanCheck         = createOptionCheckBox(activescan);
+    imagetragickScanCheck       = createOptionCheckBox(imagetragick);
+    magickScanCheck             = createOptionCheckBox(magick);
+    gsScanCheck                 = createOptionCheckBox(gs);
+    libavformatScanCheck        = createOptionCheckBox(libavformat);
+    phpScanCheck                = createOptionCheckBox(php);
+    jspScanCheck                = createOptionCheckBox(jsp);
+    aspScanCheck                = createOptionCheckBox(asp);
+    htaccessScanCheck           = createOptionCheckBox(htaccess);
+    cgiScanCheck                = createOptionCheckBox(cgi);
+    ssiScanCheck                = createOptionCheckBox(ssi);
+    xxeScanCheck                = createOptionCheckBox(xxe);
+    xssScanCheck                = createOptionCheckBox(xss);
+    eicarScanCheck              = createOptionCheckBox(eicar);
+    pdfScanCheck                = createOptionCheckBox(pdf);
+    ssrfScanCheck               = createOptionCheckBox(ssrf);
+    csv_spreadsheetScanCheck    = createOptionCheckBox(csv_spreadsheet);
+    path_traversalScanCheck     = createOptionCheckBox(path_traversal);
+    polyglotScanCheck           = createOptionCheckBox(polyglot);
+    fingerpingScanCheck         = createOptionCheckBox(fingerping);
+    quirksScanCheck             = createOptionCheckBox(quirks);
+    url_replacerScanCheck       = createOptionCheckBox(url_replacer);
+    recursive_uploaderScanCheck = createOptionCheckBox(recursive_uploader);
+    fuzzerScanCheck             = createOptionCheckBox(fuzzer);
+    dosScanCheck                = createOptionCheckBox(dos);
+    setScanChecksVisibility(false);
+    
+    JPanel scanCheckSection = getSectionPanel();
+    scanCheckSection.add(showScanChecks);
+    scanCheckSection.add(activescanScanCheck);
+    scanCheckSection.add(imagetragickScanCheck);
+    scanCheckSection.add(magickScanCheck);
+    scanCheckSection.add(gsScanCheck);
+    scanCheckSection.add(libavformatScanCheck);
+    scanCheckSection.add(phpScanCheck);
+    scanCheckSection.add(jspScanCheck);
+    scanCheckSection.add(aspScanCheck);
+    scanCheckSection.add(htaccessScanCheck);
+    scanCheckSection.add(cgiScanCheck);
+    scanCheckSection.add(ssiScanCheck);
+    scanCheckSection.add(xxeScanCheck);
+    scanCheckSection.add(xssScanCheck);
+    scanCheckSection.add(eicarScanCheck);
+    scanCheckSection.add(pdfScanCheck);
+    scanCheckSection.add(ssrfScanCheck);
+    scanCheckSection.add(csv_spreadsheetScanCheck);
+    scanCheckSection.add(path_traversalScanCheck);
+    scanCheckSection.add(polyglotScanCheck);
+    scanCheckSection.add(fingerpingScanCheck);
+    scanCheckSection.add(quirksScanCheck);
+    scanCheckSection.add(url_replacerScanCheck);
+    scanCheckSection.add(recursive_uploaderScanCheck);
+    scanCheckSection.add(fuzzerScanCheck);
+    scanCheckSection.add(dosScanCheck);
+    
+    add(scanCheckSection);
   }
   
   private void addFileTypeOptions() {
@@ -198,12 +318,10 @@ public class BaseConfigTemplate extends JPanel {
     gzipFileType = createOptionCheckBox(GZIP);
     htmlFileType = createOptionCheckBox(HTML);
     xmlFileType  = createOptionCheckBox(XML);
+    setFileTypesVisibility(false);
     
-    // hidFileTypes();
-    JPanel fileTypeSection = new JPanel();
-    fileTypeSection.setLayout(new BoxLayout(fileTypeSection, BoxLayout.Y_AXIS));
-    fileTypeSection.setBorder(STD_BORDER);
-    fileTypeSection.setAlignmentX(CENTER_ALIGNMENT);
+    JPanel fileTypeSection = getSectionPanel();
+    
     fileTypeSection.add(showFileType);
     fileTypeSection.add(gifFileType);
     fileTypeSection.add(pngFileType);
@@ -224,6 +342,15 @@ public class BaseConfigTemplate extends JPanel {
     fileTypeSection.add(xmlFileType);
     
     add(fileTypeSection);
+  }
+  
+  private JPanel getSectionPanel() {
+    JPanel sectionPanel = new JPanel();
+    sectionPanel.setLayout(new BoxLayout(sectionPanel, BoxLayout.Y_AXIS));
+    // sectionPanel.setBorder(STD_BORDER);
+    sectionPanel.setAlignmentX(CENTER_ALIGNMENT);
+    sectionPanel.setMaximumSize(new Dimension(STD_WIDTH, 1000));
+    return sectionPanel;
   }
   
   private void addPayloadOptions() {
@@ -337,6 +464,7 @@ public class BaseConfigTemplate extends JPanel {
   private JCheckBox createOptionCheckBox(String propertyKey) {
     JCheckBox checkBox = new JCheckBox();
     checkBox.setHorizontalTextPosition(10);
+    checkBox.setPreferredSize(STD_INPUT_SIZE);
     checkBox.setText(_properties.getProperty(propertyKey));
     checkBox.setAlignmentX(RIGHT_ALIGNMENT);
     return checkBox;
