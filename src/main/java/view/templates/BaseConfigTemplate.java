@@ -21,6 +21,8 @@ public class BaseConfigTemplate extends JPanel {
     _generalOptions = new JPanel();
     _properties     = ResourceLoader.loadPropertyFile(CLASS_PROPERTIES);
     
+    addScanCheckOptions();
+    addFileTypeOptions();
     addFileOptions();
     getThrottleTimeGroup();
     addPayloadOptions();
@@ -44,6 +46,46 @@ public class BaseConfigTemplate extends JPanel {
   public void setWgetCurlPayloads(boolean wgetCurlPayloads)     {_wgetCurlPayloads.setSelected(wgetCurlPayloads);}
   public void setSleepTime(short sleepTime)                     {_sleepTime.setText(String.valueOf(sleepTime));}
   public void setThrottleValue(short throttleValue)             {_throttleValue.setText(String.valueOf(throttleValue));}
+  
+  public void hidFileTypes(){
+    gifFileType.setVisible(false);
+    pngFileType.setVisible(false);
+    jpegFileType.setVisible(false);
+    tiffFileType.setVisible(false);
+    icoFileType.setVisible(false);
+    svgFileType.setVisible(false);
+    mvgFileType.setVisible(false);
+    pdfFileType.setVisible(false);
+    mp4FileType.setVisible(false);
+    docxFileType.setVisible(false);
+    xlsxFileType.setVisible(false);
+    swfFileType.setVisible(false);
+    csvFileType.setVisible(false);
+    zipFileType.setVisible(false);
+    gzipFileType.setVisible(false);
+    htmlFileType.setVisible(false);
+    xmlFileType.setVisible(false);
+  }
+  
+  public void showFileTypes(){
+    gifFileType.setVisible(true);
+    pngFileType.setVisible(true);
+    jpegFileType.setVisible(true);
+    tiffFileType.setVisible(true);
+    icoFileType.setVisible(true);
+    svgFileType.setVisible(true);
+    mvgFileType.setVisible(true);
+    pdfFileType.setVisible(true);
+    mp4FileType.setVisible(true);
+    docxFileType.setVisible(true);
+    xlsxFileType.setVisible(true);
+    swfFileType.setVisible(true);
+    csvFileType.setVisible(true);
+    zipFileType.setVisible(true);
+    gzipFileType.setVisible(true);
+    htmlFileType.setVisible(true);
+    xmlFileType.setVisible(true);
+  }
   
   // PACKAGE-PRIVATE METHODS //
   void addColors() {
@@ -73,6 +115,24 @@ public class BaseConfigTemplate extends JPanel {
   private static final String ADD_TO_LOGGING       = "add.to.logging.tab";
   private static final String THROTTLE_TIME        = "throttle.time";
   private static final String SLEEP_TIME_LABEL     = "sleep.time.label";
+  private static final String SHOW_FILES           = "show.files";
+  private static final String GIF                  = "GIF";
+  private static final String PNG                  = "PNG";
+  private static final String JPEG                 = "JPEG";
+  private static final String TIFF                 = "TIFF";
+  private static final String ICO                  = "ICO";
+  private static final String SVG                  = "SVG";
+  private static final String MVG                  = "MVG";
+  private static final String PDF                  = "PDF";
+  private static final String MP4                  = "MP4";
+  private static final String DOCX                 = "DOCX";
+  private static final String EXCEL                = "EXCEL";
+  private static final String FLASH                = "FLASH";
+  private static final String CSV                  = "CSV";
+  private static final String ZIP                  = "ZIP";
+  private static final String GZIP                 = "GZIP";
+  private static final String HTML                 = "HTML";
+  private static final String XML                  = "XML";
   
   private final Properties _properties;
   
@@ -84,6 +144,25 @@ public class BaseConfigTemplate extends JPanel {
   private       JLabel _sleepTimeLabel;
   
   // UI inputs
+  private JCheckBox showFileType;
+  private JCheckBox gifFileType;
+  private JCheckBox pngFileType;
+  private JCheckBox jpegFileType;
+  private JCheckBox tiffFileType;
+  private JCheckBox icoFileType;
+  private JCheckBox svgFileType;
+  private JCheckBox mvgFileType;
+  private JCheckBox pdfFileType;
+  private JCheckBox mp4FileType;
+  private JCheckBox docxFileType;
+  private JCheckBox xlsxFileType;
+  private JCheckBox swfFileType;
+  private JCheckBox csvFileType;
+  private JCheckBox zipFileType;
+  private JCheckBox gzipFileType;
+  private JCheckBox htmlFileType;
+  private JCheckBox xmlFileType;
+  
   private JCheckBox  _addToLoggingChkBox;
   private JCheckBox  _replaceContentType;
   private JCheckBox  _wgetCurlPayloads;
@@ -96,6 +175,57 @@ public class BaseConfigTemplate extends JPanel {
   // PRIVATE METHODS //
   ////////////////////////////////////////
   // Adding UI Components to main JPanel
+  private void addScanCheckOptions() {
+  
+  }
+  
+  private void addFileTypeOptions() {
+    showFileType = createOptionCheckBox(SHOW_FILES);
+    gifFileType  = createOptionCheckBox(GIF);
+    pngFileType  = createOptionCheckBox(PNG);
+    jpegFileType = createOptionCheckBox(JPEG);
+    tiffFileType = createOptionCheckBox(TIFF);
+    icoFileType  = createOptionCheckBox(ICO);
+    svgFileType  = createOptionCheckBox(SVG);
+    mvgFileType  = createOptionCheckBox(MVG);
+    pdfFileType  = createOptionCheckBox(PDF);
+    mp4FileType  = createOptionCheckBox(MP4);
+    docxFileType = createOptionCheckBox(DOCX);
+    xlsxFileType = createOptionCheckBox(EXCEL);
+    swfFileType  = createOptionCheckBox(FLASH);
+    csvFileType  = createOptionCheckBox(CSV);
+    zipFileType  = createOptionCheckBox(ZIP);
+    gzipFileType = createOptionCheckBox(GZIP);
+    htmlFileType = createOptionCheckBox(HTML);
+    xmlFileType  = createOptionCheckBox(XML);
+    
+    // hidFileTypes();
+    JPanel fileTypeSection = new JPanel();
+    fileTypeSection.setLayout(new BoxLayout(fileTypeSection, BoxLayout.Y_AXIS));
+    fileTypeSection.setBorder(STD_BORDER);
+    fileTypeSection.setAlignmentX(CENTER_ALIGNMENT);
+    fileTypeSection.add(showFileType);
+    fileTypeSection.add(gifFileType);
+    fileTypeSection.add(pngFileType);
+    fileTypeSection.add(jpegFileType);
+    fileTypeSection.add(tiffFileType);
+    fileTypeSection.add(icoFileType);
+    fileTypeSection.add(svgFileType);
+    fileTypeSection.add(mvgFileType);
+    fileTypeSection.add(pdfFileType);
+    fileTypeSection.add(mp4FileType);
+    fileTypeSection.add(docxFileType);
+    fileTypeSection.add(xlsxFileType);
+    fileTypeSection.add(swfFileType);
+    fileTypeSection.add(csvFileType);
+    fileTypeSection.add(zipFileType);
+    fileTypeSection.add(gzipFileType);
+    fileTypeSection.add(htmlFileType);
+    fileTypeSection.add(xmlFileType);
+    
+    add(fileTypeSection);
+  }
+  
   private void addPayloadOptions() {
     _payloadOptions.setLayout(new BoxLayout(_payloadOptions, BoxLayout.Y_AXIS));
     _payloadOptions.setBorder(STD_BORDER);
@@ -208,6 +338,7 @@ public class BaseConfigTemplate extends JPanel {
     JCheckBox checkBox = new JCheckBox();
     checkBox.setHorizontalTextPosition(10);
     checkBox.setText(_properties.getProperty(propertyKey));
+    checkBox.setAlignmentX(RIGHT_ALIGNMENT);
     return checkBox;
   }
 }
