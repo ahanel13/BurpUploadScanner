@@ -6,6 +6,7 @@ import burp.api.montoya.ui.editor.HttpRequestEditor;
 import burp.api.montoya.ui.editor.HttpResponseEditor;
 import view.templates.ActionPanelTemplate;
 import view.templates.BaseConfigTemplate;
+import view.templates.ReDownloaderTemplate;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,30 +30,32 @@ public class ScanTab extends JPanel {
     }
     
     public BaseConfigTemplate baseConfigTemplate(){
-        return baseConfigTemplate;
+        return _baseConfigTemplate;
     }
     
-   
+    private final HttpRequestResponse  _requestResponse;
+    private final UserInterface        _apiUI;
+    private       JPanel               _actionPanel;
+    private       BaseConfigTemplate   _baseConfigTemplate;
+    private       ReDownloaderTemplate _reDownloaderTemplate;
+    private       JPanel               _scanTabConfig;
+    private       JTabbedPane          _editorPanels;
     private enum editorTabs{
         uploadRequest, uploadResponse, preflightRequest, preflightResponse,
         downloadRequest, DownloadResponse
     }
-    
-    private final HttpRequestResponse _requestResponse;
-    private final UserInterface       _apiUI;
-    private       JPanel              _actionPanel;
-    private       BaseConfigTemplate  baseConfigTemplate;
-    private       JPanel              _scanTabConfig;
-    private       JTabbedPane         _editorPanels;
     
     private JScrollPane initializeLeftPanel() throws IOException {
         // Main Left Pane
         _scanTabConfig = new JPanel();
         _scanTabConfig.setLayout(new BoxLayout(_scanTabConfig, BoxLayout.Y_AXIS));
         
-        baseConfigTemplate = new BaseConfigTemplate();
+        _baseConfigTemplate   = new BaseConfigTemplate();
+        _reDownloaderTemplate = new ReDownloaderTemplate();
+        
         // Add more components as needed
-        _scanTabConfig.add(baseConfigTemplate);
+        _scanTabConfig.add(_baseConfigTemplate);
+        _scanTabConfig.add(_reDownloaderTemplate);
         
         // Wrap in JScrollPane for scrollability
         return new JScrollPane(_scanTabConfig);
