@@ -14,15 +14,19 @@ public class BaseConfigTemplate extends JPanel {
   public BaseConfigTemplate() throws IOException {
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     setBorder(new EmptyBorder(10, 10, 10, 10));
-    setPreferredSize(new Dimension(STD_WIDTH, 270));
-    
-    _properties     = ResourceLoader.loadPropertyFile(CLASS_PROPERTIES);
-    
+    _mainHeight = STD_HEIGHT * 9; // starting inputs that are visible
     addScanCheckOptions();
     addFileTypeOptions();
     addFileOptions();
     addPayloadOptions();
     addGeneralOptions();
+    updateSize();
+  }
+  
+  private void updateSize() {
+    setPreferredSize(new Dimension(STD_WIDTH, _mainHeight));
+    setMinimumSize(new Dimension(STD_WIDTH, _mainHeight));
+    setMaximumSize(new Dimension(STD_WIDTH, _mainHeight));
   }
   
   // PUBLIC METHODS //
@@ -107,7 +111,9 @@ public class BaseConfigTemplate extends JPanel {
   // PRIVATE DATA //
   private static final int       STD_WIDTH      = 250;
   private static final int       STD_JTEXT_COLS = 3;
-  private static final Dimension STD_INPUT_SIZE = new Dimension(STD_WIDTH, 30);
+  private static final int       STD_HEIGHT     = 30;
+  private static final Dimension STD_INPUT_SIZE = new Dimension(STD_WIDTH, STD_HEIGHT);
+  private final Properties       _properties    = ResourceLoader.loadPropertyFile(CLASS_PROPERTIES);
   
   // Property Keys
   private static final String CLASS_PROPERTIES     = "BaseConfigView.properties";
@@ -165,12 +171,12 @@ public class BaseConfigTemplate extends JPanel {
   private static final String HTML       = "HTML";
   private static final String XML        = "XML";
   
-  private final Properties _properties;
-  
   // UI components
-  private final JPanel _generalOptions = getSectionPanel();
-  private final JPanel _fileOptions    = getSectionPanel();
-  private final JPanel _payloadOptions = getSectionPanel();
+  private final JPanel _generalOptions  = getSectionPanel();
+  private final JPanel _fileOptions     = getSectionPanel();
+  private final JPanel _payloadOptions  = getSectionPanel();
+  private final JPanel scanCheckSection = getSectionPanel();
+  private final JPanel fileTypeSection  = getSectionPanel();
   private       JLabel _throttleTimeLabel;
   private       JLabel _sleepTimeLabel;
   
@@ -227,6 +233,8 @@ public class BaseConfigTemplate extends JPanel {
   private JTextField _throttleValue;
   private JTextField _sleepTime;
   
+  private int _mainHeight;
+  
   ////////////////////////////////////////
   // PRIVATE METHODS //
   ////////////////////////////////////////
@@ -234,7 +242,6 @@ public class BaseConfigTemplate extends JPanel {
   private void addScanCheckOptions() {
     setScanChecksVisibility(false);
     
-    JPanel scanCheckSection = getSectionPanel();
     scanCheckSection.add(showScanChecks);
     scanCheckSection.add(activescanScanCheck);
     scanCheckSection.add(imagetragickScanCheck);
@@ -268,7 +275,6 @@ public class BaseConfigTemplate extends JPanel {
   private void addFileTypeOptions() {
     setFileTypesVisibility(false);
     
-    JPanel fileTypeSection = getSectionPanel();
     fileTypeSection.add(showFileType);
     fileTypeSection.add(gifFileType);
     fileTypeSection.add(pngFileType);
