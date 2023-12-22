@@ -3,7 +3,6 @@ package view.templates;
 import model.utilities.ResourceLoader;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.IOException;
@@ -14,19 +13,15 @@ public class BaseConfigTemplate extends JPanel {
   // PUBLIC FUNCTIONS //
   public BaseConfigTemplate() throws IOException {
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-    setBorder(new EmptyBorder(20, 20, 20, 20));
+    setBorder(new EmptyBorder(10, 10, 10, 10));
+    setPreferredSize(new Dimension(STD_WIDTH, 270));
     
-    _fileOptions    = new JPanel();
-    _payloadOptions = new JPanel();
-    _generalOptions = new JPanel();
     _properties     = ResourceLoader.loadPropertyFile(CLASS_PROPERTIES);
     
     addScanCheckOptions();
     addFileTypeOptions();
     addFileOptions();
-    getThrottleTimeGroup();
     addPayloadOptions();
-    addSleepOptions();
     addGeneralOptions();
   }
   
@@ -113,7 +108,6 @@ public class BaseConfigTemplate extends JPanel {
   private static final int       STD_WIDTH      = 250;
   private static final int       STD_JTEXT_COLS = 3;
   private static final Dimension STD_INPUT_SIZE = new Dimension(STD_WIDTH, 30);
-  private static final Border    STD_BORDER     = new EmptyBorder(5, 5, 5, 5);
   
   // Property Keys
   private static final String CLASS_PROPERTIES     = "BaseConfigView.properties";
@@ -174,64 +168,62 @@ public class BaseConfigTemplate extends JPanel {
   private final Properties _properties;
   
   // UI components
-  private final JPanel _generalOptions;
-  private final JPanel _fileOptions;
-  private final JPanel _payloadOptions;
+  private final JPanel _generalOptions = getSectionPanel();
+  private final JPanel _fileOptions    = getSectionPanel();
+  private final JPanel _payloadOptions = getSectionPanel();
   private       JLabel _throttleTimeLabel;
   private       JLabel _sleepTimeLabel;
   
   // UI inputs
-  private JCheckBox showScanChecks;
-  private JCheckBox activescanScanCheck;
-  private JCheckBox imagetragickScanCheck;
-  private JCheckBox magickScanCheck;
-  private JCheckBox gsScanCheck;
-  private JCheckBox libavformatScanCheck;
-  private JCheckBox phpScanCheck;
-  private JCheckBox jspScanCheck;
-  private JCheckBox aspScanCheck;
-  private JCheckBox htaccessScanCheck;
-  private JCheckBox cgiScanCheck;
-  private JCheckBox ssiScanCheck;
-  private JCheckBox xxeScanCheck;
-  private JCheckBox xssScanCheck;
-  private JCheckBox eicarScanCheck;
-  private JCheckBox pdfScanCheck;
-  private JCheckBox ssrfScanCheck;
-  private JCheckBox csv_spreadsheetScanCheck;
-  private JCheckBox path_traversalScanCheck;
-  private JCheckBox polyglotScanCheck;
-  private JCheckBox fingerpingScanCheck;
-  private JCheckBox quirksScanCheck;
-  private JCheckBox url_replacerScanCheck;
-  private JCheckBox recursive_uploaderScanCheck;
-  private JCheckBox fuzzerScanCheck;
-  private JCheckBox dosScanCheck;
-  
-  private JCheckBox showFileType;
-  private JCheckBox gifFileType;
-  private JCheckBox pngFileType;
-  private JCheckBox jpegFileType;
-  private JCheckBox tiffFileType;
-  private JCheckBox icoFileType;
-  private JCheckBox svgFileType;
-  private JCheckBox mvgFileType;
-  private JCheckBox pdfFileType;
-  private JCheckBox mp4FileType;
-  private JCheckBox docxFileType;
-  private JCheckBox xlsxFileType;
-  private JCheckBox swfFileType;
-  private JCheckBox csvFileType;
-  private JCheckBox zipFileType;
-  private JCheckBox gzipFileType;
-  private JCheckBox htmlFileType;
-  private JCheckBox xmlFileType;
-  
-  private JCheckBox  _addToLoggingChkBox;
-  private JCheckBox  _replaceContentType;
-  private JCheckBox  _wgetCurlPayloads;
-  private JCheckBox  _replaceFileName;
-  private JCheckBox  _replaceFileSize;
+  private final JCheckBox showFileType                = createOptionCheckBox(SHOW_FILES);
+  private final JCheckBox gifFileType                 = createOptionCheckBox(GIF);
+  private final JCheckBox pngFileType                 = createOptionCheckBox(PNG);
+  private final JCheckBox jpegFileType                = createOptionCheckBox(JPEG);
+  private final JCheckBox tiffFileType                = createOptionCheckBox(TIFF);
+  private final JCheckBox icoFileType                 = createOptionCheckBox(ICO);
+  private final JCheckBox svgFileType                 = createOptionCheckBox(SVG);
+  private final JCheckBox mvgFileType                 = createOptionCheckBox(MVG);
+  private final JCheckBox pdfFileType                 = createOptionCheckBox(PDF);
+  private final JCheckBox mp4FileType                 = createOptionCheckBox(MP4);
+  private final JCheckBox docxFileType                = createOptionCheckBox(DOCX);
+  private final JCheckBox xlsxFileType                = createOptionCheckBox(EXCEL);
+  private final JCheckBox swfFileType                 = createOptionCheckBox(FLASH);
+  private final JCheckBox csvFileType                 = createOptionCheckBox(CSV);
+  private final JCheckBox zipFileType                 = createOptionCheckBox(ZIP);
+  private final JCheckBox gzipFileType                = createOptionCheckBox(GZIP);
+  private final JCheckBox htmlFileType                = createOptionCheckBox(HTML);
+  private final JCheckBox xmlFileType                 = createOptionCheckBox(XML);
+  private final JCheckBox showScanChecks              = createOptionCheckBox(SHOW_SCAN_CHECKS);
+  private final JCheckBox activescanScanCheck         = createOptionCheckBox(ACTIVE_SCAN);
+  private final JCheckBox imagetragickScanCheck       = createOptionCheckBox(IMAGETRAGICK);
+  private final JCheckBox magickScanCheck             = createOptionCheckBox(magick);
+  private final JCheckBox gsScanCheck                 = createOptionCheckBox(GS);
+  private final JCheckBox libavformatScanCheck        = createOptionCheckBox(LIBAVFORMAT);
+  private final JCheckBox phpScanCheck                = createOptionCheckBox(PHP);
+  private final JCheckBox jspScanCheck                = createOptionCheckBox(JSP);
+  private final JCheckBox aspScanCheck                = createOptionCheckBox(ASP);
+  private final JCheckBox htaccessScanCheck           = createOptionCheckBox(HTACCESS);
+  private final JCheckBox cgiScanCheck                = createOptionCheckBox(CGI);
+  private final JCheckBox ssiScanCheck                = createOptionCheckBox(SSI);
+  private final JCheckBox xxeScanCheck                = createOptionCheckBox(XXE);
+  private final JCheckBox xssScanCheck                = createOptionCheckBox(XSS);
+  private final JCheckBox eicarScanCheck              = createOptionCheckBox(EICAR);
+  private final JCheckBox pdfScanCheck                = createOptionCheckBox(PDF_INJECTION);
+  private final JCheckBox ssrfScanCheck               = createOptionCheckBox(SSRF);
+  private final JCheckBox csv_spreadsheetScanCheck    = createOptionCheckBox(CSV_INJECTION);
+  private final JCheckBox path_traversalScanCheck     = createOptionCheckBox(PATH_TRAVERSAL);
+  private final JCheckBox polyglotScanCheck           = createOptionCheckBox(POLYGLOT);
+  private final JCheckBox fingerpingScanCheck         = createOptionCheckBox(FINGERPING);
+  private final JCheckBox quirksScanCheck             = createOptionCheckBox(QUIRKS);
+  private final JCheckBox url_replacerScanCheck       = createOptionCheckBox(URL_REPLACER);
+  private final JCheckBox recursive_uploaderScanCheck = createOptionCheckBox(RECURSIVE_UPLOADER);
+  private final JCheckBox fuzzerScanCheck             = createOptionCheckBox(FUZZER);
+  private final JCheckBox dosScanCheck                = createOptionCheckBox(DOS);
+  private final JCheckBox _addToLoggingChkBox         = createOptionCheckBox(ADD_TO_LOGGING);
+  private final JCheckBox _replaceContentType         = createOptionCheckBox(REPLACE_CONTENT_TYPE);
+  private final JCheckBox _replaceFileName            = createOptionCheckBox(REPLACE_FILE_NAME);
+  private final JCheckBox _replaceFileSize            = createOptionCheckBox(REPLACE_FILE_SIZE);
+  private final JCheckBox _wgetCurlPayloads           = createOptionCheckBox(WGET_CURL_LABEL);
   private JTextField _throttleValue;
   private JTextField _sleepTime;
   
@@ -240,32 +232,6 @@ public class BaseConfigTemplate extends JPanel {
   ////////////////////////////////////////
   // Adding UI Components to main JPanel
   private void addScanCheckOptions() {
-    showScanChecks              = createOptionCheckBox(SHOW_SCAN_CHECKS);
-    activescanScanCheck         = createOptionCheckBox(ACTIVE_SCAN);
-    imagetragickScanCheck       = createOptionCheckBox(IMAGETRAGICK);
-    magickScanCheck             = createOptionCheckBox(magick);
-    gsScanCheck                 = createOptionCheckBox(GS);
-    libavformatScanCheck        = createOptionCheckBox(LIBAVFORMAT);
-    phpScanCheck                = createOptionCheckBox(PHP);
-    jspScanCheck                = createOptionCheckBox(JSP);
-    aspScanCheck                = createOptionCheckBox(ASP);
-    htaccessScanCheck           = createOptionCheckBox(HTACCESS);
-    cgiScanCheck                = createOptionCheckBox(CGI);
-    ssiScanCheck                = createOptionCheckBox(SSI);
-    xxeScanCheck                = createOptionCheckBox(XXE);
-    xssScanCheck                = createOptionCheckBox(XSS);
-    eicarScanCheck              = createOptionCheckBox(EICAR);
-    pdfScanCheck                = createOptionCheckBox(PDF_INJECTION);
-    ssrfScanCheck               = createOptionCheckBox(SSRF);
-    csv_spreadsheetScanCheck    = createOptionCheckBox(CSV_INJECTION);
-    path_traversalScanCheck     = createOptionCheckBox(PATH_TRAVERSAL);
-    polyglotScanCheck           = createOptionCheckBox(POLYGLOT);
-    fingerpingScanCheck         = createOptionCheckBox(FINGERPING);
-    quirksScanCheck             = createOptionCheckBox(QUIRKS);
-    url_replacerScanCheck       = createOptionCheckBox(URL_REPLACER);
-    recursive_uploaderScanCheck = createOptionCheckBox(RECURSIVE_UPLOADER);
-    fuzzerScanCheck             = createOptionCheckBox(FUZZER);
-    dosScanCheck                = createOptionCheckBox(DOS);
     setScanChecksVisibility(false);
     
     JPanel scanCheckSection = getSectionPanel();
@@ -300,28 +266,9 @@ public class BaseConfigTemplate extends JPanel {
   }
   
   private void addFileTypeOptions() {
-    showFileType = createOptionCheckBox(SHOW_FILES);
-    gifFileType  = createOptionCheckBox(GIF);
-    pngFileType  = createOptionCheckBox(PNG);
-    jpegFileType = createOptionCheckBox(JPEG);
-    tiffFileType = createOptionCheckBox(TIFF);
-    icoFileType  = createOptionCheckBox(ICO);
-    svgFileType  = createOptionCheckBox(SVG);
-    mvgFileType  = createOptionCheckBox(MVG);
-    pdfFileType  = createOptionCheckBox(PDF);
-    mp4FileType  = createOptionCheckBox(MP4);
-    docxFileType = createOptionCheckBox(DOCX);
-    xlsxFileType = createOptionCheckBox(EXCEL);
-    swfFileType  = createOptionCheckBox(FLASH);
-    csvFileType  = createOptionCheckBox(CSV);
-    zipFileType  = createOptionCheckBox(ZIP);
-    gzipFileType = createOptionCheckBox(GZIP);
-    htmlFileType = createOptionCheckBox(HTML);
-    xmlFileType  = createOptionCheckBox(XML);
     setFileTypesVisibility(false);
     
     JPanel fileTypeSection = getSectionPanel();
-    
     fileTypeSection.add(showFileType);
     fileTypeSection.add(gifFileType);
     fileTypeSection.add(pngFileType);
@@ -345,90 +292,26 @@ public class BaseConfigTemplate extends JPanel {
   }
   
   private void addPayloadOptions() {
-    _payloadOptions.setLayout(new BoxLayout(_payloadOptions, BoxLayout.Y_AXIS));
-    _payloadOptions.setBorder(STD_BORDER);
-    _payloadOptions.setAlignmentX(CENTER_ALIGNMENT);
-    _payloadOptions.add(getWgetCurlOpt());
+    _payloadOptions.add(_wgetCurlPayloads);
+    _payloadOptions.add(getSleepOptions());
     add(_payloadOptions);
   }
   
   private void addFileOptions() {
-    _fileOptions.setLayout(new BoxLayout(_fileOptions, BoxLayout.Y_AXIS));
-    _fileOptions.setBorder(STD_BORDER);
-    _fileOptions.add(getReplaceFileSizeOpt());
-    _fileOptions.add(getReplaceFileNameOpt());
-    _fileOptions.add(getReplaceFileContentOpt());
+    _fileOptions.add(_replaceFileSize);
+    _fileOptions.add(_replaceFileName);
+    _fileOptions.add(_replaceContentType);
     add(_fileOptions);
   }
   
   private void addGeneralOptions() {
-    _generalOptions.setLayout(new BoxLayout(_generalOptions, BoxLayout.Y_AXIS));
-    _generalOptions.setBorder(STD_BORDER);
-    _generalOptions.add(getAddToLoggingOpt());
+    _generalOptions.add(_addToLoggingChkBox);
     _generalOptions.add(getThrottleTimeGroup());
     add(_generalOptions);
   }
   
-  private void addSleepOptions() {
-    final JPanel sleepOptions = getTextFileGroupPanel();
-    
-    _sleepTimeLabel = new JLabel();
-    _sleepTimeLabel.setText(_properties.getProperty(SLEEP_TIME_LABEL));
-    sleepOptions.add(_sleepTimeLabel);
-    
-    _sleepTime = new JTextField(STD_JTEXT_COLS);
-    sleepOptions.add(_sleepTime);
-    
-    _payloadOptions.add(sleepOptions);
-  }
-  
   // Initializers for groups of components
   //////////////////////////////////////////////
-  private JPanel getWgetCurlOpt() {
-    _wgetCurlPayloads = createOptionCheckBox(WGET_CURL_LABEL);
-    JPanel opts = getCheckBoxBorderJPanel();
-    opts.add(_wgetCurlPayloads, BorderLayout.EAST);
-    return opts;
-  }
-  
-  private JPanel getReplaceFileSizeOpt() {
-    _replaceFileSize = createOptionCheckBox(REPLACE_FILE_SIZE);
-    JPanel fileSizeOpt = getCheckBoxBorderJPanel();
-    fileSizeOpt.add(_replaceFileSize, BorderLayout.EAST);
-    return fileSizeOpt;
-  }
-  
-  private JPanel getReplaceFileNameOpt() {
-    _replaceFileName = createOptionCheckBox(REPLACE_FILE_NAME);
-    JPanel replaceFileNameOpt = getCheckBoxBorderJPanel();
-    replaceFileNameOpt.add(_replaceFileName, BorderLayout.EAST);
-    
-    return replaceFileNameOpt;
-  }
-  
-  private JPanel getReplaceFileContentOpt() {
-    _replaceContentType = createOptionCheckBox(REPLACE_CONTENT_TYPE);
-    JPanel replaceFileContOpt = getCheckBoxBorderJPanel();
-    replaceFileContOpt.add(_replaceContentType, BorderLayout.EAST);
-    
-    return replaceFileContOpt;
-  }
-  
-  private JPanel getCheckBoxBorderJPanel() {
-    JPanel tempPanel = new JPanel();
-    tempPanel.setLayout(new BorderLayout());
-    tempPanel.setAlignmentX(CENTER_ALIGNMENT);
-    tempPanel.setMaximumSize(STD_INPUT_SIZE);
-    return tempPanel;
-  }
-  
-  private JPanel getAddToLoggingOpt() {
-    _addToLoggingChkBox = createOptionCheckBox(ADD_TO_LOGGING);
-    JPanel opt = getCheckBoxBorderJPanel();
-    opt.add(_addToLoggingChkBox);
-    return opt;
-  }
-  
   private JPanel getThrottleTimeGroup() {
     final JPanel throttleTimeGroup = getTextFileGroupPanel();
     
@@ -440,6 +323,18 @@ public class BaseConfigTemplate extends JPanel {
     throttleTimeGroup.add(_throttleValue);
     
     return throttleTimeGroup;
+  }
+  
+  private JPanel getSleepOptions() {
+    final JPanel sleepOptions = getTextFileGroupPanel();
+    
+    _sleepTimeLabel = new JLabel();
+    _sleepTimeLabel.setText(_properties.getProperty(SLEEP_TIME_LABEL));
+    sleepOptions.add(_sleepTimeLabel);
+    
+    _sleepTime = new JTextField(STD_JTEXT_COLS);
+    sleepOptions.add(_sleepTime);
+    return sleepOptions;
   }
   
   // Utilities
@@ -455,7 +350,7 @@ public class BaseConfigTemplate extends JPanel {
   
   private JCheckBox createOptionCheckBox(String propertyKey) {
     JCheckBox checkBox = new JCheckBox();
-    checkBox.setHorizontalTextPosition(10);
+    checkBox.setHorizontalTextPosition(SwingConstants.LEFT);
     checkBox.setPreferredSize(STD_INPUT_SIZE);
     checkBox.setText(_properties.getProperty(propertyKey));
     checkBox.setAlignmentX(RIGHT_ALIGNMENT);
@@ -465,8 +360,8 @@ public class BaseConfigTemplate extends JPanel {
   private JPanel getTextFileGroupPanel() {
     JPanel tempPanel = new JPanel();
     tempPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
-    tempPanel.setMaximumSize(STD_INPUT_SIZE);
-    tempPanel.setAlignmentX(CENTER_ALIGNMENT);
+    tempPanel.setAlignmentX(RIGHT_ALIGNMENT);
+    tempPanel.setPreferredSize(STD_INPUT_SIZE);
     return tempPanel;
   }
 }
