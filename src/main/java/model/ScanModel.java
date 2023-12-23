@@ -8,7 +8,7 @@ public class ScanModel {
         _requestResponse = requestResponse;
     }
     
-    public BaseConfigModel scanConfigModel(){
+    public BaseConfigModel baseConfigModel(){
         return _baseConfigModel;
     }
     
