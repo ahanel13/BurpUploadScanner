@@ -37,6 +37,7 @@ public class BaseConfigController{
         view.setWgetCurlPayloads(model.wgetCurlPayloads());
         view.setSleepTime(model.sleepTime());
         view.setThrottleValue(model.throttleTime());
+        
         view.setGifFileType(model.gifFileType());
         view.setPngFileType(model.pngFileType());
         view.setJpegFileType(model.jpegFileType());
@@ -54,6 +55,7 @@ public class BaseConfigController{
         view.setGzipFileType(model.gzipFileType());
         view.setHtmlFileType(model.htmlFileType());
         view.setXmlFileType(model.xmlFileType());
+        
         view.setActivescanScanCheck(model.activescanScanCheck());
         view.setImagetragickScanCheck(model.imagetragickScanCheck());
         view.setMagickScanCheck(model.magickScanCheck());
@@ -87,15 +89,59 @@ public class BaseConfigController{
             @Override
             public void actionPerformed(ActionEvent e) {
                 // File Settings
-                model.setReplaceContentType             (view.getReplaceContentType().isSelected());
-                model.setReplaceFileName                (view.getReplaceFileName().isSelected());
-                model.setReplaceFileSize                (view.getReplaceFileSize().isSelected());
+                model.setReplaceContentType(view.getReplaceContentType().isSelected());
+                model.setReplaceFileName(view.getReplaceFileName().isSelected());
+                model.setReplaceFileSize(view.getReplaceFileSize().isSelected());
+                model.setAddToLoggingTab(view.getAddToLoggingChkBox().isSelected());
+                model.setWgetCurlPayloads(view.getWgetCurlPayloads().isSelected());
+                model.setSleepTime(Short.parseShort(view.getSleepTime()));
+                model.setThrottleTime(Short.parseShort(view.getThrottleValue()));
                 
-                model.setWgetCurlPayloads               (view.getWgetCurlPayloads().isSelected());
-                model.setSleepTime(Short.parseShort     (view.getSleepTime()));
+                // File Types
+                model.setGifFileType(view.getGifFileType().isSelected());
+                model.setPngFileType(view.getPngFileType().isSelected());
+                model.setJpegFileType(view.getJpegFileType().isSelected());
+                model.setTiffFileType(view.getTiffFileType().isSelected());
+                model.setIcoFileType(view.getIcoFileType().isSelected());
+                model.setSvgFileType(view.getSvgFileType().isSelected());
+                model.setMvgFileType(view.getMvgFileType().isSelected());
+                model.setPdfFileType(view.getPdfFileType().isSelected());
+                model.setMp4FileType(view.getMp4FileType().isSelected());
+                model.setDocxFileType(view.getDocxFileType().isSelected());
+                model.setXlsxFileType(view.getXlsxFileType().isSelected());
+                model.setSwfFileType(view.getSwfFileType().isSelected());
+                model.setCsvFileType(view.getCsvFileType().isSelected());
+                model.setZipFileType(view.getZipFileType().isSelected());
+                model.setGzipFileType(view.getGzipFileType().isSelected());
+                model.setHtmlFileType(view.getHtmlFileType().isSelected());
+                model.setXmlFileType(view.getXmlFileType().isSelected());
                 
-                model.setThrottleTime(Short.parseShort  (view.getThrottleValue()));
-                model.setAddToLoggingTab                (view.getAddToLoggingChkBox().isSelected());
+                // Scan Checks
+                model.setActivescanScanCheck(view.getActivescanScanCheck().isSelected());
+                model.setImagetragickScanCheck(view.getImagetragickScanCheck().isSelected());
+                model.setMagickScanCheck(view.getMagickScanCheck().isSelected());
+                model.setGsScanCheck(view.getGsScanCheck().isSelected());
+                model.setLibavformatScanCheck(view.getLibavformatScanCheck().isSelected());
+                model.setPhpScanCheck(view.getPhpScanCheck().isSelected());
+                model.setJspScanCheck(view.getJspScanCheck().isSelected());
+                model.setAspScanCheck(view.getAspScanCheck().isSelected());
+                model.setHtaccessScanCheck(view.getHtaccessScanCheck().isSelected());
+                model.setCgiScanCheck(view.getCgiScanCheck().isSelected());
+                model.setSsiScanCheck(view.getSsiScanCheck().isSelected());
+                model.setXxeScanCheck(view.getXxeScanCheck().isSelected());
+                model.setXssScanCheck(view.getXssScanCheck().isSelected());
+                model.setEicarScanCheck(view.getEicarScanCheck().isSelected());
+                model.setPdfInjectionScanCheck(view.getPdfInjectionScanCheck().isSelected());
+                model.setSsrfScanCheck(view.getSsrfScanCheck().isSelected());
+                model.setCsvInjectionScanCheck(view.getCsvInjectionScanCheck().isSelected());
+                model.setPathTraversalScanCheck(view.getPathTraversalScanCheck().isSelected());
+                model.setPolyglotScanCheck(view.getPolyglotScanCheck().isSelected());
+                model.setFingerpingScanCheck(view.getFingerpingScanCheck().isSelected());
+                model.setQuirksScanCheck(view.getQuirksScanCheck().isSelected());
+                model.setUrlReplacerScanCheck(view.getUrlReplacerScanCheck().isSelected());
+                model.setRecursiveUploader(view.getRecursiveUploaderScanCheck().isSelected());
+                model.setFuzzerScanCheck(view.getFuzzerScanCheck().isSelected());
+                model.setDosScanCheck(view.getDosScanCheck().isSelected());
                 
                 model.persist();
                 

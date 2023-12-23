@@ -20,15 +20,57 @@ public class BaseConfigTab extends JPanel {
     addFooterUi();
   }
 
-// PUBLIC METHODS //
+  // PUBLIC METHODS //
   //GETTERS
-  public AbstractButton getReplaceContentType() { return _baseConfigTemplate.getReplaceContentType(); }
-  public AbstractButton getReplaceFileName()    { return _baseConfigTemplate.getReplaceFileName(); }
-  public AbstractButton getReplaceFileSize()    { return _baseConfigTemplate.getReplaceFileSize(); }
-  public String         getSleepTime()          { return _baseConfigTemplate.getSleepTime(); }
-  public AbstractButton getWgetCurlPayloads()   { return _baseConfigTemplate.getWgetCurlPayloads(); }
-  public String         getThrottleValue()      { return _baseConfigTemplate.getThrottleValue(); }
-  public AbstractButton getAddToLoggingChkBox() { return _baseConfigTemplate.getAddToLoggingChkBox(); }
+  public JCheckBox getReplaceContentType() {return _baseConfigTemplate.getReplaceContentType();}
+  public JCheckBox getReplaceFileName()    {return _baseConfigTemplate.getReplaceFileName();}
+  public JCheckBox getReplaceFileSize()    {return _baseConfigTemplate.getReplaceFileSize();}
+  public String getSleepTime()             {return _baseConfigTemplate.getSleepTime();}
+  public JCheckBox getWgetCurlPayloads()   {return _baseConfigTemplate.getWgetCurlPayloads();}
+  public String getThrottleValue()         {return _baseConfigTemplate.getThrottleValue();}
+  public JCheckBox getAddToLoggingChkBox() {return _baseConfigTemplate.getAddToLoggingChkBox();}
+  public JCheckBox getGifFileType()               { return _baseConfigTemplate.getGifFileType(); }
+  public JCheckBox getPngFileType()               { return _baseConfigTemplate.getPngFileType(); }
+  public JCheckBox getJpegFileType()              { return _baseConfigTemplate.getJpegFileType(); }
+  public JCheckBox getTiffFileType()              { return _baseConfigTemplate.getTiffFileType(); }
+  public JCheckBox getIcoFileType()               { return _baseConfigTemplate.getIcoFileType(); }
+  public JCheckBox getSvgFileType()               { return _baseConfigTemplate.getSvgFileType(); }
+  public JCheckBox getMvgFileType()               { return _baseConfigTemplate.getMvgFileType(); }
+  public JCheckBox getPdfFileType()               { return _baseConfigTemplate.getPdfFileType(); }
+  public JCheckBox getMp4FileType()               { return _baseConfigTemplate.getMp4FileType(); }
+  public JCheckBox getDocxFileType()              { return _baseConfigTemplate.getDocxFileType(); }
+  public JCheckBox getXlsxFileType()              { return _baseConfigTemplate.getXlsxFileType(); }
+  public JCheckBox getSwfFileType()               { return _baseConfigTemplate.getSwfFileType(); }
+  public JCheckBox getCsvFileType()               { return _baseConfigTemplate.getCsvFileType(); }
+  public JCheckBox getZipFileType()               { return _baseConfigTemplate.getZipFileType(); }
+  public JCheckBox getGzipFileType()              { return _baseConfigTemplate.getGzipFileType(); }
+  public JCheckBox getHtmlFileType()              { return _baseConfigTemplate.getHtmlFileType(); }
+  public JCheckBox getXmlFileType()               { return _baseConfigTemplate.getXmlFileType(); }
+  public JCheckBox getActivescanScanCheck()       { return _baseConfigTemplate.getActivescanScanCheck(); }
+  public JCheckBox getImagetragickScanCheck()     { return _baseConfigTemplate.getImagetragickScanCheck(); }
+  public JCheckBox getMagickScanCheck()           { return _baseConfigTemplate.getMagickScanCheck(); }
+  public JCheckBox getGsScanCheck()               { return _baseConfigTemplate.getGsScanCheck(); }
+  public JCheckBox getLibavformatScanCheck()      { return _baseConfigTemplate.getLibavformatScanCheck(); }
+  public JCheckBox getPhpScanCheck()              { return _baseConfigTemplate.getPhpScanCheck(); }
+  public JCheckBox getJspScanCheck()              { return _baseConfigTemplate.getJspScanCheck(); }
+  public JCheckBox getAspScanCheck()              { return _baseConfigTemplate.getAspScanCheck(); }
+  public JCheckBox getHtaccessScanCheck()         { return _baseConfigTemplate.getHtaccessScanCheck(); }
+  public JCheckBox getCgiScanCheck()              { return _baseConfigTemplate.getCgiScanCheck(); }
+  public JCheckBox getSsiScanCheck()              { return _baseConfigTemplate.getSsiScanCheck(); }
+  public JCheckBox getXxeScanCheck()              { return _baseConfigTemplate.getXxeScanCheck(); }
+  public JCheckBox getXssScanCheck()              { return _baseConfigTemplate.getXssScanCheck(); }
+  public JCheckBox getEicarScanCheck()            { return _baseConfigTemplate.getEicarScanCheck(); }
+  public JCheckBox getPdfInjectionScanCheck()     { return _baseConfigTemplate.getPdfInjectionScanCheck(); }
+  public JCheckBox getSsrfScanCheck()             { return _baseConfigTemplate.getSsrfScanCheck(); }
+  public JCheckBox getCsvInjectionScanCheck()     { return _baseConfigTemplate.getCsvInjectionScanCheck(); }
+  public JCheckBox getPathTraversalScanCheck()    { return _baseConfigTemplate.getPathTraversalScanCheck(); }
+  public JCheckBox getPolyglotScanCheck()         { return _baseConfigTemplate.getPolyglotScanCheck(); }
+  public JCheckBox getFingerpingScanCheck()       { return _baseConfigTemplate.getFingerpingScanCheck(); }
+  public JCheckBox getQuirksScanCheck()           { return _baseConfigTemplate.getQuirksScanCheck(); }
+  public JCheckBox getUrlReplacerScanCheck()      { return _baseConfigTemplate.getUrlReplacerScanCheck(); }
+  public JCheckBox getRecursiveUploaderScanCheck(){ return _baseConfigTemplate.getRecursiveUploaderScanCheck(); }
+  public JCheckBox getFuzzerScanCheck()           { return _baseConfigTemplate.getFuzzerScanCheck(); }
+  public JCheckBox getDosScanCheck()              { return _baseConfigTemplate.getDosScanCheck(); }
   
   // SETTERS
   public void setReplaceFileName(boolean b)            { _baseConfigTemplate.setReplaceFileName(b);}

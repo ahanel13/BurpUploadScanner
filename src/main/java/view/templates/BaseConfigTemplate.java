@@ -29,14 +29,57 @@ public class BaseConfigTemplate extends JPanel {
   
   
   // PUBLIC METHODS //
-  //GETTERS
-  public JCheckBox getReplaceContentType() {return _replaceContentType;}
-  public JCheckBox getAddToLoggingChkBox() {return _addToLoggingChkBox;}
-  public JCheckBox getWgetCurlPayloads()   {return _wgetCurlPayloads;}
-  public JCheckBox getReplaceFileName()    {return _replaceFileName;}
-  public JCheckBox getReplaceFileSize()    {return _replaceFileSize;}
-  public String getThrottleValue()         {return _throttleValue.getText();}
-  public String getSleepTime()             {return _sleepTime.getText();}
+  // GETTERS
+  public JCheckBox getReplaceContentType() { return _replaceContentType; }
+  public JCheckBox getAddToLoggingChkBox() { return _addToLoggingChkBox; }
+  public JCheckBox getWgetCurlPayloads()   { return _wgetCurlPayloads; }
+  public JCheckBox getReplaceFileName()    { return _replaceFileName; }
+  public JCheckBox getReplaceFileSize()    { return _replaceFileSize; }
+  public String getThrottleValue()         { return _throttleValue.getText(); }
+  public String getSleepTime()             { return _sleepTime.getText(); }
+  public JCheckBox getGifFileType()                { return _gifFileType; }
+  public JCheckBox getPngFileType()                { return _pngFileType; }
+  public JCheckBox getJpegFileType()               { return _jpegFileType; }
+  public JCheckBox getTiffFileType()               { return _tiffFileType; }
+  public JCheckBox getIcoFileType()                { return _icoFileType; }
+  public JCheckBox getSvgFileType()                { return _svgFileType; }
+  public JCheckBox getMvgFileType()                { return _mvgFileType; }
+  public JCheckBox getPdfFileType()                { return _pdfFileType; }
+  public JCheckBox getMp4FileType()                { return _mp4FileType; }
+  public JCheckBox getDocxFileType()               { return _docxFileType; }
+  public JCheckBox getXlsxFileType()               { return _xlsxFileType; }
+  public JCheckBox getSwfFileType()                { return _swfFileType; }
+  public JCheckBox getCsvFileType()                { return _csvFileType; }
+  public JCheckBox getZipFileType()                { return _zipFileType; }
+  public JCheckBox getGzipFileType()               { return _gzipFileType; }
+  public JCheckBox getHtmlFileType()               { return _htmlFileType; }
+  public JCheckBox getXmlFileType()                { return _xmlFileType; }
+  public JCheckBox getActivescanScanCheck()        { return _activescanScanCheck; }
+  public JCheckBox getImagetragickScanCheck()      { return _imagetragickScanCheck; }
+  public JCheckBox getMagickScanCheck()            { return _magickScanCheck; }
+  public JCheckBox getGsScanCheck()                { return _gsScanCheck; }
+  public JCheckBox getLibavformatScanCheck()       { return _libavformatScanCheck; }
+  public JCheckBox getPhpScanCheck()               { return _phpScanCheck; }
+  public JCheckBox getJspScanCheck()               { return _jspScanCheck; }
+  public JCheckBox getAspScanCheck()               { return _aspScanCheck; }
+  public JCheckBox getHtaccessScanCheck()          { return _htaccessScanCheck; }
+  public JCheckBox getCgiScanCheck()               { return _cgiScanCheck; }
+  public JCheckBox getSsiScanCheck()               { return _ssiScanCheck; }
+  public JCheckBox getXxeScanCheck()               { return _xxeScanCheck; }
+  public JCheckBox getXssScanCheck()               { return _xssScanCheck; }
+  public JCheckBox getEicarScanCheck()             { return _eicarScanCheck; }
+  public JCheckBox getPdfInjectionScanCheck()      { return _pdfScanCheck; }
+  public JCheckBox getSsrfScanCheck()              { return _ssrfScanCheck; }
+  public JCheckBox getCsvInjectionScanCheck()      { return _csvScanCheck; }
+  public JCheckBox getPathTraversalScanCheck()     { return _pathTraversalScanCheck; }
+  public JCheckBox getPolyglotScanCheck()          { return _polyglotScanCheck; }
+  public JCheckBox getFingerpingScanCheck()        { return _fingerpingScanCheck; }
+  public JCheckBox getQuirksScanCheck()            { return _quirksScanCheck; }
+  public JCheckBox getUrlReplacerScanCheck()       { return _urlReplacerScanCheck; }
+  public JCheckBox getRecursiveUploaderScanCheck() { return _recursiveUploaderScanCheck; }
+  public JCheckBox getFuzzerScanCheck()            { return _fuzzerScanCheck; }
+  public JCheckBox getDosScanCheck()               { return _dosScanCheck; }
+  
   
   // SETTERS
   public void setReplaceContentType(boolean b)         {_replaceContentType.setSelected(b);}

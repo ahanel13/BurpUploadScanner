@@ -28,6 +28,7 @@ public class BaseConfigModel implements Cloneable{
       _persistedScanConfigModel = PersistedObject.persistedObject();
       setDefaultValues();
     }
+    setDefaultValues(); //todo: update persistence for the entire class
   }
   
 // PUBLIC METHODS //
@@ -159,17 +160,64 @@ public class BaseConfigModel implements Cloneable{
     setDefaultValues();
   }
   
-// PRIVATE DATA //
+  // PRIVATE DATA //
   // Constants for magic strings
-  private static final String          _ADD_TO_LOGGING_TAB_KEY       = "add.to.logging.tab";
-  private static final String          _THROTTLE_TIME_KEY            = "throttle.time";
-  private static final String          _REPLACE_FILE_NAME_KEY        = "replace.file.name";
-  private static final String          _REPLACE_CONTENT_TYPE_KEY     = "replace.content.type";
-  private static final String          _REPLACE_FILE_SIZE_KEY        = "replace.file.size";
-  private static final String          _SLEEP_TIME_KEY               = "sleep.time";
-  private static final String          _WGET_CURL_PAYLOADS_KEY       = "wget.curl.payloads";
-  private static final String          _SCAN_CONFIG_MODEL_KEY        = "scan.config.model";
-  private static final String          _SCAN_CONFIG_MODEL_PROPERTIES = "ScanConfigModel.properties";
+  private static final String _ADD_TO_LOGGING_TAB_KEY       = "add.to.logging.tab";
+  private static final String _THROTTLE_TIME_KEY            = "throttle.time";
+  private static final String _REPLACE_FILE_NAME_KEY        = "replace.file.name";
+  private static final String _REPLACE_CONTENT_TYPE_KEY     = "replace.content.type";
+  private static final String _REPLACE_FILE_SIZE_KEY        = "replace.file.size";
+  private static final String _SLEEP_TIME_KEY               = "sleep.time";
+  private static final String _WGET_CURL_PAYLOADS_KEY       = "wget.curl.payloads";
+  private static final String _SCAN_CONFIG_MODEL_KEY        = "scan.config.model";
+  private static final String _SCAN_CONFIG_MODEL_PROPERTIES = "BaseConfigModel.properties";
+  
+  // Constants for file type keys
+  private static final String GIF_FILE_TYPE_KEY  = "gif.file.type";
+  private static final String PNG_FILE_TYPE_KEY  = "png.file.type";
+  private static final String JPEG_FILE_TYPE_KEY = "jpeg.file.type";
+  private static final String TIFF_FILE_TYPE_KEY = "tiff.file.type";
+  private static final String ICO_FILE_TYPE_KEY  = "ico.file.type";
+  private static final String SVG_FILE_TYPE_KEY  = "svg.file.type";
+  private static final String MVG_FILE_TYPE_KEY  = "mvg.file.type";
+  private static final String PDF_FILE_TYPE_KEY  = "pdf.file.type";
+  private static final String MP4_FILE_TYPE_KEY  = "mp4.file.type";
+  private static final String DOCX_FILE_TYPE_KEY = "docx.file.type";
+  private static final String XLSX_FILE_TYPE_KEY = "xlsx.file.type";
+  private static final String SWF_FILE_TYPE_KEY  = "swf.file.type";
+  private static final String CSV_FILE_TYPE_KEY  = "csv.file.type";
+  private static final String ZIP_FILE_TYPE_KEY  = "zip.file.type";
+  private static final String GZIP_FILE_TYPE_KEY = "gzip.file.type";
+  private static final String HTML_FILE_TYPE_KEY = "html.file.type";
+  private static final String XML_FILE_TYPE_KEY  = "xml.file.type";
+  
+  // Constants for scan check keys
+  private static final String ACTIVESCAN_SCAN_CHECK_KEY         = "activescan.scan.check";
+  private static final String IMAGETRAGICK_SCAN_CHECK_KEY       = "imagetragick.scan.check";
+  private static final String MAGICK_SCAN_CHECK_KEY             = "magick.scan.check";
+  private static final String GS_SCAN_CHECK_KEY                 = "gs.scan.check";
+  private static final String LIBAVFORMAT_SCAN_CHECK_KEY        = "libavformat.scan.check";
+  private static final String PHP_SCAN_CHECK_KEY                = "php.scan.check";
+  private static final String JSP_SCAN_CHECK_KEY                = "jsp.scan.check";
+  private static final String ASP_SCAN_CHECK_KEY                = "asp.scan.check";
+  private static final String HTACCESS_SCAN_CHECK_KEY           = "htaccess.scan.check";
+  private static final String CGI_SCAN_CHECK_KEY                = "cgi.scan.check";
+  private static final String SSI_SCAN_CHECK_KEY                = "ssi.scan.check";
+  private static final String XXE_SCAN_CHECK_KEY                = "xxe.scan.check";
+  private static final String XSS_SCAN_CHECK_KEY                = "xss.scan.check";
+  private static final String EICAR_SCAN_CHECK_KEY              = "eicar.scan.check";
+  private static final String PDF_INJECTION_SCAN_CHECK_KEY      = "pdf.injection.scan.check";
+  private static final String SSRF_SCAN_CHECK_KEY               = "ssrf.scan.check";
+  private static final String CSV_INJECTION_SCAN_CHECK_KEY      = "csv.injection.scan.check";
+  private static final String PATH_TRAVERSAL_SCAN_CHECK_KEY     = "path.traversal.scan.check";
+  private static final String POLYGLOT_SCAN_CHECK_KEY           = "polyglot.scan.check";
+  private static final String FINGERPING_SCAN_CHECK_KEY         = "fingerping.scan.check";
+  private static final String QUIRKS_SCAN_CHECK_KEY             = "quirks.scan.check";
+  private static final String URL_REPLACER_SCAN_CHECK_KEY       = "url.replacer.scan.check";
+  private static final String RECURSIVE_UPLOADER_SCAN_CHECK_KEY = "recursive.uploader.scan.check";
+  private static final String FUZZER_SCAN_CHECK_KEY             = "fuzzer.scan.check";
+  private static final String DOS_SCAN_CHECK_KEY                = "dos.scan.check";
+  
   private final        PersistedObject _extensionData;
   private final        Properties      _defaultProps;
   private              PersistedObject _persistedScanConfigModel;
@@ -233,7 +281,7 @@ public class BaseConfigModel implements Cloneable{
   private boolean _fuzzerScanCheck;
   private boolean _dosScanCheck;
   
-// PRIVATE METHODS //
+  // PRIVATE METHODS //
   private void setDefaultValues(){
     _addToLoggingTab    = Boolean.parseBoolean(_defaultProps.getProperty(_ADD_TO_LOGGING_TAB_KEY));
     _throttleTime       = Short.parseShort(_defaultProps.getProperty(_THROTTLE_TIME_KEY));
@@ -242,5 +290,51 @@ public class BaseConfigModel implements Cloneable{
     _replaceFileSize    = Boolean.parseBoolean(_defaultProps.getProperty(_REPLACE_FILE_SIZE_KEY));
     _sleepTime          = Short.parseShort(_defaultProps.getProperty(_SLEEP_TIME_KEY));
     _wgetCurlPayloads   = Boolean.parseBoolean(_defaultProps.getProperty(_WGET_CURL_PAYLOADS_KEY));
+    
+    // Initialize file type booleans
+    _gifFileType    = Boolean.parseBoolean(_defaultProps.getProperty(GIF_FILE_TYPE_KEY));
+    _pngFileType    = Boolean.parseBoolean(_defaultProps.getProperty(PNG_FILE_TYPE_KEY));
+    _jpegFileType   = Boolean.parseBoolean(_defaultProps.getProperty(JPEG_FILE_TYPE_KEY));
+    _tiffFileType   = Boolean.parseBoolean(_defaultProps.getProperty(TIFF_FILE_TYPE_KEY));
+    _icoFileType    = Boolean.parseBoolean(_defaultProps.getProperty(ICO_FILE_TYPE_KEY));
+    _svgFileType    = Boolean.parseBoolean(_defaultProps.getProperty(SVG_FILE_TYPE_KEY));
+    _mvgFileType    = Boolean.parseBoolean(_defaultProps.getProperty(MVG_FILE_TYPE_KEY));
+    _pdfFileType    = Boolean.parseBoolean(_defaultProps.getProperty(PDF_FILE_TYPE_KEY));
+    _mp4FileType    = Boolean.parseBoolean(_defaultProps.getProperty(MP4_FILE_TYPE_KEY));
+    _docxFileType   = Boolean.parseBoolean(_defaultProps.getProperty(DOCX_FILE_TYPE_KEY));
+    _xlsxFileType   = Boolean.parseBoolean(_defaultProps.getProperty(XLSX_FILE_TYPE_KEY));
+    _swfFileType    = Boolean.parseBoolean(_defaultProps.getProperty(SWF_FILE_TYPE_KEY));
+    _csvFileType    = Boolean.parseBoolean(_defaultProps.getProperty(CSV_FILE_TYPE_KEY));
+    _zipFileType    = Boolean.parseBoolean(_defaultProps.getProperty(ZIP_FILE_TYPE_KEY));
+    _gzipFileType   = Boolean.parseBoolean(_defaultProps.getProperty(GZIP_FILE_TYPE_KEY));
+    _htmlFileType   = Boolean.parseBoolean(_defaultProps.getProperty(HTML_FILE_TYPE_KEY));
+    _xmlFileType    = Boolean.parseBoolean(_defaultProps.getProperty(XML_FILE_TYPE_KEY));
+    
+    // Initialize scan check booleans
+    _activescanScanCheck          = Boolean.parseBoolean(_defaultProps.getProperty(ACTIVESCAN_SCAN_CHECK_KEY));
+    _imagetragickScanCheck        = Boolean.parseBoolean(_defaultProps.getProperty(IMAGETRAGICK_SCAN_CHECK_KEY));
+    _magickScanCheck              = Boolean.parseBoolean(_defaultProps.getProperty(MAGICK_SCAN_CHECK_KEY));
+    _gsScanCheck                  = Boolean.parseBoolean(_defaultProps.getProperty(GS_SCAN_CHECK_KEY));
+    _libavformatScanCheck         = Boolean.parseBoolean(_defaultProps.getProperty(LIBAVFORMAT_SCAN_CHECK_KEY));
+    _phpScanCheck                 = Boolean.parseBoolean(_defaultProps.getProperty(PHP_SCAN_CHECK_KEY));
+    _jspScanCheck                 = Boolean.parseBoolean(_defaultProps.getProperty(JSP_SCAN_CHECK_KEY));
+    _aspScanCheck                 = Boolean.parseBoolean(_defaultProps.getProperty(ASP_SCAN_CHECK_KEY));
+    _htaccessScanCheck            = Boolean.parseBoolean(_defaultProps.getProperty(HTACCESS_SCAN_CHECK_KEY));
+    _cgiScanCheck                 = Boolean.parseBoolean(_defaultProps.getProperty(CGI_SCAN_CHECK_KEY));
+    _ssiScanCheck                 = Boolean.parseBoolean(_defaultProps.getProperty(SSI_SCAN_CHECK_KEY));
+    _xxeScanCheck                 = Boolean.parseBoolean(_defaultProps.getProperty(XXE_SCAN_CHECK_KEY));
+    _xssScanCheck                 = Boolean.parseBoolean(_defaultProps.getProperty(XSS_SCAN_CHECK_KEY));
+    _eicarScanCheck               = Boolean.parseBoolean(_defaultProps.getProperty(EICAR_SCAN_CHECK_KEY));
+    _pdfInjectionScanCheck        = Boolean.parseBoolean(_defaultProps.getProperty(PDF_INJECTION_SCAN_CHECK_KEY));
+    _ssrfScanCheck                = Boolean.parseBoolean(_defaultProps.getProperty(SSRF_SCAN_CHECK_KEY));
+    _csvInjectionScanCheck        = Boolean.parseBoolean(_defaultProps.getProperty(CSV_INJECTION_SCAN_CHECK_KEY));
+    _pathTraversalScanCheck       = Boolean.parseBoolean(_defaultProps.getProperty(PATH_TRAVERSAL_SCAN_CHECK_KEY));
+    _polyglotScanCheck            = Boolean.parseBoolean(_defaultProps.getProperty(POLYGLOT_SCAN_CHECK_KEY));
+    _fingerpingScanCheck          = Boolean.parseBoolean(_defaultProps.getProperty(FINGERPING_SCAN_CHECK_KEY));
+    _quirksScanCheck              = Boolean.parseBoolean(_defaultProps.getProperty(QUIRKS_SCAN_CHECK_KEY));
+    _urlReplacerScanCheck         = Boolean.parseBoolean(_defaultProps.getProperty(URL_REPLACER_SCAN_CHECK_KEY));
+    _recursiveUploaderScanCheck   = Boolean.parseBoolean(_defaultProps.getProperty(RECURSIVE_UPLOADER_SCAN_CHECK_KEY));
+    _fuzzerScanCheck              = Boolean.parseBoolean(_defaultProps.getProperty(FUZZER_SCAN_CHECK_KEY));
+    _dosScanCheck                 = Boolean.parseBoolean(_defaultProps.getProperty(DOS_SCAN_CHECK_KEY));
   }
 }
