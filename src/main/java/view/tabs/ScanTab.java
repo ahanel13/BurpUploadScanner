@@ -58,7 +58,10 @@ public class ScanTab extends JPanel {
         _scanTabConfig.add(_reDownloaderTemplate);
         
         // Wrap in JScrollPane for scrollability
-        return new JScrollPane(_scanTabConfig);
+        JScrollPane pane = new JScrollPane(_scanTabConfig);
+        pane.getVerticalScrollBar().setUnitIncrement(20);
+        pane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        return pane;
     }
     
     private JSplitPane initializeRightSplitPane() {

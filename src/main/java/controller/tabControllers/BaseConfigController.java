@@ -17,7 +17,7 @@ public class BaseConfigController{
         addResetButtonListener();
         updateView();
     }
-
+    
     public String getTabName() {
         return BaseConfigTab.TAB_NAME;
     }

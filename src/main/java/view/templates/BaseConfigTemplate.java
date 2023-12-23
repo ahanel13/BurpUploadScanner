@@ -5,6 +5,8 @@ import model.utilities.ResourceLoader;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -14,37 +16,36 @@ public class BaseConfigTemplate extends JPanel {
   public BaseConfigTemplate() throws IOException {
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     setBorder(new EmptyBorder(10, 10, 10, 10));
-    _mainHeight = STD_HEIGHT * 9; // starting inputs that are visible
     addScanCheckOptions();
     addFileTypeOptions();
     addFileOptions();
     addPayloadOptions();
     addGeneralOptions();
-    updateSize();
+    
+    addFileTypeListener();
+    addScanCheckListener();
   }
   
-  private void updateSize() {
-    setPreferredSize(new Dimension(STD_WIDTH, _mainHeight));
-    setMinimumSize(new Dimension(STD_WIDTH, _mainHeight));
-    setMaximumSize(new Dimension(STD_WIDTH, _mainHeight));
-  }
+  
   
   // PUBLIC METHODS //
   public JCheckBox getReplaceContentType() {return _replaceContentType;}
-  public JCheckBox getAddToLoggingChkBox()                      {return _addToLoggingChkBox;}
-  public JCheckBox getWgetCurlPayloads()                        {return _wgetCurlPayloads;}
-  public JCheckBox getReplaceFileName()                         {return _replaceFileName;}
-  public JCheckBox getReplaceFileSize()                         {return _replaceFileSize;}
-  public String getThrottleValue()                              {return _throttleValue.getText();}
-  public String getSleepTime()                                  {return _sleepTime.getText();}
+  public JCheckBox getAddToLoggingChkBox()                      { return _addToLoggingChkBox;}
+  public JCheckBox getWgetCurlPayloads()                        { return _wgetCurlPayloads;}
+  public JCheckBox getReplaceFileName()                         { return _replaceFileName;}
+  public JCheckBox getReplaceFileSize()                         { return _replaceFileSize;}
+  public String getThrottleValue()                              { return _throttleValue.getText();}
+  public String getSleepTime()                                  { return _sleepTime.getText();}
   
-  public void setReplaceContentType(boolean replaceContentType) {_replaceContentType.setSelected(replaceContentType);}
-  public void setReplaceFileName(boolean replaceFileName)       {_replaceFileName.setSelected(replaceFileName);}
-  public void setReplaceFileSize(boolean replaceFileSize)       {_replaceFileSize.setSelected(replaceFileSize);}
-  public void setAddToLoggingChkBox(boolean addToLogging)       {_addToLoggingChkBox.setSelected(addToLogging);}
-  public void setWgetCurlPayloads(boolean wgetCurlPayloads)     {_wgetCurlPayloads.setSelected(wgetCurlPayloads);}
-  public void setSleepTime(short sleepTime)                     {_sleepTime.setText(String.valueOf(sleepTime));}
-  public void setThrottleValue(short throttleValue)             {_throttleValue.setText(String.valueOf(throttleValue));}
+  public void setReplaceContentType(boolean replaceContentType) { _replaceContentType.setSelected(replaceContentType);}
+  public void setReplaceFileName(boolean replaceFileName)       { _replaceFileName.setSelected(replaceFileName);}
+  public void setReplaceFileSize(boolean replaceFileSize)       { _replaceFileSize.setSelected(replaceFileSize);}
+  public void setAddToLoggingChkBox(boolean addToLogging)       { _addToLoggingChkBox.setSelected(addToLogging);}
+  public void setWgetCurlPayloads(boolean wgetCurlPayloads)     { _wgetCurlPayloads.setSelected(wgetCurlPayloads);}
+  public void setSleepTime(short sleepTime)                     { _sleepTime.setText(String.valueOf(sleepTime));}
+  public void setThrottleValue(short throttleValue)             { _throttleValue.setText(String.valueOf(throttleValue));}
+  public void addFileTypeListener(ItemListener l)               { showFileType.addItemListener(l);}
+  public void addScanCheckListener(ItemListener l)              { showScanChecks.addItemListener(l);}
   
   public void setScanChecksVisibility(boolean visibility) {
     activescanScanCheck.setVisible(visibility);
@@ -238,6 +239,24 @@ public class BaseConfigTemplate extends JPanel {
   ////////////////////////////////////////
   // PRIVATE METHODS //
   ////////////////////////////////////////
+  private void addFileTypeListener() {
+    addFileTypeListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        setFileTypesVisibility(e.getStateChange() == ItemEvent.SELECTED);
+      }
+    });
+  }
+  
+  private void addScanCheckListener() {
+    addScanCheckListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        setScanChecksVisibility(e.getStateChange() == ItemEvent.SELECTED);
+      }
+    });
+  }
+  
   // Adding UI Components to main JPanel
   private void addScanCheckOptions() {
     setScanChecksVisibility(false);
@@ -350,7 +369,8 @@ public class BaseConfigTemplate extends JPanel {
     sectionPanel.setLayout(new BoxLayout(sectionPanel, BoxLayout.Y_AXIS));
     // sectionPanel.setBorder(STD_BORDER);
     sectionPanel.setAlignmentX(CENTER_ALIGNMENT);
-    sectionPanel.setMaximumSize(new Dimension(STD_WIDTH, 1000));
+    sectionPanel.setMaximumSize(new Dimension(STD_WIDTH, STD_HEIGHT * 51));
+    sectionPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
     return sectionPanel;
   }
   

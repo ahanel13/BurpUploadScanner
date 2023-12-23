@@ -13,7 +13,10 @@ public class BaseConfigTab extends JPanel {
   public BaseConfigTab() throws IOException {
     setLayout(new BorderLayout());
     _baseConfigTemplate = new BaseConfigTemplate();
-    add(_baseConfigTemplate, BorderLayout.CENTER);
+    JScrollPane pane = new JScrollPane(_baseConfigTemplate);
+    pane.getVerticalScrollBar().setUnitIncrement(20);
+    pane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+    add(pane);
     addFooterUi();
   }
   
@@ -25,16 +28,16 @@ public class BaseConfigTab extends JPanel {
   public String         getThrottleValue()      { return _baseConfigTemplate.getThrottleValue(); }
   public AbstractButton getAddToLoggingChkBox() { return _baseConfigTemplate.getAddToLoggingChkBox(); }
   
-  public void setReplaceFileName(boolean b)            { _baseConfigTemplate.setReplaceFileName(b); }
-  public void setReplaceFileSize(boolean b)            { _baseConfigTemplate.setReplaceFileSize(b); }
-  public void setAddToLoggingChkBox(boolean b)         { _baseConfigTemplate.setReplaceContentType(b); }
+  public void setReplaceFileName(boolean b)     { _baseConfigTemplate.setReplaceFileName(b); }
+  public void setReplaceFileSize(boolean b)     { _baseConfigTemplate.setReplaceFileSize(b); }
+  public void setAddToLoggingChkBox(boolean b)  { _baseConfigTemplate.setReplaceContentType(b); }
   public void setWgetCurlPayloads(boolean b)           { _baseConfigTemplate.setWgetCurlPayloads(b); }
   public void setSleepTime(short i)                    { _baseConfigTemplate.setSleepTime(i); }
   public void setThrottleValue(short i)                { _baseConfigTemplate.setThrottleValue(i); }
   public void setReplaceContentType(boolean b)         { _baseConfigTemplate.setAddToLoggingChkBox(b); }
   
   public void addSaveButtonListener(ActionListener l)  { _saveBtn.addActionListener(l); }
-  public void addResetButtonListener(ActionListener l) {_resetBtn.addActionListener(l); }
+  public void addResetButtonListener(ActionListener l) { _resetBtn.addActionListener(l); }
   
   private final BaseConfigTemplate _baseConfigTemplate;
   private       JPanel             _footerButtons;
