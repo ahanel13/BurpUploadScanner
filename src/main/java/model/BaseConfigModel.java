@@ -35,7 +35,6 @@ public class BaseConfigModel implements Cloneable{
   public BaseConfigModel clone(){
     try{
       // class only has primitives, essentially a deep copy
-      
       return (BaseConfigModel) super.clone();
     }
     catch(CloneNotSupportedException e){
@@ -54,47 +53,23 @@ public class BaseConfigModel implements Cloneable{
     _extensionData.setChildObject(_SCAN_CONFIG_MODEL_KEY ,_persistedScanConfigModel);
   }
   
-  public void setAddToLoggingTab(boolean addToLoggingTab){
-    this._addToLoggingTab = addToLoggingTab;
-  }
+  // SETTERS
+  public void setAddToLoggingTab(boolean b)    {this._addToLoggingTab = b;}
+  public void setThrottleTime(short s)         {this._throttleTime = s;}
+  public void setReplaceFileName(boolean b)    {this._replaceFileName = b;}
+  public void setReplaceContentType(boolean b) {this._replaceContentType = b;}
+  public void setReplaceFileSize(boolean b)    {this._replaceFileSize = b;}
+  public void setSleepTime(short s)            {this._sleepTime = s;}
+  public void setWgetCurlPayloads(boolean b)   {this._wgetCurlPayloads = b;}
   
-  public void setThrottleTime(short throttleTime){
-    this._throttleTime = throttleTime;
-  }
-  
-  public void setReplaceFileName(boolean replaceFileName){
-    this._replaceFileName = replaceFileName;
-  }
-  
-  public void setReplaceContentType(boolean replaceContentType){
-    this._replaceContentType = replaceContentType;
-  }
-  
-  public void setReplaceFileSize(boolean replaceFileSize){
-    this._replaceFileSize = replaceFileSize;
-  }
-  
-  public void setSleepTime(short sleepTime){
-    this._sleepTime = sleepTime;
-  }
-  
-  public void setWgetCurlPayloads(boolean wgetCurlPayloads){
-    this._wgetCurlPayloads = wgetCurlPayloads;
-  }
-  
-  public boolean addToLoggingTab()   {return _addToLoggingTab;}
-  
-  public short throttleTime()        {return _throttleTime;}
-  
-  public boolean replaceFileName()   {return _replaceFileName;}
-  
-  public boolean replaceContentType(){return _replaceContentType;}
-  
-  public boolean replaceFileSize()   {return _replaceFileSize;}
-  
-  public short sleepTime()           {return _sleepTime;}
-  
-  public boolean wgetCurlPayloads()  {return _wgetCurlPayloads;}
+  // GETTERS
+  public boolean addToLoggingTab()             {return _addToLoggingTab;}
+  public short throttleTime()                  {return _throttleTime;}
+  public boolean replaceFileName()             {return _replaceFileName;}
+  public boolean replaceContentType()          {return _replaceContentType;}
+  public boolean replaceFileSize()             {return _replaceFileSize;}
+  public short sleepTime()                     {return _sleepTime;}
+  public boolean wgetCurlPayloads()            {return _wgetCurlPayloads;}
   
   public void reset() throws IOException{
     setDefaultValues();

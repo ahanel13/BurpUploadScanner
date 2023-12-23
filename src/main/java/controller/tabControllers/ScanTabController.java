@@ -18,6 +18,7 @@ public class ScanTabController {
         _view.baseConfigTemplate().setWgetCurlPayloads    (_model.baseConfigModel().wgetCurlPayloads());
         _view.baseConfigTemplate().setSleepTime           (_model.baseConfigModel().sleepTime());
         _view.baseConfigTemplate().setThrottleValue       (_model.baseConfigModel().throttleTime());
+        
     }
     
     private final ScanTab   _view;
