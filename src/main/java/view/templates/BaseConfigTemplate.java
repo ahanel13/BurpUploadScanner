@@ -29,70 +29,115 @@ public class BaseConfigTemplate extends JPanel {
   
   
   // PUBLIC METHODS //
+  //GETTERS
   public JCheckBox getReplaceContentType() {return _replaceContentType;}
-  public JCheckBox getAddToLoggingChkBox()                      { return _addToLoggingChkBox;}
-  public JCheckBox getWgetCurlPayloads()                        { return _wgetCurlPayloads;}
-  public JCheckBox getReplaceFileName()                         { return _replaceFileName;}
-  public JCheckBox getReplaceFileSize()                         { return _replaceFileSize;}
-  public String getThrottleValue()                              { return _throttleValue.getText();}
-  public String getSleepTime()                                  { return _sleepTime.getText();}
+  public JCheckBox getAddToLoggingChkBox() {return _addToLoggingChkBox;}
+  public JCheckBox getWgetCurlPayloads()   {return _wgetCurlPayloads;}
+  public JCheckBox getReplaceFileName()    {return _replaceFileName;}
+  public JCheckBox getReplaceFileSize()    {return _replaceFileSize;}
+  public String getThrottleValue()         {return _throttleValue.getText();}
+  public String getSleepTime()             {return _sleepTime.getText();}
   
-  public void setReplaceContentType(boolean replaceContentType) { _replaceContentType.setSelected(replaceContentType);}
-  public void setReplaceFileName(boolean replaceFileName)       { _replaceFileName.setSelected(replaceFileName);}
-  public void setReplaceFileSize(boolean replaceFileSize)       { _replaceFileSize.setSelected(replaceFileSize);}
-  public void setAddToLoggingChkBox(boolean addToLogging)       { _addToLoggingChkBox.setSelected(addToLogging);}
-  public void setWgetCurlPayloads(boolean wgetCurlPayloads)     { _wgetCurlPayloads.setSelected(wgetCurlPayloads);}
-  public void setSleepTime(short sleepTime)                     { _sleepTime.setText(String.valueOf(sleepTime));}
-  public void setThrottleValue(short throttleValue)             { _throttleValue.setText(String.valueOf(throttleValue));}
-  public void addFileTypeListener(ItemListener l)               { showFileType.addItemListener(l);}
-  public void addScanCheckListener(ItemListener l)              { showScanChecks.addItemListener(l);}
+  // SETTERS
+  public void setReplaceContentType(boolean b)         {_replaceContentType.setSelected(b);}
+  public void setReplaceFileName(boolean b)            {_replaceFileName.setSelected(b);}
+  public void setReplaceFileSize(boolean b)            {_replaceFileSize.setSelected(b);}
+  public void setAddToLoggingChkBox(boolean b)         {_addToLoggingChkBox.setSelected(b);}
+  public void setWgetCurlPayloads(boolean b)           {_wgetCurlPayloads.setSelected(b);}
+  public void setSleepTime(short s)                    {_sleepTime.setText(String.valueOf(s));}
+  public void setThrottleValue(short s)                {_throttleValue.setText(String.valueOf(s));}
+  public void setGifFileType(boolean b)                {_gifFileType.setSelected(b);}
+  public void setPngFileType(boolean b)                {_pngFileType.setSelected(b);}
+  public void setJpegFileType(boolean b)               {_jpegFileType.setSelected(b);}
+  public void setTiffFileType(boolean b)               {_tiffFileType.setSelected(b);}
+  public void setIcoFileType(boolean b)                {_icoFileType.setSelected(b);}
+  public void setSvgFileType(boolean b)                {_svgFileType.setSelected(b);}
+  public void setMvgFileType(boolean b)                {_mvgFileType.setSelected(b);}
+  public void setPdfFileType(boolean b)                {_pdfFileType.setSelected(b);}
+  public void setMp4FileType(boolean b)                {_mp4FileType.setSelected(b);}
+  public void setDocxFileType(boolean b)               {_docxFileType.setSelected(b);}
+  public void setXlsxFileType(boolean b)               {_xlsxFileType.setSelected(b);}
+  public void setSwfFileType(boolean b)                {_swfFileType.setSelected(b);}
+  public void setCsvFileType(boolean b)                {_csvFileType.setSelected(b);}
+  public void setZipFileType(boolean b)                {_zipFileType.setSelected(b);}
+  public void setGzipFileType(boolean b)               {_gzipFileType.setSelected(b);}
+  public void setHtmlFileType(boolean b)               {_htmlFileType.setSelected(b);}
+  public void setXmlFileType(boolean b)                {_xmlFileType.setSelected(b);}
+  public void setActivescanScanCheck(boolean b)        {_activescanScanCheck.setSelected(b);}
+  public void setImagetragickScanCheck(boolean b)      {_imagetragickScanCheck.setSelected(b);}
+  public void setMagickScanCheck(boolean b)            {_magickScanCheck.setSelected(b);}
+  public void setGsScanCheck(boolean b)                {_gsScanCheck.setSelected(b);}
+  public void setLibavformatScanCheck(boolean b)       {_libavformatScanCheck.setSelected(b);}
+  public void setPhpScanCheck(boolean b)               {_phpScanCheck.setSelected(b);}
+  public void setJspScanCheck(boolean b)               {_jspScanCheck.setSelected(b);}
+  public void setAspScanCheck(boolean b)               {_aspScanCheck.setSelected(b);}
+  public void setHtaccessScanCheck(boolean b)          {_htaccessScanCheck.setSelected(b);}
+  public void setCgiScanCheck(boolean b)               {_cgiScanCheck.setSelected(b);}
+  public void setSsiScanCheck(boolean b)               {_ssiScanCheck.setSelected(b);}
+  public void setXxeScanCheck(boolean b)               {_xxeScanCheck.setSelected(b);}
+  public void setXssScanCheck(boolean b)               {_xssScanCheck.setSelected(b);}
+  public void setEicarScanCheck(boolean b)             {_eicarScanCheck.setSelected(b);}
+  public void setPdfInjectionScanCheck(boolean b)      {_pdfScanCheck.setSelected(b);}
+  public void setSsrfScanCheck(boolean b)              {_ssrfScanCheck.setSelected(b);}
+  public void setCsvInjectionScanCheck(boolean b)      {_csvScanCheck.setSelected(b);}
+  public void setPathTraversalScanCheck(boolean b)     {_pathTraversalScanCheck.setSelected(b);}
+  public void setPolyglotScanCheck(boolean b)          {_polyglotScanCheck.setSelected(b);}
+  public void setFingerpingScanCheck(boolean b)        {_fingerpingScanCheck.setSelected(b);}
+  public void setQuirksScanCheck(boolean b)            {_quirksScanCheck.setSelected(b);}
+  public void setUrlReplacerScanCheck(boolean b)       {_urlReplacerScanCheck.setSelected(b);}
+  public void setRecursiveUploaderScanCheck(boolean b) {_recursiveUploaderScanCheck.setSelected(b);}
+  public void setFuzzerScanCheck(boolean b)            {_fuzzerScanCheck.setSelected(b);}
+  public void setDosScanCheck(boolean b)               {_dosScanCheck.setSelected(b);}
+  
+  public void addFileTypeListener(ItemListener l)               { _showFileType.addItemListener(l);}
+  public void addScanCheckListener(ItemListener l)              { _showScanChecks.addItemListener(l);}
   
   public void setScanChecksVisibility(boolean visibility) {
-    activescanScanCheck.setVisible(visibility);
-    imagetragickScanCheck.setVisible(visibility);
-    magickScanCheck.setVisible(visibility);
-    gsScanCheck.setVisible(visibility);
-    libavformatScanCheck.setVisible(visibility);
-    phpScanCheck.setVisible(visibility);
-    jspScanCheck.setVisible(visibility);
-    aspScanCheck.setVisible(visibility);
-    htaccessScanCheck.setVisible(visibility);
-    cgiScanCheck.setVisible(visibility);
-    ssiScanCheck.setVisible(visibility);
-    xxeScanCheck.setVisible(visibility);
-    xssScanCheck.setVisible(visibility);
-    eicarScanCheck.setVisible(visibility);
-    pdfScanCheck.setVisible(visibility);
-    ssrfScanCheck.setVisible(visibility);
-    csv_spreadsheetScanCheck.setVisible(visibility);
-    path_traversalScanCheck.setVisible(visibility);
-    polyglotScanCheck.setVisible(visibility);
-    fingerpingScanCheck.setVisible(visibility);
-    quirksScanCheck.setVisible(visibility);
-    url_replacerScanCheck.setVisible(visibility);
-    recursive_uploaderScanCheck.setVisible(visibility);
-    fuzzerScanCheck.setVisible(visibility);
-    dosScanCheck.setVisible(visibility);
+    _activescanScanCheck.setVisible(visibility);
+    _imagetragickScanCheck.setVisible(visibility);
+    _magickScanCheck.setVisible(visibility);
+    _gsScanCheck.setVisible(visibility);
+    _libavformatScanCheck.setVisible(visibility);
+    _phpScanCheck.setVisible(visibility);
+    _jspScanCheck.setVisible(visibility);
+    _aspScanCheck.setVisible(visibility);
+    _htaccessScanCheck.setVisible(visibility);
+    _cgiScanCheck.setVisible(visibility);
+    _ssiScanCheck.setVisible(visibility);
+    _xxeScanCheck.setVisible(visibility);
+    _xssScanCheck.setVisible(visibility);
+    _eicarScanCheck.setVisible(visibility);
+    _pdfScanCheck.setVisible(visibility);
+    _ssrfScanCheck.setVisible(visibility);
+    _csvScanCheck.setVisible(visibility);
+    _pathTraversalScanCheck.setVisible(visibility);
+    _polyglotScanCheck.setVisible(visibility);
+    _fingerpingScanCheck.setVisible(visibility);
+    _quirksScanCheck.setVisible(visibility);
+    _urlReplacerScanCheck.setVisible(visibility);
+    _recursiveUploaderScanCheck.setVisible(visibility);
+    _fuzzerScanCheck.setVisible(visibility);
+    _dosScanCheck.setVisible(visibility);
   }
   
   public void setFileTypesVisibility(boolean visibility){
-    gifFileType.setVisible(visibility);
-    pngFileType.setVisible(visibility);
-    jpegFileType.setVisible(visibility);
-    tiffFileType.setVisible(visibility);
-    icoFileType.setVisible(visibility);
-    svgFileType.setVisible(visibility);
-    mvgFileType.setVisible(visibility);
-    pdfFileType.setVisible(visibility);
-    mp4FileType.setVisible(visibility);
-    docxFileType.setVisible(visibility);
-    xlsxFileType.setVisible(visibility);
-    swfFileType.setVisible(visibility);
-    csvFileType.setVisible(visibility);
-    zipFileType.setVisible(visibility);
-    gzipFileType.setVisible(visibility);
-    htmlFileType.setVisible(visibility);
-    xmlFileType.setVisible(visibility);
+    _gifFileType.setVisible(visibility);
+    _pngFileType.setVisible(visibility);
+    _jpegFileType.setVisible(visibility);
+    _tiffFileType.setVisible(visibility);
+    _icoFileType.setVisible(visibility);
+    _svgFileType.setVisible(visibility);
+    _mvgFileType.setVisible(visibility);
+    _pdfFileType.setVisible(visibility);
+    _mp4FileType.setVisible(visibility);
+    _docxFileType.setVisible(visibility);
+    _xlsxFileType.setVisible(visibility);
+    _swfFileType.setVisible(visibility);
+    _csvFileType.setVisible(visibility);
+    _zipFileType.setVisible(visibility);
+    _gzipFileType.setVisible(visibility);
+    _htmlFileType.setVisible(visibility);
+    _xmlFileType.setVisible(visibility);
   }
   
   // PACKAGE-PRIVATE METHODS //
@@ -129,7 +174,7 @@ public class BaseConfigTemplate extends JPanel {
   private static final String SHOW_SCAN_CHECKS   = "show.scan.checks";
   private static final String ACTIVE_SCAN        = "activescan";
   private static final String IMAGETRAGICK       = "imagetragick";
-  private static final String magick             = "magick";
+  private static final String MAGICK             = "magick";
   private static final String GS                 = "gs";
   private static final String LIBAVFORMAT        = "libavformat";
   private static final String PHP                = "php";
@@ -182,50 +227,50 @@ public class BaseConfigTemplate extends JPanel {
   private       JLabel _sleepTimeLabel;
   
   // UI inputs
-  private final JCheckBox showFileType                = createOptionCheckBox(SHOW_FILES);
-  private final JCheckBox gifFileType                 = createOptionCheckBox(GIF);
-  private final JCheckBox pngFileType                 = createOptionCheckBox(PNG);
-  private final JCheckBox jpegFileType                = createOptionCheckBox(JPEG);
-  private final JCheckBox tiffFileType                = createOptionCheckBox(TIFF);
-  private final JCheckBox icoFileType                 = createOptionCheckBox(ICO);
-  private final JCheckBox svgFileType                 = createOptionCheckBox(SVG);
-  private final JCheckBox mvgFileType                 = createOptionCheckBox(MVG);
-  private final JCheckBox pdfFileType                 = createOptionCheckBox(PDF);
-  private final JCheckBox mp4FileType                 = createOptionCheckBox(MP4);
-  private final JCheckBox docxFileType                = createOptionCheckBox(DOCX);
-  private final JCheckBox xlsxFileType                = createOptionCheckBox(EXCEL);
-  private final JCheckBox swfFileType                 = createOptionCheckBox(FLASH);
-  private final JCheckBox csvFileType                 = createOptionCheckBox(CSV);
-  private final JCheckBox zipFileType                 = createOptionCheckBox(ZIP);
-  private final JCheckBox gzipFileType                = createOptionCheckBox(GZIP);
-  private final JCheckBox htmlFileType                = createOptionCheckBox(HTML);
-  private final JCheckBox xmlFileType                 = createOptionCheckBox(XML);
-  private final JCheckBox showScanChecks              = createOptionCheckBox(SHOW_SCAN_CHECKS);
-  private final JCheckBox activescanScanCheck         = createOptionCheckBox(ACTIVE_SCAN);
-  private final JCheckBox imagetragickScanCheck       = createOptionCheckBox(IMAGETRAGICK);
-  private final JCheckBox magickScanCheck             = createOptionCheckBox(magick);
-  private final JCheckBox gsScanCheck                 = createOptionCheckBox(GS);
-  private final JCheckBox libavformatScanCheck        = createOptionCheckBox(LIBAVFORMAT);
-  private final JCheckBox phpScanCheck                = createOptionCheckBox(PHP);
-  private final JCheckBox jspScanCheck                = createOptionCheckBox(JSP);
-  private final JCheckBox aspScanCheck                = createOptionCheckBox(ASP);
-  private final JCheckBox htaccessScanCheck           = createOptionCheckBox(HTACCESS);
-  private final JCheckBox cgiScanCheck                = createOptionCheckBox(CGI);
-  private final JCheckBox ssiScanCheck                = createOptionCheckBox(SSI);
-  private final JCheckBox xxeScanCheck                = createOptionCheckBox(XXE);
-  private final JCheckBox xssScanCheck                = createOptionCheckBox(XSS);
-  private final JCheckBox eicarScanCheck              = createOptionCheckBox(EICAR);
-  private final JCheckBox pdfScanCheck                = createOptionCheckBox(PDF_INJECTION);
-  private final JCheckBox ssrfScanCheck               = createOptionCheckBox(SSRF);
-  private final JCheckBox csv_spreadsheetScanCheck    = createOptionCheckBox(CSV_INJECTION);
-  private final JCheckBox path_traversalScanCheck     = createOptionCheckBox(PATH_TRAVERSAL);
-  private final JCheckBox polyglotScanCheck           = createOptionCheckBox(POLYGLOT);
-  private final JCheckBox fingerpingScanCheck         = createOptionCheckBox(FINGERPING);
-  private final JCheckBox quirksScanCheck             = createOptionCheckBox(QUIRKS);
-  private final JCheckBox url_replacerScanCheck       = createOptionCheckBox(URL_REPLACER);
-  private final JCheckBox recursive_uploaderScanCheck = createOptionCheckBox(RECURSIVE_UPLOADER);
-  private final JCheckBox fuzzerScanCheck             = createOptionCheckBox(FUZZER);
-  private final JCheckBox dosScanCheck                = createOptionCheckBox(DOS);
+  private final JCheckBox _showFileType               = createOptionCheckBox(SHOW_FILES);
+  private final JCheckBox _gifFileType                = createOptionCheckBox(GIF);
+  private final JCheckBox _pngFileType                = createOptionCheckBox(PNG);
+  private final JCheckBox _jpegFileType               = createOptionCheckBox(JPEG);
+  private final JCheckBox _tiffFileType               = createOptionCheckBox(TIFF);
+  private final JCheckBox _icoFileType                = createOptionCheckBox(ICO);
+  private final JCheckBox _svgFileType                = createOptionCheckBox(SVG);
+  private final JCheckBox _mvgFileType                = createOptionCheckBox(MVG);
+  private final JCheckBox _pdfFileType                = createOptionCheckBox(PDF);
+  private final JCheckBox _mp4FileType                = createOptionCheckBox(MP4);
+  private final JCheckBox _docxFileType               = createOptionCheckBox(DOCX);
+  private final JCheckBox _xlsxFileType               = createOptionCheckBox(EXCEL);
+  private final JCheckBox _swfFileType                = createOptionCheckBox(FLASH);
+  private final JCheckBox _csvFileType                = createOptionCheckBox(CSV);
+  private final JCheckBox _zipFileType                = createOptionCheckBox(ZIP);
+  private final JCheckBox _gzipFileType               = createOptionCheckBox(GZIP);
+  private final JCheckBox _htmlFileType               = createOptionCheckBox(HTML);
+  private final JCheckBox _xmlFileType                = createOptionCheckBox(XML);
+  private final JCheckBox _showScanChecks             = createOptionCheckBox(SHOW_SCAN_CHECKS);
+  private final JCheckBox _activescanScanCheck        = createOptionCheckBox(ACTIVE_SCAN);
+  private final JCheckBox _imagetragickScanCheck      = createOptionCheckBox(IMAGETRAGICK);
+  private final JCheckBox _magickScanCheck            = createOptionCheckBox(MAGICK);
+  private final JCheckBox _gsScanCheck                = createOptionCheckBox(GS);
+  private final JCheckBox _libavformatScanCheck       = createOptionCheckBox(LIBAVFORMAT);
+  private final JCheckBox _phpScanCheck               = createOptionCheckBox(PHP);
+  private final JCheckBox _jspScanCheck               = createOptionCheckBox(JSP);
+  private final JCheckBox _aspScanCheck               = createOptionCheckBox(ASP);
+  private final JCheckBox _htaccessScanCheck          = createOptionCheckBox(HTACCESS);
+  private final JCheckBox _cgiScanCheck               = createOptionCheckBox(CGI);
+  private final JCheckBox _ssiScanCheck               = createOptionCheckBox(SSI);
+  private final JCheckBox _xxeScanCheck               = createOptionCheckBox(XXE);
+  private final JCheckBox _xssScanCheck               = createOptionCheckBox(XSS);
+  private final JCheckBox _eicarScanCheck             = createOptionCheckBox(EICAR);
+  private final JCheckBox _pdfScanCheck               = createOptionCheckBox(PDF_INJECTION);
+  private final JCheckBox _ssrfScanCheck          = createOptionCheckBox(SSRF);
+  private final JCheckBox _csvScanCheck           = createOptionCheckBox(CSV_INJECTION);
+  private final JCheckBox _pathTraversalScanCheck = createOptionCheckBox(PATH_TRAVERSAL);
+  private final JCheckBox _polyglotScanCheck          = createOptionCheckBox(POLYGLOT);
+  private final JCheckBox _fingerpingScanCheck        = createOptionCheckBox(FINGERPING);
+  private final JCheckBox _quirksScanCheck            = createOptionCheckBox(QUIRKS);
+  private final JCheckBox _urlReplacerScanCheck       = createOptionCheckBox(URL_REPLACER);
+  private final JCheckBox _recursiveUploaderScanCheck = createOptionCheckBox(RECURSIVE_UPLOADER);
+  private final JCheckBox _fuzzerScanCheck            = createOptionCheckBox(FUZZER);
+  private final JCheckBox _dosScanCheck               = createOptionCheckBox(DOS);
   private final JCheckBox _addToLoggingChkBox         = createOptionCheckBox(ADD_TO_LOGGING);
   private final JCheckBox _replaceContentType         = createOptionCheckBox(REPLACE_CONTENT_TYPE);
   private final JCheckBox _replaceFileName            = createOptionCheckBox(REPLACE_FILE_NAME);
@@ -261,32 +306,32 @@ public class BaseConfigTemplate extends JPanel {
   private void addScanCheckOptions() {
     setScanChecksVisibility(false);
     
-    scanCheckSection.add(showScanChecks);
-    scanCheckSection.add(activescanScanCheck);
-    scanCheckSection.add(imagetragickScanCheck);
-    scanCheckSection.add(magickScanCheck);
-    scanCheckSection.add(gsScanCheck);
-    scanCheckSection.add(libavformatScanCheck);
-    scanCheckSection.add(phpScanCheck);
-    scanCheckSection.add(jspScanCheck);
-    scanCheckSection.add(aspScanCheck);
-    scanCheckSection.add(htaccessScanCheck);
-    scanCheckSection.add(cgiScanCheck);
-    scanCheckSection.add(ssiScanCheck);
-    scanCheckSection.add(xxeScanCheck);
-    scanCheckSection.add(xssScanCheck);
-    scanCheckSection.add(eicarScanCheck);
-    scanCheckSection.add(pdfScanCheck);
-    scanCheckSection.add(ssrfScanCheck);
-    scanCheckSection.add(csv_spreadsheetScanCheck);
-    scanCheckSection.add(path_traversalScanCheck);
-    scanCheckSection.add(polyglotScanCheck);
-    scanCheckSection.add(fingerpingScanCheck);
-    scanCheckSection.add(quirksScanCheck);
-    scanCheckSection.add(url_replacerScanCheck);
-    scanCheckSection.add(recursive_uploaderScanCheck);
-    scanCheckSection.add(fuzzerScanCheck);
-    scanCheckSection.add(dosScanCheck);
+    scanCheckSection.add(_showScanChecks);
+    scanCheckSection.add(_activescanScanCheck);
+    scanCheckSection.add(_imagetragickScanCheck);
+    scanCheckSection.add(_magickScanCheck);
+    scanCheckSection.add(_gsScanCheck);
+    scanCheckSection.add(_libavformatScanCheck);
+    scanCheckSection.add(_phpScanCheck);
+    scanCheckSection.add(_jspScanCheck);
+    scanCheckSection.add(_aspScanCheck);
+    scanCheckSection.add(_htaccessScanCheck);
+    scanCheckSection.add(_cgiScanCheck);
+    scanCheckSection.add(_ssiScanCheck);
+    scanCheckSection.add(_xxeScanCheck);
+    scanCheckSection.add(_xssScanCheck);
+    scanCheckSection.add(_eicarScanCheck);
+    scanCheckSection.add(_pdfScanCheck);
+    scanCheckSection.add(_ssrfScanCheck);
+    scanCheckSection.add(_csvScanCheck);
+    scanCheckSection.add(_pathTraversalScanCheck);
+    scanCheckSection.add(_polyglotScanCheck);
+    scanCheckSection.add(_fingerpingScanCheck);
+    scanCheckSection.add(_quirksScanCheck);
+    scanCheckSection.add(_urlReplacerScanCheck);
+    scanCheckSection.add(_recursiveUploaderScanCheck);
+    scanCheckSection.add(_fuzzerScanCheck);
+    scanCheckSection.add(_dosScanCheck);
     
     add(scanCheckSection);
   }
@@ -294,24 +339,24 @@ public class BaseConfigTemplate extends JPanel {
   private void addFileTypeOptions() {
     setFileTypesVisibility(false);
     
-    fileTypeSection.add(showFileType);
-    fileTypeSection.add(gifFileType);
-    fileTypeSection.add(pngFileType);
-    fileTypeSection.add(jpegFileType);
-    fileTypeSection.add(tiffFileType);
-    fileTypeSection.add(icoFileType);
-    fileTypeSection.add(svgFileType);
-    fileTypeSection.add(mvgFileType);
-    fileTypeSection.add(pdfFileType);
-    fileTypeSection.add(mp4FileType);
-    fileTypeSection.add(docxFileType);
-    fileTypeSection.add(xlsxFileType);
-    fileTypeSection.add(swfFileType);
-    fileTypeSection.add(csvFileType);
-    fileTypeSection.add(zipFileType);
-    fileTypeSection.add(gzipFileType);
-    fileTypeSection.add(htmlFileType);
-    fileTypeSection.add(xmlFileType);
+    fileTypeSection.add(_showFileType);
+    fileTypeSection.add(_gifFileType);
+    fileTypeSection.add(_pngFileType);
+    fileTypeSection.add(_jpegFileType);
+    fileTypeSection.add(_tiffFileType);
+    fileTypeSection.add(_icoFileType);
+    fileTypeSection.add(_svgFileType);
+    fileTypeSection.add(_mvgFileType);
+    fileTypeSection.add(_pdfFileType);
+    fileTypeSection.add(_mp4FileType);
+    fileTypeSection.add(_docxFileType);
+    fileTypeSection.add(_xlsxFileType);
+    fileTypeSection.add(_swfFileType);
+    fileTypeSection.add(_csvFileType);
+    fileTypeSection.add(_zipFileType);
+    fileTypeSection.add(_gzipFileType);
+    fileTypeSection.add(_htmlFileType);
+    fileTypeSection.add(_xmlFileType);
     
     add(fileTypeSection);
   }
