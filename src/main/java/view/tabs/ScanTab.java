@@ -56,27 +56,27 @@ public class ScanTab extends JPanel {
         _reDownloader.preflightEndpointInput.getDocument().addDocumentListener(l);
     }
     
-    public void setupReplaceBackslashListener(ActionListener l) {
+    public void addReplaceBackslashListener(ActionListener l) {
         _reDownloader.replaceBackslash.addActionListener(l);
     }
     
-    public void setupStartMarkerListener(ActionListener l) {
+    public void addStartMarkerListener(ActionListener l) {
         _reDownloader.startMarker.addActionListener(l);
     }
     
-    public void setupEndMarkerListener(ActionListener l) {
+    public void addEndMarkerListener(ActionListener l) {
         _reDownloader.endMarker.addActionListener(l);
     }
     
-    public void setupPrefixListener(ActionListener l) {
+    public void addPrefixListener(ActionListener l) {
         _reDownloader.prefix.addActionListener(l);
     }
     
-    public void setupSuffixListener(ActionListener l) {
+    public void addSuffixListener(ActionListener l) {
         _reDownloader.suffix.addActionListener(l);
     }
     
-    public void setupStaticUrlListener(ActionListener l) {
+    public void addStaticUrlListener(ActionListener l) {
         _reDownloader.staticUrl.addActionListener(l);
     }
     

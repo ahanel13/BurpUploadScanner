@@ -100,14 +100,14 @@ public class ScanTabController {
             }
         });
         
-        _view.setupReplaceBackslashListener(new ActionListener() {
+        _view.addReplaceBackslashListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 _model.setReplaceBackslash(_view.replaceBackslash());
             }
         });
         
-        _view.setupStartMarkerListener(new ActionListener() {
+        _view.addStartMarkerListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String input = _view.getStartMarker();
@@ -115,7 +115,7 @@ public class ScanTabController {
             }
         });
         
-        _view.setupEndMarkerListener(new ActionListener() {
+        _view.addEndMarkerListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String input = _view.getEndMarker();
@@ -123,7 +123,7 @@ public class ScanTabController {
             }
         });
         
-        _view.setupPrefixListener(new ActionListener() {
+        _view.addPrefixListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String input = _view.getPrefix();
@@ -131,7 +131,7 @@ public class ScanTabController {
             }
         });
         
-        _view.setupSuffixListener(new ActionListener() {
+        _view.addSuffixListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String input = _view.getSuffix();
@@ -139,7 +139,7 @@ public class ScanTabController {
             }
         });
         
-        _view.setupStaticUrlListener(new ActionListener() {
+        _view.addStaticUrlListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String input = _view.getStaticUrl();
