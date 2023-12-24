@@ -6,21 +6,28 @@ import java.awt.*;
 
 public class ActionPanelTemplate extends JPanel{
   
+  public final JButton      preflightRequestBtn;
+  public final JButton      startScanBtn;
+  public final JButton      stopScanBtn;
+  public final JButton      reDownloaderBtn;
+  public final Boolean      reDownloaderStat = false;
+  public final JProgressBar progressBar;
+  
   // PUBLIC FUNCTIONS //
   public ActionPanelTemplate(){
     setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
-    _preflightRequestBtn = new JButton("Send Preflight Request");
-    _redownloaderBtn     = new JButton("Send ReDownloader Request");
-    _startScanBtn        = new JButton("Start Scan");
-    _stopScanBtn         = new JButton("Stop Scan");
-    _progressBar         = new JProgressBar(0, 100);
+    preflightRequestBtn = new JButton("Send Preflight Request");
+    reDownloaderBtn     = new JButton("Send ReDownloader Request");
+    startScanBtn        = new JButton("Start Scan");
+    stopScanBtn = new JButton("Stop Scan");
+    progressBar = new JProgressBar(0, 100);
     
     JPanel reDownloaderConfigPanel = getReDownloaderPanel();
     JPanel scanControls            = getScanControls();
     
-    _stopScanBtn        .setEnabled(false);
-    _redownloaderBtn    .setEnabled(false);
-    _preflightRequestBtn.setEnabled(false);
+    stopScanBtn.setEnabled(false);
+    reDownloaderBtn.setEnabled(false);
+    preflightRequestBtn.setEnabled(false);
     
     add(reDownloaderConfigPanel);
     add(scanControls);
@@ -28,13 +35,6 @@ public class ActionPanelTemplate extends JPanel{
   
   // PRIVATE DATA //
   private static final String  REDOWNLOADER_STATUS_TEXT = "ReDownloader Configured: ";
-  
-  private final JButton      _preflightRequestBtn;
-  private final JButton      _startScanBtn;
-  private final JButton      _stopScanBtn;
-  private final JButton      _redownloaderBtn;
-  private final Boolean      _reDownloaderStat = false;
-  private final JProgressBar _progressBar;
   
   // PRIVATE METHODS //
   private JPanel getScanControls(){
@@ -44,14 +44,14 @@ public class ActionPanelTemplate extends JPanel{
     
     JPanel buttonGroup = new JPanel();
     buttonGroup.setLayout(new FlowLayout());
-    buttonGroup.add(_startScanBtn, BorderLayout.WEST);
-    buttonGroup.add(_stopScanBtn, BorderLayout.EAST);
+    buttonGroup.add(startScanBtn, BorderLayout.WEST);
+    buttonGroup.add(stopScanBtn, BorderLayout.EAST);
     
-    _progressBar.setValue(0);
-    _progressBar.setStringPainted(true);
+    progressBar.setValue(0);
+    progressBar.setStringPainted(true);
     
     controlPanel.add(buttonGroup);
-    controlPanel.add(_progressBar);
+    controlPanel.add(progressBar);
     return controlPanel;
   }
   
@@ -60,15 +60,15 @@ public class ActionPanelTemplate extends JPanel{
     configPanel.setLayout(new BoxLayout(configPanel, BoxLayout.Y_AXIS));
     configPanel.setBorder(new LineBorder(Color.GRAY));
     
-    JLabel configStatus = new JLabel(REDOWNLOADER_STATUS_TEXT + _reDownloaderStat.toString());
+    JLabel configStatus = new JLabel(REDOWNLOADER_STATUS_TEXT + reDownloaderStat.toString());
     configStatus.setAlignmentX(CENTER_ALIGNMENT);
     configPanel.add(configStatus);
     
     JPanel preflightPanel = new JPanel();
-    preflightPanel.add(_preflightRequestBtn);
+    preflightPanel.add(preflightRequestBtn);
     
     JPanel reDownloaderPanel = new JPanel();
-    reDownloaderPanel.add(_redownloaderBtn);
+    reDownloaderPanel.add(reDownloaderBtn);
     
     JPanel buttonGroup = new JPanel();
     buttonGroup.setLayout(new FlowLayout());
