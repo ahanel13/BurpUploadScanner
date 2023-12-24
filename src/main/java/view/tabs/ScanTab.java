@@ -60,12 +60,12 @@ public class ScanTab extends JPanel {
         _reDownloader.replaceBackslash.addActionListener(l);
     }
     
-    public void addStartMarkerListener(ActionListener l) {
-        _reDownloader.startMarker.addActionListener(l);
+    public void addStartMarkerListener(DocumentListener l) {
+        _reDownloader.startMarker.getDocument().addDocumentListener(l);
     }
     
-    public void addEndMarkerListener(ActionListener l) {
-        _reDownloader.endMarker.addActionListener(l);
+    public void addEndMarkerListener(DocumentListener l) {
+        _reDownloader.endMarker.getDocument().addDocumentListener(l);
     }
     
     public void addPrefixListener(ActionListener l) {
@@ -90,7 +90,39 @@ public class ScanTab extends JPanel {
     public void updatePreflightWindow(HttpRequest request) {
         _prefliReqEditor.setRequest(request);
         _editorPanels.setEnabledAt(editorTabs.preflightRequest.ordinal(), true);
+        _editorPanels.updateUI();
     }
+    
+    public void updateReDownloadWindows(HttpRequestResponse requestResponse) {
+        _downReqEditor.setRequest(requestResponse.request());
+        _downResEditor.setResponse(requestResponse.response());
+        _editorPanels.setEnabledAt(editorTabs.downloadRequest.ordinal(), true);
+        _editorPanels.setEnabledAt(editorTabs.downloadResponse.ordinal(), true);
+    }
+    
+    public void setStartMarkerBackground(Color color) {
+        _reDownloader.startMarker.setBackground(color);
+    }
+    public void setEndMarkerBackground(Color color) {
+        _reDownloader.endMarker.setBackground(color);
+    }
+    public void setReDownloadEditor(HttpRequest request) {
+        _downReqEditor.setRequest(request);
+        if (request.equals(HttpRequest.httpRequest()))
+            _editorPanels.setEnabledAt(editorTabs.downloadRequest.ordinal(), false);
+        else {
+          _editorPanels.setEnabledAt(editorTabs.downloadRequest.ordinal(), true);
+          _actionPanel.reDownloaderBtn.setEnabled(true);
+        }
+        _editorPanels.updateUI();
+    }
+    public void setReDownloadSelection(String match) {
+        HttpResponseEditor response  = (preflightEndpoint().isBlank()
+            ? _origResEditor : _prefliResEditor);
+        
+        response.setSearchExpression(match);
+    }
+    public void addSendDownloadReqListener(ActionListener l) { _actionPanel.reDownloaderBtn.addActionListener(l);}
     
     // PRIVATE FIELDS
     private final HttpRequestResponse  _requestResponse;
@@ -110,7 +142,7 @@ public class ScanTab extends JPanel {
     
     private enum editorTabs{
         uploadRequest, uploadResponse, preflightRequest, preflightResponse,
-        downloadRequest, DownloadResponse
+        downloadRequest, downloadResponse
     }
     
     private void _linkPreflightInput2Btn() {

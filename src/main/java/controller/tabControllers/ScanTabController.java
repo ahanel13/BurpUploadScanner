@@ -1,12 +1,14 @@
 package controller.tabControllers;
 
 import burp.api.montoya.http.message.HttpRequestResponse;
+import burp.api.montoya.http.message.requests.HttpRequest;
 import model.ScanModel;
 import view.tabs.ScanTab;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.ExecutionException;
@@ -77,6 +79,13 @@ public class ScanTabController {
     }
     
     private void _addReDownloaderListeners() {
+        _view.addSendDownloadReqListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SendReDownloadRequestWorker().execute();
+            }
+        });
+        
         _view.addSendPreflightReqListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -107,20 +116,76 @@ public class ScanTabController {
             }
         });
         
-        _view.addStartMarkerListener(new ActionListener() {
+        _view.addStartMarkerListener(new DocumentListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                String input = _view.getStartMarker();
-                _model.setStartMarker(input);
+            public void insertUpdate(DocumentEvent e) {
+                debounceUpdate();
             }
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                debounceUpdate();
+            }
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                debounceUpdate();
+            }
+            private void debounceUpdate() {
+                if (searchNHighlight.isRunning()) searchNHighlight.restart();
+                else                              searchNHighlight.start();
+            }
+            
+            private final Timer searchNHighlight = new Timer(300, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String input = _view.getStartMarker();
+                    String match = _model.setStartMarker(input);
+                    if (match.isEmpty()) {
+                        _view.setStartMarkerBackground(Color.red);
+                        _view.setReDownloadEditor(HttpRequest.httpRequest());
+                    }
+                    else {
+                        _view.setStartMarkerBackground(Color.gray);
+                        _view.setReDownloadSelection(match);
+                        _view.setReDownloadEditor(_model.getReDownloadRequest());
+                    }
+                }
+            });
         });
         
-        _view.addEndMarkerListener(new ActionListener() {
+        _view.addEndMarkerListener(new DocumentListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                String input = _view.getEndMarker();
-                _model.setEndMarker(input);
+            public void insertUpdate(DocumentEvent e) {
+                debounceUpdate();
             }
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                debounceUpdate();
+            }
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                debounceUpdate();
+            }
+            private void debounceUpdate() {
+                if (searchNHighlight.isRunning()) searchNHighlight.restart();
+                else                              searchNHighlight.start();
+            }
+            
+            private final Timer searchNHighlight = new Timer(300, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String input = _view.getEndMarker();
+                    String match = _model.setEndMarker(input);
+                    if (match.isEmpty()) {
+                        _view.setEndMarkerBackground(Color.red);
+                        _view.setReDownloadEditor(HttpRequest.httpRequest());
+                    }
+                    else {
+                        _view.setEndMarkerBackground(Color.gray);
+                        _view.setReDownloadSelection(match);
+                        _view.setReDownloadEditor(_model.getReDownloadRequest());
+                    }
+                }
+            });
         });
         
         _view.addPrefixListener(new ActionListener() {
@@ -177,6 +242,27 @@ public class ScanTabController {
                 throw new RuntimeException(e);
             }
           _view.updatePreflightWindows(requestResponse);
+        }
+    }
+    
+    private class SendReDownloadRequestWorker extends SwingWorker<HttpRequestResponse, Void> {
+        @Override
+        protected HttpRequestResponse doInBackground() {
+            // Perform the HTTP request in a background thread
+            return _model.sendReDownloadReq();
+        }
+        
+        @Override
+        protected void done() {
+            // This method is executed in the EDT after the background task is completed
+            HttpRequestResponse requestResponse; // get the result of doInBackground
+            try {
+                requestResponse = get();
+            }
+            catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+            _view.updateReDownloadWindows(requestResponse);
         }
     }
 }
