@@ -36,15 +36,15 @@ public class UploadScannerController {
         registerMenuContext();
         api.logging().logToOutput("UI Generated");
     }
-
+    
     private final UploadScannerPanel       view;
     private final MontoyaApi               api;
-    private final PersistedObject      persistedObject;
-    private       BaseConfigModel      defaultScanOptions;
-    private       BaseConfigController defaultConfigController;
+    private final PersistedObject          persistedObject;
     private final UploadScannerMenuContext menuContext;
     private final List<ScanTabController>  scanTabControllerList;
-
+    private       BaseConfigModel          defaultScanOptions;
+    private       BaseConfigController     defaultConfigController;
+    
     private void registerMenuContext() {
         api.userInterface().registerContextMenuItemsProvider(menuContext);
         menuContext.addEventListenerToMenuItem(new ActionListener() {
@@ -53,7 +53,7 @@ public class UploadScannerController {
                 try{
                     
                     HttpRequestResponse requestResponse = menuContext.getRequestResponse();
-                    ScanModel           scanModel       = new ScanModel(defaultScanOptions, requestResponse);
+                    ScanModel           scanModel       = new ScanModel(api, defaultScanOptions, requestResponse);
                     ScanTab             scanTabView     = view.addScanTab(requestResponse);
                     ScanTabController   newScanTab      = new ScanTabController(scanModel, scanTabView);
                     scanTabControllerList.add(newScanTab);

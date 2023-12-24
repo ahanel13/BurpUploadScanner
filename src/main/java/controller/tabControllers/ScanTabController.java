@@ -1,16 +1,28 @@
 package controller.tabControllers;
 
+import burp.api.montoya.http.message.HttpRequestResponse;
 import model.ScanModel;
 import view.tabs.ScanTab;
+
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.concurrent.ExecutionException;
 
 public class ScanTabController {
     public ScanTabController(ScanModel scanModel, ScanTab scanTabView) {
         _model = scanModel;
         _view  = scanTabView;
-        updateView();
+        _updateView();
+        _addReDownloaderListeners();
     }
     
-    private void updateView(){
+    private final ScanTab   _view;
+    private final ScanModel _model;
+    
+    private void _updateView(){
         _view.baseConfigTemplate().setReplaceFileName(_model.baseConfigModel().replaceFileName());
         _view.baseConfigTemplate().setReplaceFileSize(_model.baseConfigModel().replaceFileSize());
         _view.baseConfigTemplate().setReplaceContentType(_model.baseConfigModel().replaceContentType());
@@ -64,7 +76,107 @@ public class ScanTabController {
         _view.baseConfigTemplate().setDosScanCheck(_model.baseConfigModel().dosScanCheck());
     }
     
+    private void _addReDownloaderListeners() {
+        _view.addSendPreflightReqListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SendPreflightRequestWorker().execute();
+            }
+        });
+        
+        _view.addPreflightEndpointListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) { debounceUpdate(); }
+            @Override
+            public void removeUpdate(DocumentEvent e) { debounceUpdate(); }
+            @Override
+            public void changedUpdate(DocumentEvent e) { debounceUpdate(); }
+            private void debounceUpdate() {
+                if (preflightdebounceTimer.isRunning()) {
+                    preflightdebounceTimer.restart();
+                } else {
+                    preflightdebounceTimer.start();
+                }
+            }
+        });
+        
+        _view.setupReplaceBackslashListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                _model.setReplaceBackslash(_view.replaceBackslash());
+            }
+        });
+        
+        _view.setupStartMarkerListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String input = _view.getStartMarker();
+                _model.setStartMarker(input);
+            }
+        });
+        
+        _view.setupEndMarkerListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String input = _view.getEndMarker();
+                _model.setEndMarker(input);
+            }
+        });
+        
+        _view.setupPrefixListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String input = _view.getPrefix();
+                _model.setPrefix(input);
+            }
+        });
+        
+        _view.setupSuffixListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String input = _view.getSuffix();
+                _model.setSuffix(input);
+            }
+        });
+        
+        _view.setupStaticUrlListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String input = _view.getStaticUrl();
+                _model.setStaticUrl(input);
+            }
+        });
+    }
     
-    private final ScanTab   _view;
-    private final ScanModel _model;
+    private final Timer preflightdebounceTimer = new Timer(300, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String input = _view.preflightEndpoint();
+            if(_model.getPreflightRequest() == null || !_model.getPreflightRequest().url().equals(input)){
+                _model.setPreflightEndpointInput(input);
+                _view.updatePreflightWindow(_model.getPreflightRequest());
+            }
+        }
+    });
+    
+    private class SendPreflightRequestWorker extends SwingWorker<HttpRequestResponse, Void> {
+        @Override
+        protected HttpRequestResponse doInBackground() {
+            // Perform the HTTP request in a background thread
+            return _model.sendPreflightReq();
+        }
+        
+        @Override
+        protected void done() {
+            // This method is executed in the EDT after the background task is completed
+            HttpRequestResponse requestResponse; // get the result of doInBackground
+            try {
+                requestResponse = get();
+            }
+            catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+          _view.updatePreflightWindows(requestResponse);
+        }
+    }
 }
