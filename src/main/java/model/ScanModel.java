@@ -12,16 +12,21 @@ import java.util.regex.Pattern;
 
 public class ScanModel {
   public ScanModel(MontoyaApi api, BaseConfigModel baseConfigModel, HttpRequestResponse requestResponse) {
-    _api             = api;
+    _api                   = api;
     _baseConfigModel       = baseConfigModel.clone();
     _uploadRequestResponse = requestResponse;
   }
-  
+
+  ////////////////////////////////////////
   // PUBLIC METHODS //
-  public BaseConfigModel baseConfigModel() {
-    return _baseConfigModel;
-  }
-  
+  ////////////////////////////////////////
+  public void setReplaceBackslash(boolean b) { _replaceBackslash = b;}
+  public void setPrefix(String s)            { _prefix = s;}
+  public void setSuffix(String s)            { _suffix = s;}
+  public HttpRequest getPreflightRequest()   { return _preflightRequest;}
+  public HttpRequest getReDownloadRequest()  { return _reDownloadRequest;}
+  public BaseConfigModel baseConfigModel()   { return _baseConfigModel;  }
+
   public HttpRequestResponse sendPreflightReq() {
     HttpRequestResponse requestResponse = _api.http().sendRequest(_preflightRequest);
     _preflightResponse = requestResponse.response();
@@ -33,12 +38,7 @@ public class ScanModel {
     _reDownloadResponse = requestResponse.response();
     return requestResponse;
   }
-  
-  
-  // ReDownloader Functions
-  public void setReplaceBackslash(boolean b)         {_replaceBackslash = b;}
-  public void setPrefix(String s)                    {_prefix = s;}
-  public void setSuffix(String s)                    {_suffix = s;}
+
   public boolean setStaticUrl(String url) {
       _staticUrl = url;
       if(RequestUtils.isValidURL(url)){
@@ -47,21 +47,24 @@ public class ScanModel {
       }
       else return false;
   }
+
   public void setPreflightEndpointInput(String url)    {
     _preflightRequest = HttpRequest.httpRequestFromUrl(url);
   }
+
   public String setStartMarker(String s) {
     _startMarker = s;
     return setReDownloaderMarkerSelections();
   }
+
   public String setEndMarker(String s) {
     _endMarker = s;
     return setReDownloaderMarkerSelections();
   }
-  
-  public HttpRequest getPreflightRequest()     { return _preflightRequest;}
-  public HttpRequest getReDownloadRequest() { return _reDownloadRequest;}
-  
+
+  ////////////////////////////////////////
+  // PRIVATE FIELDS
+  ////////////////////////////////////////
   // Base Config Variables
   private final MontoyaApi          _api;
   private final BaseConfigModel     _baseConfigModel;
@@ -80,7 +83,10 @@ public class ScanModel {
   private HttpResponse _preflightResponse;
   private HttpRequest  _reDownloadRequest = HttpRequest.httpRequest();
   private HttpResponse _reDownloadResponse;
-  
+
+  ////////////////////////////////////////
+  // PRIVATE METHODS
+  ////////////////////////////////////////
   private String setReDownloaderMarkerSelections() {
     StringBuilder selection = new StringBuilder();
     HttpResponse  response  = (preflightUsed()
@@ -127,4 +133,3 @@ public class ScanModel {
     return _preflightRequest != null && !_preflightRequest.toString().isEmpty();
   }
 }
-
