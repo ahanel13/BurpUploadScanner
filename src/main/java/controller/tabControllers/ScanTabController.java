@@ -3,273 +3,215 @@ package controller.tabControllers;
 import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.http.message.requests.HttpRequest;
 import model.ScanModel;
+import model.utilities.DebounceDocListener;
 import view.tabs.ScanTab;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 public class ScanTabController {
-    public ScanTabController(ScanModel scanModel, ScanTab scanTabView) {
-        _model = scanModel;
-        _view  = scanTabView;
-        _updateView();
-        _addReDownloaderListeners();
-    }
+  ////////////////////////////////////////
+  // PUBLIC FUNCTIONS
+  ////////////////////////////////////////
+  public ScanTabController(ScanModel scanModel, ScanTab scanTabView) {
+    _scanModel   = scanModel;
+    _scanTabView = scanTabView;
+    _addReDownloaderListeners();
+    _addActionPanelListeners();
+    _syncView2Model();
+  }
+  
+  ////////////////////////////////////////
+  // PRIVATE FIELDS
+  ////////////////////////////////////////
+  private static final int DEBOUNCE_DELAY = 300;
+  
+  private final ScanTab   _scanTabView;
+  private final ScanModel _scanModel;
+  
+  ////////////////////////////////////////
+  // PRIVATE METHODS
+  ////////////////////////////////////////
+  private void _addActionPanelListeners() {
+    _scanTabView.addSendDownloadReqListener(e->new SendReDownloadRequestWorker().execute());
+    _scanTabView.addSendPreflightReqListener(e->new SendPreflightRequestWorker().execute());
+  }
+  
+  private void _addReDownloaderListeners() {
+    _scanTabView.addPreflightEndpointListener(new PreflightEndpointListener());
+    _scanTabView.addReplaceBackslashListener(e->_scanModel.setReplaceBackslash(_scanTabView.replaceBackslash()));
+    _scanTabView.addStartMarkerListener(new AddStartMarkerListener());
+    _scanTabView.addEndMarkerListener(new AddEndMarkerListener());
+    _scanTabView.addPrefixListener(e->_scanModel.setPrefix(_scanTabView.getPrefix()));
+    _scanTabView.addSuffixListener(e->_scanModel.setSuffix(_scanTabView.getSuffix()));
     
-    private final ScanTab   _view;
-    private final ScanModel _model;
-    
-    private void _updateView(){
-        _view.baseConfigTemplate().setReplaceFileName(_model.baseConfigModel().replaceFileName());
-        _view.baseConfigTemplate().setReplaceFileSize(_model.baseConfigModel().replaceFileSize());
-        _view.baseConfigTemplate().setReplaceContentType(_model.baseConfigModel().replaceContentType());
-        _view.baseConfigTemplate().setAddToLoggingChkBox(_model.baseConfigModel().addToLoggingTab());
-        _view.baseConfigTemplate().setWgetCurlPayloads(_model.baseConfigModel().wgetCurlPayloads());
-        _view.baseConfigTemplate().setSleepTime(_model.baseConfigModel().sleepTime());
-        _view.baseConfigTemplate().setThrottleValue(_model.baseConfigModel().throttleTime());
-        
-        _view.baseConfigTemplate().setGifFileType(_model.baseConfigModel().gifFileType());
-        _view.baseConfigTemplate().setPngFileType(_model.baseConfigModel().pngFileType());
-        _view.baseConfigTemplate().setJpegFileType(_model.baseConfigModel().jpegFileType());
-        _view.baseConfigTemplate().setTiffFileType(_model.baseConfigModel().tiffFileType());
-        _view.baseConfigTemplate().setIcoFileType(_model.baseConfigModel().icoFileType());
-        _view.baseConfigTemplate().setSvgFileType(_model.baseConfigModel().svgFileType());
-        _view.baseConfigTemplate().setMvgFileType(_model.baseConfigModel().mvgFileType());
-        _view.baseConfigTemplate().setPdfFileType(_model.baseConfigModel().pdfFileType());
-        _view.baseConfigTemplate().setMp4FileType(_model.baseConfigModel().mp4FileType());
-        _view.baseConfigTemplate().setDocxFileType(_model.baseConfigModel().docxFileType());
-        _view.baseConfigTemplate().setXlsxFileType(_model.baseConfigModel().xlsxFileType());
-        _view.baseConfigTemplate().setSwfFileType(_model.baseConfigModel().swfFileType());
-        _view.baseConfigTemplate().setCsvFileType(_model.baseConfigModel().csvFileType());
-        _view.baseConfigTemplate().setZipFileType(_model.baseConfigModel().zipFileType());
-        _view.baseConfigTemplate().setGzipFileType(_model.baseConfigModel().gzipFileType());
-        _view.baseConfigTemplate().setHtmlFileType(_model.baseConfigModel().htmlFileType());
-        _view.baseConfigTemplate().setXmlFileType(_model.baseConfigModel().xmlFileType());
-        
-        _view.baseConfigTemplate().setActivescanScanCheck(_model.baseConfigModel().activescanScanCheck());
-        _view.baseConfigTemplate().setImagetragickScanCheck(_model.baseConfigModel().imagetragickScanCheck());
-        _view.baseConfigTemplate().setMagickScanCheck(_model.baseConfigModel().magickScanCheck());
-        _view.baseConfigTemplate().setGsScanCheck(_model.baseConfigModel().gsScanCheck());
-        _view.baseConfigTemplate().setLibavformatScanCheck(_model.baseConfigModel().libavformatScanCheck());
-        _view.baseConfigTemplate().setPhpScanCheck(_model.baseConfigModel().phpScanCheck());
-        _view.baseConfigTemplate().setJspScanCheck(_model.baseConfigModel().jspScanCheck());
-        _view.baseConfigTemplate().setAspScanCheck(_model.baseConfigModel().aspScanCheck());
-        _view.baseConfigTemplate().setHtaccessScanCheck(_model.baseConfigModel().htaccessScanCheck());
-        _view.baseConfigTemplate().setCgiScanCheck(_model.baseConfigModel().cgiScanCheck());
-        _view.baseConfigTemplate().setSsiScanCheck(_model.baseConfigModel().ssiScanCheck());
-        _view.baseConfigTemplate().setXxeScanCheck(_model.baseConfigModel().xxeScanCheck());
-        _view.baseConfigTemplate().setXssScanCheck(_model.baseConfigModel().xssScanCheck());
-        _view.baseConfigTemplate().setEicarScanCheck(_model.baseConfigModel().eicarScanCheck());
-        _view.baseConfigTemplate().setPdfInjectionScanCheck(_model.baseConfigModel().pdfInjectionScanCheck());
-        _view.baseConfigTemplate().setSsrfScanCheck(_model.baseConfigModel().ssrfScanCheck());
-        _view.baseConfigTemplate().setCsvInjectionScanCheck(_model.baseConfigModel().csvInjectionScanCheck());
-        _view.baseConfigTemplate().setPathTraversalScanCheck(_model.baseConfigModel().pathTraversalScanCheck());
-        _view.baseConfigTemplate().setPolyglotScanCheck(_model.baseConfigModel().polyglotScanCheck());
-        _view.baseConfigTemplate().setFingerpingScanCheck(_model.baseConfigModel().fingerpingScanCheck());
-        _view.baseConfigTemplate().setQuirksScanCheck(_model.baseConfigModel().quirksScanCheck());
-        _view.baseConfigTemplate().setUrlReplacerScanCheck(_model.baseConfigModel().urlReplacerScanCheck());
-        _view.baseConfigTemplate().setRecursiveUploaderScanCheck(_model.baseConfigModel().recursiveUploaderScanCheck());
-        _view.baseConfigTemplate().setFuzzerScanCheck(_model.baseConfigModel().fuzzerScanCheck());
-        _view.baseConfigTemplate().setDosScanCheck(_model.baseConfigModel().dosScanCheck());
-    }
-    
-    private void _addReDownloaderListeners() {
-        _view.addSendDownloadReqListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new SendReDownloadRequestWorker().execute();
-            }
-        });
-        
-        _view.addSendPreflightReqListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new SendPreflightRequestWorker().execute();
-            }
-        });
-        
-        _view.addPreflightEndpointListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) { debounceUpdate(); }
-            @Override
-            public void removeUpdate(DocumentEvent e) { debounceUpdate(); }
-            @Override
-            public void changedUpdate(DocumentEvent e) { debounceUpdate(); }
-            private void debounceUpdate() {
-                if (preflightdebounceTimer.isRunning()) {
-                    preflightdebounceTimer.restart();
-                } else {
-                    preflightdebounceTimer.start();
-                }
-            }
-        });
-        
-        _view.addReplaceBackslashListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                _model.setReplaceBackslash(_view.replaceBackslash());
-            }
-        });
-        
-        _view.addStartMarkerListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                debounceUpdate();
-            }
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                debounceUpdate();
-            }
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                debounceUpdate();
-            }
-            private void debounceUpdate() {
-                if (searchNHighlight.isRunning()) searchNHighlight.restart();
-                else                              searchNHighlight.start();
-            }
-            
-            private final Timer searchNHighlight = new Timer(300, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    String input = _view.getStartMarker();
-                    String match = _model.setStartMarker(input);
-                    if (match.isEmpty()) {
-                        _view.setStartMarkerBackground(Color.red);
-                        _view.setReDownloadEditor(HttpRequest.httpRequest());
-                    }
-                    else {
-                        _view.setStartMarkerBackground(Color.gray);
-                        _view.setReDownloadSelection(match);
-                        _view.setReDownloadEditor(_model.getReDownloadRequest());
-                    }
-                }
-            });
-        });
-        
-        _view.addEndMarkerListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                debounceUpdate();
-            }
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                debounceUpdate();
-            }
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                debounceUpdate();
-            }
-            private void debounceUpdate() {
-                if (searchNHighlight.isRunning()) searchNHighlight.restart();
-                else                              searchNHighlight.start();
-            }
-            
-            private final Timer searchNHighlight = new Timer(300, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    String input = _view.getEndMarker();
-                    String match = _model.setEndMarker(input);
-                    if (match.isEmpty()) {
-                        _view.setEndMarkerBackground(Color.red);
-                        _view.setReDownloadEditor(HttpRequest.httpRequest());
-                    }
-                    else {
-                        _view.setEndMarkerBackground(Color.gray);
-                        _view.setReDownloadSelection(match);
-                        _view.setReDownloadEditor(_model.getReDownloadRequest());
-                    }
-                }
-            });
-        });
-        
-        _view.addPrefixListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String input = _view.getPrefix();
-                _model.setPrefix(input);
-            }
-        });
-        
-        _view.addSuffixListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String input = _view.getSuffix();
-                _model.setSuffix(input);
-            }
-        });
-        
-        _view.addStaticUrlListener(new ActionListener() {
-            //todo: there are two functions that work on validating static urls,
-            //      can these be consolidated?
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String input = _view.getStaticUrl();
-                if (_model.setStaticUrl(input)) {
-                    _view.setReDownloadEditor(_model.getReDownloadRequest());
-                }
-                else {
-                    _view.setReDownloadEditor(HttpRequest.httpRequest());
-                }
-            }
-        });
-    }
-    
-    private final Timer preflightdebounceTimer = new Timer(300, new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String input = _view.preflightEndpoint();
-            if(_model.getPreflightRequest() == null || !_model.getPreflightRequest().url().equals(input)){
-                _model.setPreflightEndpointInput(input);
-                _view.updatePreflightWindow(_model.getPreflightRequest());
-            }
-        }
+    _scanTabView.addStaticUrlListener(e->{
+      //todo: there are two functions that work on validating static urls,
+      //      can these be consolidated?
+      String input = _scanTabView.getStaticUrl();
+      if (_scanModel.setStaticUrl(input)) {
+        _scanTabView.setReDownloadEditor(_scanModel.getReDownloadRequest());
+      }
+      else {
+        _scanTabView.setReDownloadEditor(HttpRequest.httpRequest());
+      }
     });
+  }
+  
+  private void _syncView2Model(){
+    _scanTabView.baseConfigTemplate().setReplaceFileName(_scanModel.baseConfigModel().replaceFileName());
+    _scanTabView.baseConfigTemplate().setReplaceFileSize(_scanModel.baseConfigModel().replaceFileSize());
+    _scanTabView.baseConfigTemplate().setReplaceContentType(_scanModel.baseConfigModel().replaceContentType());
+    _scanTabView.baseConfigTemplate().setAddToLoggingChkBox(_scanModel.baseConfigModel().addToLoggingTab());
+    _scanTabView.baseConfigTemplate().setWgetCurlPayloads(_scanModel.baseConfigModel().wgetCurlPayloads());
+    _scanTabView.baseConfigTemplate().setSleepTime(_scanModel.baseConfigModel().sleepTime());
+    _scanTabView.baseConfigTemplate().setThrottleValue(_scanModel.baseConfigModel().throttleTime());
     
-    private class SendPreflightRequestWorker extends SwingWorker<HttpRequestResponse, Void> {
-        @Override
-        protected HttpRequestResponse doInBackground() {
-            // Perform the HTTP request in a background thread
-            return _model.sendPreflightReq();
-        }
-        
-        @Override
-        protected void done() {
-            // This method is executed in the EDT after the background task is completed
-            HttpRequestResponse requestResponse; // get the result of doInBackground
-            try {
-                requestResponse = get();
-            }
-            catch (InterruptedException | ExecutionException e) {
-                throw new RuntimeException(e);
-            }
-          _view.updatePreflightWindows(requestResponse);
-        }
+    _scanTabView.baseConfigTemplate().setGifFileType(_scanModel.baseConfigModel().gifFileType());
+    _scanTabView.baseConfigTemplate().setPngFileType(_scanModel.baseConfigModel().pngFileType());
+    _scanTabView.baseConfigTemplate().setJpegFileType(_scanModel.baseConfigModel().jpegFileType());
+    _scanTabView.baseConfigTemplate().setTiffFileType(_scanModel.baseConfigModel().tiffFileType());
+    _scanTabView.baseConfigTemplate().setIcoFileType(_scanModel.baseConfigModel().icoFileType());
+    _scanTabView.baseConfigTemplate().setSvgFileType(_scanModel.baseConfigModel().svgFileType());
+    _scanTabView.baseConfigTemplate().setMvgFileType(_scanModel.baseConfigModel().mvgFileType());
+    _scanTabView.baseConfigTemplate().setPdfFileType(_scanModel.baseConfigModel().pdfFileType());
+    _scanTabView.baseConfigTemplate().setMp4FileType(_scanModel.baseConfigModel().mp4FileType());
+    _scanTabView.baseConfigTemplate().setDocxFileType(_scanModel.baseConfigModel().docxFileType());
+    _scanTabView.baseConfigTemplate().setXlsxFileType(_scanModel.baseConfigModel().xlsxFileType());
+    _scanTabView.baseConfigTemplate().setSwfFileType(_scanModel.baseConfigModel().swfFileType());
+    _scanTabView.baseConfigTemplate().setCsvFileType(_scanModel.baseConfigModel().csvFileType());
+    _scanTabView.baseConfigTemplate().setZipFileType(_scanModel.baseConfigModel().zipFileType());
+    _scanTabView.baseConfigTemplate().setGzipFileType(_scanModel.baseConfigModel().gzipFileType());
+    _scanTabView.baseConfigTemplate().setHtmlFileType(_scanModel.baseConfigModel().htmlFileType());
+    _scanTabView.baseConfigTemplate().setXmlFileType(_scanModel.baseConfigModel().xmlFileType());
+    
+    _scanTabView.baseConfigTemplate().setActivescanScanCheck(_scanModel.baseConfigModel().activescanScanCheck());
+    _scanTabView.baseConfigTemplate().setImagetragickScanCheck(_scanModel.baseConfigModel().imagetragickScanCheck());
+    _scanTabView.baseConfigTemplate().setMagickScanCheck(_scanModel.baseConfigModel().magickScanCheck());
+    _scanTabView.baseConfigTemplate().setGsScanCheck(_scanModel.baseConfigModel().gsScanCheck());
+    _scanTabView.baseConfigTemplate().setLibavformatScanCheck(_scanModel.baseConfigModel().libavformatScanCheck());
+    _scanTabView.baseConfigTemplate().setPhpScanCheck(_scanModel.baseConfigModel().phpScanCheck());
+    _scanTabView.baseConfigTemplate().setJspScanCheck(_scanModel.baseConfigModel().jspScanCheck());
+    _scanTabView.baseConfigTemplate().setAspScanCheck(_scanModel.baseConfigModel().aspScanCheck());
+    _scanTabView.baseConfigTemplate().setHtaccessScanCheck(_scanModel.baseConfigModel().htaccessScanCheck());
+    _scanTabView.baseConfigTemplate().setCgiScanCheck(_scanModel.baseConfigModel().cgiScanCheck());
+    _scanTabView.baseConfigTemplate().setSsiScanCheck(_scanModel.baseConfigModel().ssiScanCheck());
+    _scanTabView.baseConfigTemplate().setXxeScanCheck(_scanModel.baseConfigModel().xxeScanCheck());
+    _scanTabView.baseConfigTemplate().setXssScanCheck(_scanModel.baseConfigModel().xssScanCheck());
+    _scanTabView.baseConfigTemplate().setEicarScanCheck(_scanModel.baseConfigModel().eicarScanCheck());
+    _scanTabView.baseConfigTemplate().setPdfInjectionScanCheck(_scanModel.baseConfigModel().pdfInjectionScanCheck());
+    _scanTabView.baseConfigTemplate().setSsrfScanCheck(_scanModel.baseConfigModel().ssrfScanCheck());
+    _scanTabView.baseConfigTemplate().setCsvInjectionScanCheck(_scanModel.baseConfigModel().csvInjectionScanCheck());
+    _scanTabView.baseConfigTemplate().setPathTraversalScanCheck(_scanModel.baseConfigModel().pathTraversalScanCheck());
+    _scanTabView.baseConfigTemplate().setPolyglotScanCheck(_scanModel.baseConfigModel().polyglotScanCheck());
+    _scanTabView.baseConfigTemplate().setFingerpingScanCheck(_scanModel.baseConfigModel().fingerpingScanCheck());
+    _scanTabView.baseConfigTemplate().setQuirksScanCheck(_scanModel.baseConfigModel().quirksScanCheck());
+    _scanTabView.baseConfigTemplate().setUrlReplacerScanCheck(_scanModel.baseConfigModel().urlReplacerScanCheck());
+    _scanTabView.baseConfigTemplate().setRecursiveUploaderScanCheck(_scanModel.baseConfigModel().recursiveUploaderScanCheck());
+    _scanTabView.baseConfigTemplate().setFuzzerScanCheck(_scanModel.baseConfigModel().fuzzerScanCheck());
+    _scanTabView.baseConfigTemplate().setDosScanCheck(_scanModel.baseConfigModel().dosScanCheck());
+  }
+  
+  private void displayMessage(String message){
+      _scanTabView.displayMessage(message);
+  }
+  
+  ////////////////////////////////////////
+  // PRIVATE CLASSES
+  ////////////////////////////////////////
+  private class SendPreflightRequestWorker extends SwingWorker<HttpRequestResponse, Void> {
+    @Override
+    protected HttpRequestResponse doInBackground() {
+      // Perform the HTTP request in a background thread
+      return _scanModel.sendPreflightReq();
     }
     
-    private class SendReDownloadRequestWorker extends SwingWorker<HttpRequestResponse, Void> {
-        @Override
-        protected HttpRequestResponse doInBackground() {
-            // Perform the HTTP request in a background thread
-            return _model.sendReDownloadReq();
-        }
-        
-        @Override
-        protected void done() {
-            // This method is executed in the EDT after the background task is completed
-            HttpRequestResponse requestResponse; // get the result of doInBackground
-            try {
-                requestResponse = get();
-            }
-            catch (InterruptedException | ExecutionException e) {
-                throw new RuntimeException(e);
-            }
-            _view.updateReDownloadWindows(requestResponse);
-        }
+    @Override
+    protected void done() {
+      // This method is executed in the EDT after the background task is completed
+      HttpRequestResponse requestResponse = null; // get the result of doInBackground
+      try {
+        requestResponse = get();
+      }
+      catch (InterruptedException | ExecutionException e) {
+        String message = "Something went wrong when requesting \"" + _scanModel.getPreflightRequest().url() + "\"\n" +
+                         e.getMessage() + "\n" + Arrays.toString(e.getStackTrace());
+        displayMessage(message);
+      }
+      _scanTabView.updatePreflightWindows(requestResponse);
     }
+  }
+  
+  private class SendReDownloadRequestWorker extends SwingWorker<HttpRequestResponse, Void> {
+    @Override
+    protected HttpRequestResponse doInBackground() {
+      // Perform the HTTP request in a background thread
+      return _scanModel.sendReDownloadReq();
+    }
+    
+    @Override
+    protected void done() {
+      // This method is executed in the EDT after the background task is completed
+      HttpRequestResponse requestResponse = null; // get the result of doInBackground
+      try {
+        requestResponse = get();
+      }
+      catch (InterruptedException | ExecutionException e) {
+        String message = "Something went wrong when requesting \"" + _scanModel.getPreflightRequest().url() + "\"\n" +
+                         e.getMessage() + "\n" + Arrays.toString(e.getStackTrace());
+        displayMessage(message);
+      }
+      _scanTabView.updateReDownloadWindows(requestResponse);
+    }
+  }
+  
+  private class PreflightEndpointListener extends DebounceDocListener {
+    public PreflightEndpointListener() {
+      super(DEBOUNCE_DELAY, e->{
+        String input = _scanTabView.preflightEndpoint();
+        if(_scanModel.getPreflightRequest() == null || !_scanModel.getPreflightRequest().url().equals(input)){
+          _scanModel.setPreflightEndpointInput(input);
+          _scanTabView.updatePreflightWindow(_scanModel.getPreflightRequest());
+        }
+      });
+    }
+  }
+  
+  private class AddStartMarkerListener extends DebounceDocListener {
+    public AddStartMarkerListener() {
+      super(DEBOUNCE_DELAY, e->{
+        String input = _scanTabView.getStartMarker();
+        String match = _scanModel.setStartMarker(input);
+        if (match.isEmpty()) {
+          _scanTabView.setStartMarkerBackground(Color.red);
+          _scanTabView.setReDownloadEditor(HttpRequest.httpRequest());
+        }
+        else {
+          _scanTabView.setStartMarkerBackground(Color.gray);
+          _scanTabView.setReDownloadSelection(match);
+          _scanTabView.setReDownloadEditor(_scanModel.getReDownloadRequest());
+        }
+      });
+    }
+  }
+  
+  private class AddEndMarkerListener extends DebounceDocListener {
+    public AddEndMarkerListener() {
+      super(DEBOUNCE_DELAY, e->{
+        String input = _scanTabView.getEndMarker();
+        String match = _scanModel.setEndMarker(input);
+        if (match.isEmpty()) {
+          _scanTabView.setEndMarkerBackground(Color.red);
+          _scanTabView.setReDownloadEditor(HttpRequest.httpRequest());
+        }
+        else {
+          _scanTabView.setEndMarkerBackground(Color.gray);
+          _scanTabView.setReDownloadSelection(match);
+          _scanTabView.setReDownloadEditor(_scanModel.getReDownloadRequest());
+        }
+      });
+    }
+  }
 }

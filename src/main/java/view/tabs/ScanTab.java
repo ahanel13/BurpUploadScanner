@@ -108,6 +108,10 @@ public class ScanTab extends JPanel {
         response.setSearchExpression(match);
     }
     
+    public void displayMessage(String message) {
+        JOptionPane.showMessageDialog(this, message);
+    }
+    
     ////////////////////////////////////////
     // PRIVATE FIELDS
     ////////////////////////////////////////
