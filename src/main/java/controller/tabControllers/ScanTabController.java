@@ -205,10 +205,17 @@ public class ScanTabController {
         });
         
         _view.addStaticUrlListener(new ActionListener() {
+            //todo: there are two functions that work on validating static urls,
+            //      can these be consolidated?
             @Override
             public void actionPerformed(ActionEvent e) {
                 String input = _view.getStaticUrl();
-                _model.setStaticUrl(input);
+                if (_model.setStaticUrl(input)) {
+                    _view.setReDownloadEditor(_model.getReDownloadRequest());
+                }
+                else {
+                    _view.setReDownloadEditor(HttpRequest.httpRequest());
+                }
             }
         });
     }

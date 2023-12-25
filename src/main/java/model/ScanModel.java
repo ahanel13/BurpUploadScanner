@@ -5,6 +5,7 @@ import burp.api.montoya.http.message.HttpHeader;
 import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.http.message.requests.HttpRequest;
 import burp.api.montoya.http.message.responses.HttpResponse;
+import model.utilities.RequestUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,9 +39,16 @@ public class ScanModel {
   public void setReplaceBackslash(boolean b)         {_replaceBackslash = b;}
   public void setPrefix(String s)                    {_prefix = s;}
   public void setSuffix(String s)                    {_suffix = s;}
-  public void setStaticUrl(String s)                 {_staticUrl = s;}
-  public void setPreflightEndpointInput(String s)    {
-    try                 { _preflightRequest = HttpRequest.httpRequestFromUrl(s);}
+  public boolean setStaticUrl(String url) {
+      _staticUrl = url;
+      if(RequestUtils.isValidURL(url)){
+        _reDownloadRequest = HttpRequest.httpRequestFromUrl(url);
+        return true;
+      }
+      else return false;
+  }
+  public void setPreflightEndpointInput(String url)    {
+    try   { _preflightRequest = HttpRequest.httpRequestFromUrl(url);}
     catch (Exception ignore) {}
   }
   public String setStartMarker(String s) {
