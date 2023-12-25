@@ -5,13 +5,11 @@ import burp.api.montoya.http.message.requests.HttpRequest;
 import burp.api.montoya.ui.UserInterface;
 import burp.api.montoya.ui.editor.HttpRequestEditor;
 import burp.api.montoya.ui.editor.HttpResponseEditor;
-import model.utilities.RequestUtils;
 import view.templates.ActionPanelTemplate;
 import view.templates.BaseConfigTemplate;
 import view.templates.ReDownloaderTemplate;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -32,10 +30,6 @@ public class ScanTab extends JPanel {
         JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightSplitPane);
         
         add(mainSplitPane, BorderLayout.CENTER);
-        
-        // view only listeners
-        _linkPreflightInput2Btn();
-        _linkStaticUrlInput2DownloaderBtn();
     }
     
     
@@ -81,6 +75,7 @@ public class ScanTab extends JPanel {
         _prefliReqEditor.setRequest(request);
         _editorPanels.setEnabledAt(editorTabs.preflightRequest.ordinal(), true);
         _editorPanels.updateUI();
+        _actionPanel.preflightRequestBtn.setEnabled(true);
     }
     
     public void updateReDownloadWindows(HttpRequestResponse requestResponse) {
@@ -108,9 +103,9 @@ public class ScanTab extends JPanel {
         response.setSearchExpression(match);
     }
     
-    public void displayMessage(String message) {
-        JOptionPane.showMessageDialog(this, message);
-    }
+    public void displayMessage(String message) { JOptionPane.showMessageDialog(this, message);    }
+    public void setStaticUrlBackground(Color color)     {_reDownloader.staticUrl.setBackground(color);}
+    public void setPreflightEndpointBackground(Color color) {_reDownloader.preflightEndpointInput.setBackground(color);}
     
     ////////////////////////////////////////
     // PRIVATE FIELDS
@@ -138,51 +133,6 @@ public class ScanTab extends JPanel {
     ////////////////////////////////////////
     // PRIVATE METHODS
     ////////////////////////////////////////
-    private void _linkPreflightInput2Btn() {
-        _reDownloader.preflightEndpointInput.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent e) {
-                validateURL();
-            }
-            public void removeUpdate(DocumentEvent e) {
-                validateURL();
-            }
-            public void insertUpdate(DocumentEvent e) {
-                validateURL();
-            }
-            private void validateURL() {
-                if (!RequestUtils.isValidURL(_reDownloader.preflightEndpointInput.getText())) {
-                    _reDownloader.preflightEndpointInput.setBackground(Color.PINK);
-                    _actionPanel.preflightRequestBtn.setEnabled(false);
-                } else {
-                    _reDownloader.preflightEndpointInput.setBackground(Color.WHITE);
-                    _actionPanel.preflightRequestBtn.setEnabled(true);
-                }
-            }
-        });
-    }
-    
-    private void _linkStaticUrlInput2DownloaderBtn() {
-        _reDownloader.staticUrl.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent e) {
-                validateURL();
-            }
-            public void removeUpdate(DocumentEvent e) {
-                validateURL();
-            }
-            public void insertUpdate(DocumentEvent e) {
-                validateURL();
-            }
-            private void validateURL() {
-                if (!RequestUtils.isValidURL(_reDownloader.staticUrl.getText())) {
-                    _reDownloader.staticUrl.setBackground(Color.PINK);
-                    _actionPanel.reDownloaderBtn.setEnabled(false);
-                } else {
-                    _reDownloader.staticUrl.setBackground(Color.WHITE);
-                    _actionPanel.reDownloaderBtn.setEnabled(true);
-                }
-            }
-        });
-    }
     
     // UI initalization
     ////////////////////////////////////////

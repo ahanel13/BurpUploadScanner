@@ -53,9 +53,11 @@ public class ScanTabController {
       String input = _scanTabView.getStaticUrl();
       if (_scanModel.setStaticUrl(input)) {
         _scanTabView.setReDownloadEditor(_scanModel.getReDownloadRequest());
+        _scanTabView.setStaticUrlBackground(Color.white);
       }
       else {
         _scanTabView.setReDownloadEditor(HttpRequest.httpRequest());
+        _scanTabView.setStaticUrlBackground(Color.red);
       }
     });
   }
@@ -174,7 +176,10 @@ public class ScanTabController {
         if(_scanModel.getPreflightRequest() == null || !_scanModel.getPreflightRequest().url().equals(input)){
           _scanModel.setPreflightEndpointInput(input);
           _scanTabView.updatePreflightWindow(_scanModel.getPreflightRequest());
+          _scanTabView.setPreflightEndpointBackground(Color.white);
         }
+        else
+          _scanTabView.setPreflightEndpointBackground(Color.red);
       });
     }
   }

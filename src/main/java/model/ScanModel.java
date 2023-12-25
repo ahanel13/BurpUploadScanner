@@ -48,8 +48,7 @@ public class ScanModel {
       else return false;
   }
   public void setPreflightEndpointInput(String url)    {
-    try   { _preflightRequest = HttpRequest.httpRequestFromUrl(url);}
-    catch (Exception ignore) {}
+    _preflightRequest = HttpRequest.httpRequestFromUrl(url);
   }
   public String setStartMarker(String s) {
     _startMarker = s;
