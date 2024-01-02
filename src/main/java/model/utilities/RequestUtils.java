@@ -8,7 +8,8 @@ public class RequestUtils {
     try {
       new URL(url);
       return true;
-    } catch (MalformedURLException e) {
+    }
+    catch (MalformedURLException e) {
       return false;
     }
   }

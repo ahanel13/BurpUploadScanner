@@ -11,21 +11,23 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Downloader {
-
+  ////////////////////////////////////////
+  // PUBLIC FUNCTIONS
+  ////////////////////////////////////////
   public Downloader(MontoyaApi api, HttpRequestResponse uploadRequestResponse) {
-    _api = api;
+    _api                   = api;
     _uploadRequestResponse = uploadRequestResponse;
   }
 
-  public void setReplaceBackslash(boolean b) {_replaceBackslash = b;}
-  public void setPrefix(String s)            {_prefix = s;}
-  public void setSuffix(String s)            {_suffix = s;}
-  public HttpRequest getPreflightRequest()   {return _preflightRequest;}
-  public HttpRequest getReDownloadRequest()  {return _reDownloadRequest;}
-
-  public void setPreflightEndpointInput(String url)    {
-    _preflightRequest = HttpRequest.httpRequestFromUrl(url);
-  }
+  ////////////////////////////////////////
+  // PUBLIC FIELDS
+  ////////////////////////////////////////
+  public void setReplaceBackslash(boolean b)        {_replaceBackslash = b;}
+  public void setPrefix(String s)                   {_prefix = s;}
+  public void setSuffix(String s)                   {_suffix = s;}
+  public HttpRequest getPreflightRequest()          {return _preflightRequest;}
+  public HttpRequest getReDownloadRequest()         {return _reDownloadRequest;}
+  public void setPreflightEndpointInput(String url) {_preflightRequest = HttpRequest.httpRequestFromUrl(url);}
 
   public HttpRequestResponse sendPreflightReq() {
     HttpRequestResponse requestResponse = _api.http().sendRequest(_preflightRequest);
@@ -41,7 +43,7 @@ public class Downloader {
 
   public boolean setStaticUrl(String url) {
     _staticUrl = url;
-    if(RequestUtils.isValidURL(url)){
+    if (RequestUtils.isValidURL(url)) {
       _reDownloadRequest = HttpRequest.httpRequestFromUrl(url);
       return true;
     }
@@ -61,31 +63,31 @@ public class Downloader {
   ////////////////////////////////////////
   // PRIVATE FIELDS
   ////////////////////////////////////////
-  private final MontoyaApi _api;
+  private final MontoyaApi          _api;
   private final HttpRequestResponse _uploadRequestResponse;
-  private String       _startMarker       = "";
-  private String       _endMarker         = "";
-  private boolean      _replaceBackslash;
-  private String       _prefix;
-  private String       _suffix;
-  private String       _staticUrl;
-  private HttpRequest  _preflightRequest;
-  private HttpResponse _preflightResponse;
-  private HttpRequest  _reDownloadRequest = HttpRequest.httpRequest();
-  private HttpResponse _reDownloadResponse;
+  private       String              _startMarker       = "";
+  private       String              _endMarker         = "";
+  private       boolean             _replaceBackslash;
+  private       String              _prefix;
+  private       String              _suffix;
+  private       String              _staticUrl;
+  private       HttpRequest         _preflightRequest;
+  private       HttpResponse        _preflightResponse;
+  private       HttpRequest         _reDownloadRequest = HttpRequest.httpRequest();
+  private       HttpResponse        _reDownloadResponse;
 
   ////////////////////////////////////////
   // PRIVATE METHODS
   ////////////////////////////////////////
   private String setDownloaderMarkerSelections() {
     StringBuilder selection = new StringBuilder();
-    HttpResponse  response  = (preflightUsed()
+    HttpResponse response = (preflightUsed()
         ? _preflightResponse : _uploadRequestResponse.response());
 
-    if(!_startMarker.isEmpty() && !_endMarker.isEmpty())
+    if (!_startMarker.isEmpty() && !_endMarker.isEmpty())
       selection.append(_startMarker).append(".*").append(_endMarker);
     else if (!_startMarker.isEmpty()) selection.append(_startMarker);
-    else if (!_endMarker.isEmpty())   selection.append(_endMarker);
+    else if (!_endMarker.isEmpty()) selection.append(_endMarker);
 
     Pattern pattern = Pattern.compile(selection.toString());
     Matcher matcher = pattern.matcher(response.toString());
@@ -104,9 +106,7 @@ public class Downloader {
     return "";
   }
 
-  private boolean preflightUsed() {
-    return _preflightRequest != null && !_preflightRequest.toString().isEmpty();
-  }
+  private boolean preflightUsed() {return _preflightRequest != null && !_preflightRequest.toString().isEmpty();}
 
   private boolean setReDownloadRequest(String match) {
     try {
@@ -118,7 +118,8 @@ public class Downloader {
           _reDownloadRequest = _reDownloadRequest.withHeader(header.name(), header.value());
       }
       return true;
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       return false;
     }
   }
