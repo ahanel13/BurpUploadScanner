@@ -5,7 +5,6 @@ import java.awt.*;
 
 public class ReDownloaderTemplate extends JPanel {
   // PUBLIC DATA //
-  public final JCheckBox  parsePreflightResponse;
   public final JTextField preflightEndpointInput;
   public final JTextField startMarker;
   public final JTextField endMarker;
@@ -22,7 +21,6 @@ public class ReDownloaderTemplate extends JPanel {
     setMaximumSize(mainSize);
     setMinimumSize(mainSize);
     
-    parsePreflightResponse = new JCheckBox();
     preflightEndpointInput = new JTextField();
     startMarker            = new JTextField();
     endMarker              = new JTextField();
@@ -91,13 +89,11 @@ public class ReDownloaderTemplate extends JPanel {
   }
   
   private JPanel _getPreflightSection() {
-    JPanel chkBoxGroup = _setUpChkBoxGroup(parsePreflightResponse, PREFLIGHT_CHKBOX_TXT);
     JPanel grp = _getTxtInputGroup(preflightEndpointInput, PREFLIGHT_INPUT_TXT);
     
     JPanel section = new JPanel();
     section.setLayout(new BoxLayout(section, BoxLayout.Y_AXIS));
     
-    section.add(chkBoxGroup);
     section.add(grp);
     return section;
   }
