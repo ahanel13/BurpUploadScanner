@@ -22,15 +22,14 @@ public class ScanTabController {
     _addActionPanelListeners();
     _syncView2Model();
   }
-  
+
   ////////////////////////////////////////
   // PRIVATE FIELDS
   ////////////////////////////////////////
   private static final int DEBOUNCE_DELAY = 300;
-  
   private final ScanTab   _scanTabView;
   private final ScanModel _scanModel;
-  
+
   ////////////////////////////////////////
   // PRIVATE METHODS
   ////////////////////////////////////////
@@ -38,15 +37,16 @@ public class ScanTabController {
     _scanTabView.addSendDownloadReqListener(e->new SendReDownloadRequestWorker().execute());
     _scanTabView.addSendPreflightReqListener(e->new SendPreflightRequestWorker().execute());
   }
-  
+
   private void _addDownloaderListeners() {
     _scanTabView.addPreflightEndpointListener(new PreflightEndpointListener());
-    _scanTabView.addReplaceBackslashListener(e->_scanModel.setReplaceBackslash(_scanTabView.replaceBackslash()));
+    _scanTabView.addReplaceBackslashListener(
+        e->_scanModel.setReplaceBackslash(_scanTabView.replaceBackslash()));
     _scanTabView.addStartMarkerListener(new AddStartMarkerListener());
     _scanTabView.addEndMarkerListener(new AddEndMarkerListener());
     _scanTabView.addPrefixListener(e->_scanModel.setPrefix(_scanTabView.getPrefix()));
     _scanTabView.addSuffixListener(e->_scanModel.setSuffix(_scanTabView.getSuffix()));
-    
+
     _scanTabView.addStaticUrlListener(e->{
       //todo: there are two functions that work on validating static urls,
       //      can these be consolidated?
@@ -61,7 +61,7 @@ public class ScanTabController {
       }
     });
   }
-  
+
   private void _syncView2Model(){
     _scanTabView.baseConfigTemplate().setReplaceFileName(_scanModel.baseConfigModel().replaceFileName());
     _scanTabView.baseConfigTemplate().setReplaceFileSize(_scanModel.baseConfigModel().replaceFileSize());
@@ -70,7 +70,7 @@ public class ScanTabController {
     _scanTabView.baseConfigTemplate().setWgetCurlPayloads(_scanModel.baseConfigModel().wgetCurlPayloads());
     _scanTabView.baseConfigTemplate().setSleepTime(_scanModel.baseConfigModel().sleepTime());
     _scanTabView.baseConfigTemplate().setThrottleValue(_scanModel.baseConfigModel().throttleTime());
-    
+
     _scanTabView.baseConfigTemplate().setGifFileType(_scanModel.baseConfigModel().gifFileType());
     _scanTabView.baseConfigTemplate().setPngFileType(_scanModel.baseConfigModel().pngFileType());
     _scanTabView.baseConfigTemplate().setJpegFileType(_scanModel.baseConfigModel().jpegFileType());
@@ -88,7 +88,7 @@ public class ScanTabController {
     _scanTabView.baseConfigTemplate().setGzipFileType(_scanModel.baseConfigModel().gzipFileType());
     _scanTabView.baseConfigTemplate().setHtmlFileType(_scanModel.baseConfigModel().htmlFileType());
     _scanTabView.baseConfigTemplate().setXmlFileType(_scanModel.baseConfigModel().xmlFileType());
-    
+
     _scanTabView.baseConfigTemplate().setActivescanScanCheck(_scanModel.baseConfigModel().activescanScanCheck());
     _scanTabView.baseConfigTemplate().setImagetragickScanCheck(_scanModel.baseConfigModel().imagetragickScanCheck());
     _scanTabView.baseConfigTemplate().setMagickScanCheck(_scanModel.baseConfigModel().magickScanCheck());
@@ -115,11 +115,11 @@ public class ScanTabController {
     _scanTabView.baseConfigTemplate().setFuzzerScanCheck(_scanModel.baseConfigModel().fuzzerScanCheck());
     _scanTabView.baseConfigTemplate().setDosScanCheck(_scanModel.baseConfigModel().dosScanCheck());
   }
-  
+
   private void displayMessage(String message){
       _scanTabView.displayMessage(message);
   }
-  
+
   ////////////////////////////////////////
   // PRIVATE CLASSES
   ////////////////////////////////////////
@@ -129,7 +129,7 @@ public class ScanTabController {
       // Perform the HTTP request in a background thread
       return _scanModel.sendPreflightReq();
     }
-    
+
     @Override
     protected void done() {
       // This method is executed in the EDT after the background task is completed
@@ -138,21 +138,23 @@ public class ScanTabController {
         requestResponse = get();
       }
       catch (InterruptedException | ExecutionException e) {
-        String message = "Something went wrong when requesting \"" + _scanModel.getPreflightRequest().url() + "\"\n" +
-                         e.getMessage() + "\n" + Arrays.toString(e.getStackTrace());
+        String message =
+            "Something went wrong when requesting \"" + _scanModel.getPreflightRequest().url() +
+            "\"\n" +
+            e.getMessage() + "\n" + Arrays.toString(e.getStackTrace());
         displayMessage(message);
       }
       _scanTabView.updatePreflightWindows(requestResponse);
     }
   }
-  
+
   private class SendReDownloadRequestWorker extends SwingWorker<HttpRequestResponse, Void> {
     @Override
     protected HttpRequestResponse doInBackground() {
       // Perform the HTTP request in a background thread
       return _scanModel.sendReDownloadReq();
     }
-    
+
     @Override
     protected void done() {
       // This method is executed in the EDT after the background task is completed
@@ -161,19 +163,24 @@ public class ScanTabController {
         requestResponse = get();
       }
       catch (InterruptedException | ExecutionException e) {
-        String message = "Something went wrong when requesting \"" + _scanModel.getPreflightRequest().url() + "\"\n" +
-                         e.getMessage() + "\n" + Arrays.toString(e.getStackTrace());
+        String message =
+            "Something went wrong when requesting \"" + _scanModel.getPreflightRequest().url() +
+            "\"\n" +
+            e.getMessage() + "\n" + Arrays.toString(e.getStackTrace());
         displayMessage(message);
       }
       _scanTabView.updateReDownloadWindows(requestResponse);
     }
   }
-  
+
   private class PreflightEndpointListener extends DebounceDocListener {
     public PreflightEndpointListener() {
       super(DEBOUNCE_DELAY, e->{
         String input = _scanTabView.preflightEndpoint();
-        if(_scanModel.getPreflightRequest() == null || !_scanModel.getPreflightRequest().url().equals(input)){
+        if (
+            _scanModel.getPreflightRequest() == null ||
+            !_scanModel.getPreflightRequest().url().equals(input)
+        ) {
           _scanModel.setPreflightEndpointInput(input);
           _scanTabView.updatePreflightWindow(_scanModel.getPreflightRequest());
           _scanTabView.setPreflightEndpointBackground(Color.white);
@@ -183,7 +190,7 @@ public class ScanTabController {
       });
     }
   }
-  
+
   private class AddStartMarkerListener extends DebounceDocListener {
     public AddStartMarkerListener() {
       super(DEBOUNCE_DELAY, e->{
@@ -201,7 +208,7 @@ public class ScanTabController {
       });
     }
   }
-  
+
   private class AddEndMarkerListener extends DebounceDocListener {
     public AddEndMarkerListener() {
       super(DEBOUNCE_DELAY, e->{

@@ -116,26 +116,26 @@ public class ScanTab extends JPanel {
 
   // Misc
   ////////////////////////////////////////
-  public void displayMessage(String message)              {JOptionPane.showMessageDialog(this, message);}
+  public void displayMessage(String message) {JOptionPane.showMessageDialog(this, message);}
   public void setStaticUrlBackground(Color color)         {_downloader.staticUrl.setBackground(color);}
   public void setPreflightEndpointBackground(Color color) {_downloader.preflightEndpointInput.setBackground(color);}
 
   ////////////////////////////////////////
   // PRIVATE FIELDS
   ////////////////////////////////////////
-  private final HttpRequestResponse  _requestResponse;
-  private final UserInterface        _apiUI;
-  private       ActionPanelTemplate  _actionPanel;
-  private       BaseConfigTemplate   _baseConfig;
-  private       DownloaderTemplate _downloader;
-  private       JPanel               _scanTabConfig;
-  private       JTabbedPane          _editorPanels;
-  private       HttpRequestEditor    _origReqEditor;
-  private       HttpResponseEditor   _origResEditor;
-  private       HttpRequestEditor    _prefliReqEditor;
-  private       HttpResponseEditor   _prefliResEditor;
-  private       HttpRequestEditor    _downReqEditor;
-  private       HttpResponseEditor   _downResEditor;
+  private final HttpRequestResponse _requestResponse;
+  private final UserInterface       _apiUI;
+  private       ActionPanelTemplate _actionPanel;
+  private       BaseConfigTemplate  _baseConfig;
+  private       DownloaderTemplate  _downloader;
+  private       JPanel              _scanTabConfig;
+  private       JTabbedPane         _editorPanels;
+  private       HttpRequestEditor   _origReqEditor;
+  private       HttpResponseEditor  _origResEditor;
+  private       HttpRequestEditor   _prefliReqEditor;
+  private       HttpResponseEditor  _prefliResEditor;
+  private       HttpRequestEditor   _downReqEditor;
+  private       HttpResponseEditor  _downResEditor;
 
 
   private enum editorTabs {
@@ -154,7 +154,7 @@ public class ScanTab extends JPanel {
     _scanTabConfig = new JPanel();
     _scanTabConfig.setLayout(new BoxLayout(_scanTabConfig, BoxLayout.Y_AXIS));
 
-    _baseConfig   = new BaseConfigTemplate();
+    _baseConfig = new BaseConfigTemplate();
     _downloader = new DownloaderTemplate();
 
     // Add more components as needed
