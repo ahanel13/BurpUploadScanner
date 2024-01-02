@@ -23,7 +23,8 @@ public class UploadScannerExtension implements BurpExtension {
       api.extension().setName("Upload Scanner");
 
       log("Extension Initialized.", false);
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       log(e.toString(), true);
     }
   }
@@ -31,7 +32,8 @@ public class UploadScannerExtension implements BurpExtension {
   private UploadScannerController getExtensionController() throws Exception {
     try {
       return new UploadScannerController(api, view);
-    } catch (IOException e) {
+    }
+    catch (IOException e) {
       log(e.toString(), true);
       log("Unloading Extension", false);
       api.extension().unload();
@@ -43,10 +45,12 @@ public class UploadScannerExtension implements BurpExtension {
     if (api != null) {
       if (error) {
         api.logging().logToError(output);
-      } else {
+      }
+      else {
         api.logging().logToOutput(output);
       }
-    } else {
+    }
+    else {
       System.out.println(output);
     }
   }

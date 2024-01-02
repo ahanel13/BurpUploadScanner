@@ -7,12 +7,14 @@ import java.util.regex.Pattern;
 @SuppressWarnings({"SpellCheckingInspection"})
 public class Constants {
   public static final String  DOWNLOAD_ME             = "DOWNLOAD_ME";
-  public static final String  MARKER_URL_CONTENT      = "A_FILENAME_PLACEHOLDER_FOR_THE_DESCRIPTION_NeVeR_OcCuRs_iN_ReAl_WoRlD_DaTa";
+  public static final String  MARKER_URL_CONTENT      =
+      "A_FILENAME_PLACEHOLDER_FOR_THE_DESCRIPTION_NeVeR_OcCuRs_iN_ReAl_WoRlD_DaTa";
   public static final String  ORIGINAL_FILE_EXTENSION = "ORIGINAL_FILE_EXTENSION";
   public static final String  MARKER_COLLAB_URL       = "http://example.org/";
   public static final String  MARKER_CACHE_DEFEAT_URL = "https://example.org/cachedefeat/";
   public static final String  NEWLINE                 = "\r\n";
-  public static final Pattern REGEX_PASSWD            = Pattern.compile("[^:]{3,20}:[^:]{1,100}:\\d{0,20}:\\d{0,20}:[^:]{0,100}:[^:]{0,100}:[^:]*$");
+  public static final Pattern REGEX_PASSWD            =
+      Pattern.compile("[^:]{3,20}:[^:]{1,100}:\\d{0,20}:\\d{0,20}:[^:]{0,100}:[^:]{0,100}:[^:]*$");
 
   // TODO: If we just add \\ the extension uploads *a lot more* files... worth doing?
   public static final String[] PROTOCOLS_HTTP = {
@@ -29,7 +31,8 @@ public class Constants {
   public static final int MAX_RESPONSE_SIZE                = 300000;  // 300kb
 
   // ReDownloader constants:
-  public static final String[]     REDOWNLOADER_URL_BAD_HEADERS = {"content-length:", "accept:", "content-type:", "referer:"};
+  public static final String[]     REDOWNLOADER_URL_BAD_HEADERS =
+      {"content-length:", "accept:", "content-type:", "referer:"};
   public static final String       REDOWNLOADER_FILENAME_MARKER = "${FILENAME}";
   public static final String       SEARCH_STR_MARKER_START      = "${PYTHONSTR:";
   public static final String       SEARCH_STR_MARKER_END        = "}";
@@ -61,7 +64,9 @@ public class Constants {
       "%%20x".repeat(200),
       "%%20n".repeat(200),
       "%%20d".repeat(200),
-      "%#0123456x%08x%x%s%p%n%d%o%u%c%h%l%q%j%z%Z%t%i%e%g%f%a%C%S%08x%%#0123456x%%x%%s%%p%%n%%d%%o%%u%%c%%h%%l%%q%%j%%z%%Z%%t%%i%%e%%g%%f%%a%%C%%S%08x",
+      "%#0123456x%08x%x%s%p%n%d%o%u%c%h%l%q%j%z%Z%t%i%e%g%f%a%C%S%08x%%#0123456x%%x%%s%%p%%n%%d" +
+      "%%o%%u%%c%%h%%l%%q%%j" +
+      "%%z%%Z%%t%%i%%e%%g%%f%%a%%C%%S%08x",
       "'",
       "\\",
       "<",

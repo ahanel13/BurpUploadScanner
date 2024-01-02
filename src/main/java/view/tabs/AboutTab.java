@@ -22,7 +22,5 @@ public class AboutTab extends JPanel {
     return aboutText;
   }
 
-  public String getTabName() {
-    return tabName;
-  }
+  public String getTabName() {return tabName;}
 }
