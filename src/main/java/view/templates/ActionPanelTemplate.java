@@ -9,32 +9,32 @@ public class ActionPanelTemplate extends JPanel{
   public final JButton      preflightRequestBtn;
   public final JButton      startScanBtn;
   public final JButton      stopScanBtn;
-  public final JButton      reDownloaderBtn;
-  public final Boolean      reDownloaderStat = false;
+  public final JButton      downloaderBtn;
+  public final Boolean      downloaderStat = false;
   public final JProgressBar progressBar;
   
   // PUBLIC FUNCTIONS //
   public ActionPanelTemplate(){
     setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
     preflightRequestBtn = new JButton("Send Preflight Request");
-    reDownloaderBtn     = new JButton("Send ReDownloader Request");
+    downloaderBtn     = new JButton("Send Downloader Request");
     startScanBtn        = new JButton("Start Scan");
     stopScanBtn = new JButton("Stop Scan");
     progressBar = new JProgressBar(0, 100);
     
-    JPanel reDownloaderConfigPanel = getReDownloaderPanel();
+    JPanel downloaderConfigPanel = getDownloaderPanel();
     JPanel scanControls            = getScanControls();
     
     stopScanBtn.setEnabled(false);
-    reDownloaderBtn.setEnabled(false);
+    downloaderBtn.setEnabled(false);
     preflightRequestBtn.setEnabled(false);
     
-    add(reDownloaderConfigPanel);
+    add(downloaderConfigPanel);
     add(scanControls);
   }
   
   // PRIVATE DATA //
-  private static final String  REDOWNLOADER_STATUS_TEXT = "ReDownloader Configured: ";
+  private static final String  REDOWNLOADER_STATUS_TEXT = "Downloader Configured: ";
   
   // PRIVATE METHODS //
   private JPanel getScanControls(){
@@ -55,25 +55,25 @@ public class ActionPanelTemplate extends JPanel{
     return controlPanel;
   }
   
-  private JPanel getReDownloaderPanel(){
+  private JPanel getDownloaderPanel(){
     JPanel configPanel = new JPanel();
     configPanel.setLayout(new BoxLayout(configPanel, BoxLayout.Y_AXIS));
     configPanel.setBorder(new LineBorder(Color.GRAY));
     
-    JLabel configStatus = new JLabel(REDOWNLOADER_STATUS_TEXT + reDownloaderStat.toString());
+    JLabel configStatus = new JLabel(REDOWNLOADER_STATUS_TEXT + downloaderStat.toString());
     configStatus.setAlignmentX(CENTER_ALIGNMENT);
     configPanel.add(configStatus);
     
     JPanel preflightPanel = new JPanel();
     preflightPanel.add(preflightRequestBtn);
     
-    JPanel reDownloaderPanel = new JPanel();
-    reDownloaderPanel.add(reDownloaderBtn);
+    JPanel downloaderPanel = new JPanel();
+    downloaderPanel.add(downloaderBtn);
     
     JPanel buttonGroup = new JPanel();
     buttonGroup.setLayout(new FlowLayout());
     buttonGroup.add(preflightPanel);
-    buttonGroup.add(reDownloaderPanel);
+    buttonGroup.add(downloaderPanel);
     
     configPanel.add(buttonGroup);
     return configPanel;

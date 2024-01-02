@@ -28,7 +28,7 @@ public class Constants {
   public static final int MAX_SERIALIZED_DOWNLOAD_MATCHERS = 500;
   public static final int MAX_RESPONSE_SIZE                = 300000;  // 300kb
 
-  // ReDownloader constants:
+  // Downloader constants:
   public static final String[]     REDOWNLOADER_URL_BAD_HEADERS = {"content-length:", "accept:", "content-type:", "referer:"};
   public static final String       REDOWNLOADER_FILENAME_MARKER = "${FILENAME}";
   public static final String       SEARCH_STR_MARKER_START      = "${PYTHONSTR:";

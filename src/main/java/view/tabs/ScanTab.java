@@ -7,7 +7,7 @@ import burp.api.montoya.ui.editor.HttpRequestEditor;
 import burp.api.montoya.ui.editor.HttpResponseEditor;
 import view.templates.ActionPanelTemplate;
 import view.templates.BaseConfigTemplate;
-import view.templates.ReDownloaderTemplate;
+import view.templates.DownloaderTemplate;
 
 import javax.swing.*;
 import javax.swing.event.DocumentListener;
@@ -42,36 +42,36 @@ public class ScanTab extends JPanel {
 
   // REDownLoader GETTERS
   ////////////////////////////////////////
-  public String preflightEndpoint() {return _reDownloader.preflightEndpointInput.getText();}
-  public boolean replaceBackslash() {return _reDownloader.replaceBackslash.isSelected();}
-  public String getStartMarker()    {return _reDownloader.startMarker.getText();}
-  public String getEndMarker()      {return _reDownloader.endMarker.getText();}
-  public String getPrefix()         {return _reDownloader.prefix.getText();}
-  public String getSuffix()         {return _reDownloader.suffix.getText();}
-  public String getStaticUrl()      {return _reDownloader.staticUrl.getText();}
+  public String preflightEndpoint() {return _downloader.preflightEndpointInput.getText();}
+  public boolean replaceBackslash() {return _downloader.replaceBackslash.isSelected();}
+  public String getStartMarker()    {return _downloader.startMarker.getText();}
+  public String getEndMarker()      {return _downloader.endMarker.getText();}
+  public String getPrefix()         {return _downloader.prefix.getText();}
+  public String getSuffix()         {return _downloader.suffix.getText();}
+  public String getStaticUrl()      {return _downloader.staticUrl.getText();}
 
   // Listener SETTERS
   ////////////////////////////////////////
   public void addSendPreflightReqListener(ActionListener l) {_actionPanel.preflightRequestBtn.addActionListener(l);}
   public void addPreflightEndpointListener(DocumentListener l) {
-    _reDownloader.preflightEndpointInput.getDocument()
+    _downloader.preflightEndpointInput.getDocument()
         .addDocumentListener(l);
   }
-  public void addReplaceBackslashListener(ActionListener l) {_reDownloader.replaceBackslash.addActionListener(l);}
+  public void addReplaceBackslashListener(ActionListener l) {_downloader.replaceBackslash.addActionListener(l);}
   public void addStartMarkerListener(DocumentListener l) {
-    _reDownloader.startMarker.getDocument()
+    _downloader.startMarker.getDocument()
         .addDocumentListener(l);
   }
   public void addEndMarkerListener(DocumentListener l) {
-    _reDownloader.endMarker.getDocument()
+    _downloader.endMarker.getDocument()
         .addDocumentListener(l);
   }
-  public void addPrefixListener(ActionListener l)          {_reDownloader.prefix.addActionListener(l);}
-  public void addSuffixListener(ActionListener l)          {_reDownloader.suffix.addActionListener(l);}
-  public void addStaticUrlListener(ActionListener l)       {_reDownloader.staticUrl.addActionListener(l);}
-  public void setStartMarkerBackground(Color color)        {_reDownloader.startMarker.setBackground(color);}
-  public void setEndMarkerBackground(Color color)          {_reDownloader.endMarker.setBackground(color);}
-  public void addSendDownloadReqListener(ActionListener l) {_actionPanel.reDownloaderBtn.addActionListener(l);}
+  public void addPrefixListener(ActionListener l)          {_downloader.prefix.addActionListener(l);}
+  public void addSuffixListener(ActionListener l)          {_downloader.suffix.addActionListener(l);}
+  public void addStaticUrlListener(ActionListener l)       {_downloader.staticUrl.addActionListener(l);}
+  public void setStartMarkerBackground(Color color)        {_downloader.startMarker.setBackground(color);}
+  public void setEndMarkerBackground(Color color)          {_downloader.endMarker.setBackground(color);}
+  public void addSendDownloadReqListener(ActionListener l) {_actionPanel.downloaderBtn.addActionListener(l);}
 
   // HttpEditor Update Functions
   ////////////////////////////////////////
@@ -102,7 +102,7 @@ public class ScanTab extends JPanel {
       _editorPanels.setEnabledAt(editorTabs.downloadRequest.ordinal(), false);
     else {
       _editorPanels.setEnabledAt(editorTabs.downloadRequest.ordinal(), true);
-      _actionPanel.reDownloaderBtn.setEnabled(true);
+      _actionPanel.downloaderBtn.setEnabled(true);
     }
     _editorPanels.updateUI();
   }
@@ -117,8 +117,8 @@ public class ScanTab extends JPanel {
   // Misc
   ////////////////////////////////////////
   public void displayMessage(String message)              {JOptionPane.showMessageDialog(this, message);}
-  public void setStaticUrlBackground(Color color)         {_reDownloader.staticUrl.setBackground(color);}
-  public void setPreflightEndpointBackground(Color color) {_reDownloader.preflightEndpointInput.setBackground(color);}
+  public void setStaticUrlBackground(Color color)         {_downloader.staticUrl.setBackground(color);}
+  public void setPreflightEndpointBackground(Color color) {_downloader.preflightEndpointInput.setBackground(color);}
 
   ////////////////////////////////////////
   // PRIVATE FIELDS
@@ -127,7 +127,7 @@ public class ScanTab extends JPanel {
   private final UserInterface        _apiUI;
   private       ActionPanelTemplate  _actionPanel;
   private       BaseConfigTemplate   _baseConfig;
-  private       ReDownloaderTemplate _reDownloader;
+  private       DownloaderTemplate _downloader;
   private       JPanel               _scanTabConfig;
   private       JTabbedPane          _editorPanels;
   private       HttpRequestEditor    _origReqEditor;
@@ -155,11 +155,11 @@ public class ScanTab extends JPanel {
     _scanTabConfig.setLayout(new BoxLayout(_scanTabConfig, BoxLayout.Y_AXIS));
 
     _baseConfig   = new BaseConfigTemplate();
-    _reDownloader = new ReDownloaderTemplate();
+    _downloader = new DownloaderTemplate();
 
     // Add more components as needed
     _scanTabConfig.add(_baseConfig);
-    _scanTabConfig.add(_reDownloader);
+    _scanTabConfig.add(_downloader);
 
     // Wrap in JScrollPane for scrollability
     JScrollPane pane = new JScrollPane(_scanTabConfig);
