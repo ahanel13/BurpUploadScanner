@@ -50,12 +50,12 @@ public class Downloader {
 
   public String setStartMarker(String s) {
     _startMarker = s;
-    return setReDownloaderMarkerSelections();
+    return setDownloaderMarkerSelections();
   }
 
   public String setEndMarker(String s) {
     _endMarker = s;
-    return setReDownloaderMarkerSelections();
+    return setDownloaderMarkerSelections();
   }
 
   ////////////////////////////////////////
@@ -77,7 +77,7 @@ public class Downloader {
   ////////////////////////////////////////
   // PRIVATE METHODS
   ////////////////////////////////////////
-  private String setReDownloaderMarkerSelections() {
+  private String setDownloaderMarkerSelections() {
     StringBuilder selection = new StringBuilder();
     HttpResponse  response  = (preflightUsed()
         ? _preflightResponse : _uploadRequestResponse.response());

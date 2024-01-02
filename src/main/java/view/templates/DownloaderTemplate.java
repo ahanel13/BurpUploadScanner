@@ -3,7 +3,7 @@ package view.templates;
 import javax.swing.*;
 import java.awt.*;
 
-public class ReDownloaderTemplate extends JPanel {
+public class DownloaderTemplate extends JPanel {
   // PUBLIC DATA //
   public final JTextField preflightEndpointInput;
   public final JTextField startMarker;
@@ -14,7 +14,7 @@ public class ReDownloaderTemplate extends JPanel {
   public final JTextField staticUrl;
   
   // PUBLIC FUNCTIONS //
-  public ReDownloaderTemplate() {
+  public DownloaderTemplate() {
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     Dimension mainSize = new Dimension(750, 275);
     setPreferredSize(mainSize);
@@ -41,7 +41,7 @@ public class ReDownloaderTemplate extends JPanel {
   
   // PRIVATE DATA //
   private static final Dimension STD_DIMENSION      = new Dimension(750, 50);
-  private static final String SECTION_TITLE         = "ReDownloader parser options";
+  private static final String SECTION_TITLE         = "Downloader parser options";
   private static final String PREFLIGHT_CHKBOX_TXT  =
       "Send a preflight request before searching for the download endpoint";
   private static final String PREFLIGHT_INPUT_TXT   = "Enter preflight endpoint eg. http://example.com/myprofile/";

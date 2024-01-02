@@ -18,7 +18,7 @@ public class ScanTabController {
   public ScanTabController(ScanModel scanModel, ScanTab scanTabView) {
     _scanModel   = scanModel;
     _scanTabView = scanTabView;
-    _addReDownloaderListeners();
+    _addDownloaderListeners();
     _addActionPanelListeners();
     _syncView2Model();
   }
@@ -39,7 +39,7 @@ public class ScanTabController {
     _scanTabView.addSendPreflightReqListener(e->new SendPreflightRequestWorker().execute());
   }
   
-  private void _addReDownloaderListeners() {
+  private void _addDownloaderListeners() {
     _scanTabView.addPreflightEndpointListener(new PreflightEndpointListener());
     _scanTabView.addReplaceBackslashListener(e->_scanModel.setReplaceBackslash(_scanTabView.replaceBackslash()));
     _scanTabView.addStartMarkerListener(new AddStartMarkerListener());
