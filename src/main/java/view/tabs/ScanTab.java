@@ -2,6 +2,7 @@ package view.tabs;
 
 import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.http.message.requests.HttpRequest;
+import burp.api.montoya.http.message.responses.HttpResponse;
 import burp.api.montoya.ui.UserInterface;
 import burp.api.montoya.ui.editor.HttpRequestEditor;
 import burp.api.montoya.ui.editor.HttpResponseEditor;
@@ -11,6 +12,8 @@ import view.templates.DownloaderTemplate;
 
 import javax.swing.*;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -42,35 +45,35 @@ public class ScanTab extends JPanel {
 
   // REDownLoader GETTERS
   ////////////////////////////////////////
-  public String preflightEndpoint() {return _downloader.preflightEndpointInput.getText();}
-  public boolean replaceBackslash() {return _downloader.replaceBackslash.isSelected();}
-  public String getStartMarker()    {return _downloader.startMarker.getText();}
-  public String getEndMarker()      {return _downloader.endMarker.getText();}
-  public String getPrefix()         {return _downloader.prefix.getText();}
-  public String getSuffix()         {return _downloader.suffix.getText();}
-  public String getStaticUrl()      {return _downloader.staticUrl.getText();}
+  public String preflightEndpoint() {return _downloaderComp.preflightEndpointInput.getText();}
+  public boolean replaceBackslash() {return _downloaderComp.replaceBackslash.isSelected();}
+  public String getStartMarker()    {return _downloaderComp.startMarker.getText();}
+  public String getEndMarker()      {return _downloaderComp.endMarker.getText();}
+  public String getPrefix()         {return _downloaderComp.prefix.getText();}
+  public String getSuffix()         {return _downloaderComp.suffix.getText();}
+  public String getStaticUrl()      {return _downloaderComp.staticUrl.getText();}
 
   // Listener SETTERS
   ////////////////////////////////////////
   public void addSendPreflightReqListener(ActionListener l) {_actionPanel.preflightRequestBtn.addActionListener(l);}
   public void addPreflightEndpointListener(DocumentListener l) {
-    _downloader.preflightEndpointInput.getDocument()
+    _downloaderComp.preflightEndpointInput.getDocument()
         .addDocumentListener(l);
   }
-  public void addReplaceBackslashListener(ActionListener l) {_downloader.replaceBackslash.addActionListener(l);}
+  public void addReplaceBackslashListener(ActionListener l) {_downloaderComp.replaceBackslash.addActionListener(l);}
   public void addStartMarkerListener(DocumentListener l) {
-    _downloader.startMarker.getDocument()
+    _downloaderComp.startMarker.getDocument()
         .addDocumentListener(l);
   }
   public void addEndMarkerListener(DocumentListener l) {
-    _downloader.endMarker.getDocument()
+    _downloaderComp.endMarker.getDocument()
         .addDocumentListener(l);
   }
-  public void addPrefixListener(ActionListener l)          {_downloader.prefix.addActionListener(l);}
-  public void addSuffixListener(ActionListener l)          {_downloader.suffix.addActionListener(l);}
-  public void addStaticUrlListener(ActionListener l)       {_downloader.staticUrl.addActionListener(l);}
-  public void setStartMarkerBackground(Color color)        {_downloader.startMarker.setBackground(color);}
-  public void setEndMarkerBackground(Color color)          {_downloader.endMarker.setBackground(color);}
+  public void addPrefixListener(ActionListener l)          {_downloaderComp.prefix.addActionListener(l);}
+  public void addSuffixListener(ActionListener l)          {_downloaderComp.suffix.addActionListener(l);}
+  public void addStaticUrlListener(ActionListener l)       {_downloaderComp.staticUrl.addActionListener(l);}
+  public void setStartMarkerBackground(Color color)        {_downloaderComp.startMarker.setBackground(color);}
+  public void setEndMarkerBackground(Color color)          {_downloaderComp.endMarker.setBackground(color);}
   public void addSendDownloadReqListener(ActionListener l) {_actionPanel.downloaderBtn.addActionListener(l);}
 
   // HttpEditor Update Functions
@@ -87,6 +90,17 @@ public class ScanTab extends JPanel {
     _editorPanels.setEnabledAt(editorTabs.preflightRequest.ordinal(), true);
     _editorPanels.updateUI();
     _actionPanel.preflightRequestBtn.setEnabled(true);
+  }
+
+  public void disablePreflightWindows() {
+    _prefliReqEditor.setRequest(HttpRequest.httpRequest());
+    _prefliResEditor.setSearchExpression("");
+    _prefliResEditor.setResponse(HttpResponse.httpResponse());
+    _prefliReqEditor.setSearchExpression("");
+    _editorPanels.setEnabledAt(editorTabs.preflightRequest.ordinal(), false);
+    _editorPanels.setEnabledAt(editorTabs.preflightResponse.ordinal(), false);
+    _editorPanels.updateUI();
+    _actionPanel.preflightRequestBtn.setEnabled(false);
   }
 
   public void updateReDownloadWindows(HttpRequestResponse requestResponse) {
@@ -117,8 +131,13 @@ public class ScanTab extends JPanel {
   // Misc
   ////////////////////////////////////////
   public void displayMessage(String message) {JOptionPane.showMessageDialog(this, message);}
-  public void setStaticUrlBackground(Color color)         {_downloader.staticUrl.setBackground(color);}
-  public void setPreflightEndpointBackground(Color color) {_downloader.preflightEndpointInput.setBackground(color);}
+  public void setStaticUrlBackground(Color color)         {_downloaderComp.staticUrl.setBackground(color);}
+  public void setPreflightEndpointBackground(Color color) {_downloaderComp.preflightEndpointInput.setBackground(color);}
+
+  public void triggerParsers() {
+    _triggerActionOn(_downloaderComp.startMarker);
+    _triggerActionOn(_downloaderComp.endMarker);
+  }
 
   ////////////////////////////////////////
   // PRIVATE FIELDS
@@ -127,7 +146,7 @@ public class ScanTab extends JPanel {
   private final UserInterface       _apiUI;
   private       ActionPanelTemplate _actionPanel;
   private       BaseConfigTemplate  _baseConfig;
-  private       DownloaderTemplate  _downloader;
+  private       DownloaderTemplate  _downloaderComp;
   private       JPanel              _scanTabConfig;
   private       JTabbedPane         _editorPanels;
   private       HttpRequestEditor   _origReqEditor;
@@ -154,12 +173,12 @@ public class ScanTab extends JPanel {
     _scanTabConfig = new JPanel();
     _scanTabConfig.setLayout(new BoxLayout(_scanTabConfig, BoxLayout.Y_AXIS));
 
-    _baseConfig = new BaseConfigTemplate();
-    _downloader = new DownloaderTemplate();
+    _baseConfig     = new BaseConfigTemplate();
+    _downloaderComp = new DownloaderTemplate();
 
     // Add more components as needed
     _scanTabConfig.add(_baseConfig);
-    _scanTabConfig.add(_downloader);
+    _scanTabConfig.add(_downloaderComp);
 
     // Wrap in JScrollPane for scrollability
     JScrollPane pane = new JScrollPane(_scanTabConfig);
@@ -206,5 +225,17 @@ public class ScanTab extends JPanel {
     }
 
     return editorPane;
+  }
+
+  // Misc
+  ////////////////////////////////////////
+  private static void _triggerActionOn( JTextField component) {
+    Document document = component.getDocument();
+    document.putProperty("suppressNotify", true); // Suppress firing events temporarily
+    try {
+      document.insertString(document.getLength(), "", null);
+      document.remove(0, 0);
+    }catch (BadLocationException e) {throw new RuntimeException(e);}
+    document.putProperty("suppressNotify", false); // Allow firing events again
   }
 }

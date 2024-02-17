@@ -27,7 +27,15 @@ public class Downloader {
   public void setSuffix(String s)                   {_suffix = s;}
   public HttpRequest getPreflightRequest()          {return _preflightRequest;}
   public HttpRequest getReDownloadRequest()         {return _reDownloadRequest;}
-  public void setPreflightEndpointInput(String url) {_preflightRequest = HttpRequest.httpRequestFromUrl(url);}
+
+  public void setPreflightEndpointInput(String url) {
+    if (url.isEmpty())
+      _preflightRequest = null;
+    else {
+      _preflightRequest = HttpRequest.httpRequestFromUrl(url);
+      _preflightRequest = addCookiesTo(_preflightRequest);
+    }
+  }
 
   public HttpRequestResponse sendPreflightReq() {
     HttpRequestResponse requestResponse = _api.http().sendRequest(_preflightRequest);
@@ -45,6 +53,7 @@ public class Downloader {
     _staticUrl = url;
     if (RequestUtils.isValidURL(url)) {
       _reDownloadRequest = HttpRequest.httpRequestFromUrl(url);
+      _reDownloadRequest = addCookiesTo(_reDownloadRequest);
       return true;
     }
     else return false;
@@ -84,20 +93,38 @@ public class Downloader {
     HttpResponse response = (preflightUsed()
         ? _preflightResponse : _uploadRequestResponse.response());
 
+    // if both markers are not empty
     if (!_startMarker.isEmpty() && !_endMarker.isEmpty())
       selection.append(_startMarker).append(".*").append(_endMarker);
-    else if (!_startMarker.isEmpty()) selection.append(_startMarker);
-    else if (!_endMarker.isEmpty()) selection.append(_endMarker);
+    // if only start marker is not empty
+    else if (!_startMarker.isEmpty())
+      selection.append(_startMarker);
+    // if only end marker is not empty
+    else if (!_endMarker.isEmpty())
+      selection.append(_endMarker);
 
     Pattern pattern = Pattern.compile(selection.toString());
     Matcher matcher = pattern.matcher(response.toString());
 
+    // if a match is found
     if (matcher.find()) {
       String match = matcher.group(0); // This will contain the matched string
-      if (!_endMarker.isEmpty()) {
+
+      // if both markers are set
+      if (!_startMarker.isEmpty() && !_endMarker.isEmpty()) {
         match = match.substring(_startMarker.length());
         match = match.substring(0, match.length() - _endMarker.length());
-        if (!setReDownloadRequest(match)) {
+
+        // match could be a URL or a relative PATH
+        if (!RequestUtils.isValidURL(match)) {
+          HttpRequest request = _uploadRequestResponse.request();
+          String url = request.url().replace(request.path(), "");
+          url = url +match;
+          if (!setReDownloadRequest(url)) {
+            return "";
+          }
+        }
+        else if (!setReDownloadRequest(match)) {
           return "";
         }
       }
@@ -122,5 +149,14 @@ public class Downloader {
     catch (Exception e) {
       return false;
     }
+  }
+
+  private HttpRequest addCookiesTo(HttpRequest request) {
+    for (HttpHeader header : _uploadRequestResponse.request().headers()) {
+      // don't include the multipart content header
+      if (!header.name().equalsIgnoreCase("Content-Type"))
+        request = request.withAddedHeader(header);
+    }
+    return request;
   }
 }

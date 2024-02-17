@@ -21,7 +21,7 @@ public class ScanModel {
   public void setPreflightEndpointInput(String url) {_downloader.setPreflightEndpointInput(url);}
   public boolean setStaticUrl(String url)           {return _downloader.setStaticUrl(url);}
   public String setStartMarker(String s)            {return _downloader.setStartMarker(s);}
-  public String setEndMarker(String s)              {return _downloader.setStartMarker(s);}
+  public String setEndMarker(String s)              {return _downloader.setEndMarker(s);}
 
   public HttpRequest getPreflightRequest()          {return _downloader.getPreflightRequest();}
   public HttpRequest getReDownloadRequest()         {return _downloader.getReDownloadRequest();}

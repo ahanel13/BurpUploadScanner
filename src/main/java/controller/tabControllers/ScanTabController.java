@@ -4,6 +4,7 @@ import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.http.message.requests.HttpRequest;
 import model.ScanModel;
 import model.utilities.DebounceDocListener;
+import model.utilities.RequestUtils;
 import view.tabs.ScanTab;
 
 import javax.swing.*;
@@ -176,17 +177,34 @@ public class ScanTabController {
   private class PreflightEndpointListener extends DebounceDocListener {
     public PreflightEndpointListener() {
       super(DEBOUNCE_DELAY, e->{
+
         String input = _scanTabView.preflightEndpoint();
-        if (
-            _scanModel.getPreflightRequest() == null ||
-            !_scanModel.getPreflightRequest().url().equals(input)
-        ) {
-          _scanModel.setPreflightEndpointInput(input);
-          _scanTabView.updatePreflightWindow(_scanModel.getPreflightRequest());
-          _scanTabView.setPreflightEndpointBackground(Color.white);
+
+        // if user no longer wants to user preflight option
+        if (input.trim().isEmpty()) {
+          _scanModel.setPreflightEndpointInput("");
+          _scanTabView.setPreflightEndpointBackground(Color.gray);
+          _scanTabView.disablePreflightWindows();
+          _scanTabView.triggerParsers();
         }
-        else
-          _scanTabView.setPreflightEndpointBackground(Color.red);
+        // else user is trying to pass a URL
+        else {
+          // if user has not set a URL or is a different url
+          if (
+              _scanModel.getPreflightRequest() == null ||
+              !_scanModel.getPreflightRequest().url().equals(input)
+          ) {
+            if (RequestUtils.isValidURL(input)) {
+              _scanModel.setPreflightEndpointInput(input);
+              _scanTabView.updatePreflightWindow(_scanModel.getPreflightRequest());
+              _scanTabView.setPreflightEndpointBackground(new Color(0, 144, 18, 131));
+            }
+            else {
+              _scanTabView.setPreflightEndpointBackground(new Color(144, 0, 0, 100));
+              _scanTabView.disablePreflightWindows();
+            }
+          }
+        }
       });
     }
   }
@@ -196,6 +214,7 @@ public class ScanTabController {
       super(DEBOUNCE_DELAY, e->{
         String input = _scanTabView.getStartMarker();
         String match = _scanModel.setStartMarker(input);
+
         if (match.isEmpty()) {
           _scanTabView.setStartMarkerBackground(Color.red);
           _scanTabView.setReDownloadEditor(HttpRequest.httpRequest());
