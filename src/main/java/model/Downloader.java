@@ -38,19 +38,28 @@ public class Downloader {
   }
 
   public HttpRequestResponse sendPreflightReq() {
-    HttpRequestResponse requestResponse = _api.http().sendRequest(_preflightRequest);
+    Sender sender = new Sender(_api, _preflightRequest);
+    sender.execute();
+
+    HttpRequestResponse requestResponse = sender.getResponse();
     _preflightResponse = requestResponse.response();
     return requestResponse;
   }
 
   public HttpRequestResponse sendReDownloadReq() {
-    HttpRequestResponse requestResponse = _api.http().sendRequest(_reDownloadRequest);
+    Sender sender = new Sender(_api, _reDownloadRequest);
+    sender.execute();
+
+    HttpRequestResponse requestResponse = sender.getResponse();
     _reDownloadResponse = requestResponse.response();
+    _isReady            = true;
     return requestResponse;
   }
 
   public boolean setStaticUrl(String url) {
     _staticUrl = url;
+    _isReady = false;
+
     if (RequestUtils.isValidURL(url)) {
       _reDownloadRequest = HttpRequest.httpRequestFromUrl(url);
       _reDownloadRequest = addCookiesTo(_reDownloadRequest);
@@ -69,6 +78,10 @@ public class Downloader {
     return setDownloaderMarkerSelections();
   }
 
+  public boolean isUsed() {
+    return _isReady;
+  }
+
   ////////////////////////////////////////
   // PRIVATE FIELDS
   ////////////////////////////////////////
@@ -84,6 +97,7 @@ public class Downloader {
   private       HttpResponse        _preflightResponse;
   private       HttpRequest         _reDownloadRequest = HttpRequest.httpRequest();
   private       HttpResponse        _reDownloadResponse;
+  private       boolean             _isReady = false;
 
   ////////////////////////////////////////
   // PRIVATE METHODS
@@ -133,9 +147,12 @@ public class Downloader {
     return "";
   }
 
-  private boolean preflightUsed() {return _preflightRequest != null && !_preflightRequest.toString().isEmpty();}
+  private boolean preflightUsed() {
+    return _preflightRequest != null && !_preflightRequest.toString().isEmpty();
+  }
 
   private boolean setReDownloadRequest(String match) {
+    _isReady = false;
     try {
       _reDownloadRequest = HttpRequest.httpRequestFromUrl(match);
       for (HttpHeader header : _uploadRequestResponse.request().headers()) {

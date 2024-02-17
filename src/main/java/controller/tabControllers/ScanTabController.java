@@ -7,10 +7,7 @@ import model.utilities.DebounceDocListener;
 import model.utilities.RequestUtils;
 import view.tabs.ScanTab;
 
-import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
 
 public class ScanTabController {
   ////////////////////////////////////////
@@ -35,8 +32,17 @@ public class ScanTabController {
   // PRIVATE METHODS
   ////////////////////////////////////////
   private void _addActionPanelListeners() {
-    _scanTabView.addSendDownloadReqListener(e->new SendReDownloadRequestWorker().execute());
-    _scanTabView.addSendPreflightReqListener(e->new SendPreflightRequestWorker().execute());
+    _scanTabView.addSendDownloadReqListener(e-> {
+      HttpRequestResponse requestResponse = _scanModel.sendReDownloadReq();
+      _scanTabView.updateReDownloadWindows(requestResponse);
+    });
+
+    _scanTabView.addSendPreflightReqListener(e-> {
+      HttpRequestResponse requestResponse = _scanModel.sendPreflightReq();
+      _scanTabView.updatePreflightWindows(requestResponse);
+    });
+
+    _scanTabView.addStartScanListener(e-> _scanModel.startScan());
   }
 
   private void _addDownloaderListeners() {
@@ -124,56 +130,6 @@ public class ScanTabController {
   ////////////////////////////////////////
   // PRIVATE CLASSES
   ////////////////////////////////////////
-  private class SendPreflightRequestWorker extends SwingWorker<HttpRequestResponse, Void> {
-    @Override
-    protected HttpRequestResponse doInBackground() {
-      // Perform the HTTP request in a background thread
-      return _scanModel.sendPreflightReq();
-    }
-
-    @Override
-    protected void done() {
-      // This method is executed in the EDT after the background task is completed
-      HttpRequestResponse requestResponse = null; // get the result of doInBackground
-      try {
-        requestResponse = get();
-      }
-      catch (InterruptedException | ExecutionException e) {
-        String message =
-            "Something went wrong when requesting \"" + _scanModel.getPreflightRequest().url() +
-            "\"\n" +
-            e.getMessage() + "\n" + Arrays.toString(e.getStackTrace());
-        displayMessage(message);
-      }
-      _scanTabView.updatePreflightWindows(requestResponse);
-    }
-  }
-
-  private class SendReDownloadRequestWorker extends SwingWorker<HttpRequestResponse, Void> {
-    @Override
-    protected HttpRequestResponse doInBackground() {
-      // Perform the HTTP request in a background thread
-      return _scanModel.sendReDownloadReq();
-    }
-
-    @Override
-    protected void done() {
-      // This method is executed in the EDT after the background task is completed
-      HttpRequestResponse requestResponse = null; // get the result of doInBackground
-      try {
-        requestResponse = get();
-      }
-      catch (InterruptedException | ExecutionException e) {
-        String message =
-            "Something went wrong when requesting \"" + _scanModel.getPreflightRequest().url() +
-            "\"\n" +
-            e.getMessage() + "\n" + Arrays.toString(e.getStackTrace());
-        displayMessage(message);
-      }
-      _scanTabView.updateReDownloadWindows(requestResponse);
-    }
-  }
-
   private class PreflightEndpointListener extends DebounceDocListener {
     public PreflightEndpointListener() {
       super(DEBOUNCE_DELAY, e->{
