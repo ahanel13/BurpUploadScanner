@@ -56,22 +56,26 @@ public class ScanTab extends JPanel {
   // Listener SETTERS
   ////////////////////////////////////////
   public void addSendPreflightReqListener(ActionListener l) {_actionPanel.preflightRequestBtn.addActionListener(l);}
-  public void addPreflightEndpointListener(DocumentListener l) {
-    _downloaderComp.preflightEndpointInput.getDocument()
-        .addDocumentListener(l);
-  }
   public void addReplaceBackslashListener(ActionListener l) {_downloaderComp.replaceBackslash.addActionListener(l);}
+
+  public void addPreflightEndpointListener(DocumentListener l) {
+    _downloaderComp.preflightEndpointInput.getDocument().addDocumentListener(l);
+  }
+
   public void addStartMarkerListener(DocumentListener l) {
-    _downloaderComp.startMarker.getDocument()
-        .addDocumentListener(l);
+    _downloaderComp.startMarker.getDocument().addDocumentListener(l);
   }
+
   public void addEndMarkerListener(DocumentListener l) {
-    _downloaderComp.endMarker.getDocument()
-        .addDocumentListener(l);
+    _downloaderComp.endMarker.getDocument().addDocumentListener(l);
   }
+
+  public void addStaticUrlListener(DocumentListener l) {
+    _downloaderComp.staticUrl.getDocument().addDocumentListener(l);
+  }
+
   public void addPrefixListener(ActionListener l)          {_downloaderComp.prefix.addActionListener(l);}
   public void addSuffixListener(ActionListener l)          {_downloaderComp.suffix.addActionListener(l);}
-  public void addStaticUrlListener(ActionListener l)       {_downloaderComp.staticUrl.addActionListener(l);}
   public void setStartMarkerBackground(Color color)        {_downloaderComp.startMarker.setBackground(color);}
   public void setEndMarkerBackground(Color color)          {_downloaderComp.endMarker.setBackground(color);}
   public void addSendDownloadReqListener(ActionListener l) {_actionPanel.downloaderBtn.addActionListener(l);}

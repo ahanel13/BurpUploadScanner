@@ -3,6 +3,8 @@ package model;
 import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.http.message.HttpHeader;
 import burp.api.montoya.http.message.HttpRequestResponse;
+import burp.api.montoya.http.message.params.HttpParameterType;
+import burp.api.montoya.http.message.params.ParsedHttpParameter;
 import burp.api.montoya.http.message.requests.HttpRequest;
 import burp.api.montoya.http.message.responses.HttpResponse;
 import model.utilities.RequestUtils;
@@ -15,7 +17,8 @@ public class Downloader {
   // PUBLIC FUNCTIONS
   ////////////////////////////////////////
   public Downloader(MontoyaApi api, HttpRequestResponse uploadRequestResponse) {
-    _api                   = api;
+    _api      = api;
+    _filename = getFilename(uploadRequestResponse.request());
     _uploadRequestResponse = uploadRequestResponse;
   }
 
@@ -56,16 +59,12 @@ public class Downloader {
     return requestResponse;
   }
 
-  public boolean setStaticUrl(String url) {
-    _staticUrl = url;
+  public void setStaticUrl(String url) {
+    _staticUrl = url.replace(FILENAME_TAG, _filename);;
     _isReady = false;
 
-    if (RequestUtils.isValidURL(url)) {
-      _reDownloadRequest = HttpRequest.httpRequestFromUrl(url);
-      _reDownloadRequest = addCookiesTo(_reDownloadRequest);
-      return true;
-    }
-    else return false;
+    _reDownloadRequest = HttpRequest.httpRequestFromUrl(_staticUrl);
+    _reDownloadRequest = addCookiesTo(_reDownloadRequest);
   }
 
   public String setStartMarker(String s) {
@@ -85,23 +84,43 @@ public class Downloader {
   ////////////////////////////////////////
   // PRIVATE FIELDS
   ////////////////////////////////////////
-  private final MontoyaApi          _api;
+  private static final CharSequence FILENAME_TAG = "${FILENAME}";
+
+  private final MontoyaApi _api;
+  private final String     _filename;
   private final HttpRequestResponse _uploadRequestResponse;
-  private       String              _startMarker       = "";
-  private       String              _endMarker         = "";
-  private       boolean             _replaceBackslash;
-  private       String              _prefix;
-  private       String              _suffix;
-  private       String              _staticUrl;
-  private       HttpRequest         _preflightRequest;
-  private       HttpResponse        _preflightResponse;
-  private       HttpRequest         _reDownloadRequest = HttpRequest.httpRequest();
-  private       HttpResponse        _reDownloadResponse;
-  private       boolean             _isReady = false;
+
+  private String       _startMarker       = "";
+  private String       _endMarker         = "";
+  private boolean      _replaceBackslash;
+  private String       _prefix;
+  private String       _suffix;
+  private String       _staticUrl;
+  private HttpRequest  _preflightRequest;
+  private HttpResponse _preflightResponse;
+  private HttpRequest  _reDownloadRequest = HttpRequest.httpRequest();
+  private HttpResponse _reDownloadResponse;
+  private boolean      _isReady           = false;
 
   ////////////////////////////////////////
   // PRIVATE METHODS
   ////////////////////////////////////////
+  /* This returns the first file name found within a multipart request. Will
+   * not handle multiple filenames or when the actual filename required to
+   * download the uploaded file is a different parameter */
+  private String getFilename(HttpRequest request) {
+    for (ParsedHttpParameter param : request.parameters()) {
+      if (param.type() == HttpParameterType.MULTIPART_ATTRIBUTE)
+        if (param.name().equalsIgnoreCase("filename"))
+          return param.value();
+    }
+    _api.logging().logToError(
+        "Failed to identify a \"filename\" parameter in the request");
+
+    return "";
+  }
+
+
   private String setDownloaderMarkerSelections() {
     StringBuilder selection = new StringBuilder();
     HttpResponse response = (preflightUsed()

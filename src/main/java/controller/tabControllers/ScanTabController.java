@@ -54,19 +54,7 @@ public class ScanTabController {
     _scanTabView.addPrefixListener(e->_scanModel.setPrefix(_scanTabView.getPrefix()));
     _scanTabView.addSuffixListener(e->_scanModel.setSuffix(_scanTabView.getSuffix()));
 
-    _scanTabView.addStaticUrlListener(e->{
-      //todo: there are two functions that work on validating static urls,
-      //      can these be consolidated?
-      String input = _scanTabView.getStaticUrl();
-      if (_scanModel.setStaticUrl(input)) {
-        _scanTabView.setReDownloadEditor(_scanModel.getReDownloadRequest());
-        _scanTabView.setStaticUrlBackground(Color.white);
-      }
-      else {
-        _scanTabView.setReDownloadEditor(HttpRequest.httpRequest());
-        _scanTabView.setStaticUrlBackground(Color.red);
-      }
-    });
+    _scanTabView.addStaticUrlListener(new StaticUrlListener());
   }
 
   private void _syncView2Model(){
@@ -161,6 +149,27 @@ public class ScanTabController {
             }
           }
         }
+      });
+    }
+  }
+
+  private class StaticUrlListener extends DebounceDocListener{
+    public StaticUrlListener() {
+      super(DEBOUNCE_DELAY, e-> {
+          //todo: there are two functions that work on validating static urls,
+          //      can these be consolidated?
+          String input = _scanTabView.getStaticUrl();
+
+          // if input is a valid url
+          if (RequestUtils.isValidURL(input)) {
+            _scanModel.setStaticUrl(input);
+            _scanTabView.setReDownloadEditor(_scanModel.getReDownloadRequest());
+            _scanTabView.setStaticUrlBackground(Color.white);
+          }
+          else {
+            _scanTabView.setReDownloadEditor(HttpRequest.httpRequest());
+            _scanTabView.setStaticUrlBackground(Color.red);
+          }
       });
     }
   }

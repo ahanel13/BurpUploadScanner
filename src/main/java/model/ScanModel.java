@@ -19,7 +19,7 @@ public class ScanModel {
   public void setPrefix(String s)                   {_downloader.setPrefix(s);}
   public void setSuffix(String s)                   {_downloader.setSuffix(s);}
   public void setPreflightEndpointInput(String url) {_downloader.setPreflightEndpointInput(url);}
-  public boolean setStaticUrl(String url)           {return _downloader.setStaticUrl(url);}
+  public void setStaticUrl(String url)              {_downloader.setStaticUrl(url);}
   public String setStartMarker(String s)            {return _downloader.setStartMarker(s);}
   public String setEndMarker(String s)              {return _downloader.setEndMarker(s);}
 
