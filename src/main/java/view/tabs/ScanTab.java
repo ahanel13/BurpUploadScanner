@@ -79,6 +79,7 @@ public class ScanTab extends JPanel {
   public void setStartMarkerBackground(Color color)        {_downloaderComp.startMarker.setBackground(color);}
   public void setEndMarkerBackground(Color color)          {_downloaderComp.endMarker.setBackground(color);}
   public void addSendDownloadReqListener(ActionListener l) {_actionPanel.downloaderBtn.addActionListener(l);}
+  public void addStartScanListener(ActionListener l)       {_actionPanel.startScanBtn.addActionListener(l);}
 
   // HttpEditor Update Functions
   ////////////////////////////////////////
