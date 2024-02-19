@@ -5,6 +5,7 @@ import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.http.message.requests.HttpRequest;
 
 import javax.swing.*;
+import java.util.concurrent.ExecutionException;
 
 public class Sender extends SwingWorker<HttpRequestResponse, Void> {
 
@@ -13,24 +14,21 @@ public class Sender extends SwingWorker<HttpRequestResponse, Void> {
     _request = request;
   }
 
+  public HttpRequestResponse send() {
+    super.execute();
+    try {
+      return super.get();
+    }
+    catch (InterruptedException | ExecutionException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   @Override
-  protected HttpRequestResponse doInBackground() throws Exception {
-    _response = sendHttpRequest(_request); // Store the response
-    return null; // We're using Void as the first type parameter, so return null
+  protected HttpRequestResponse doInBackground() {
+    return _api.http().sendRequest(_request);
   }
 
   private final HttpRequest _request;
   private final MontoyaApi  _api;
-  private HttpRequestResponse _response;
-
-  public HttpRequestResponse getResponse() {
-    while (!isDone()) {
-      _api.logging().raiseInfoEvent("Sender request task not done yet");
-    }
-    return _response;
-  }
-
-  private HttpRequestResponse sendHttpRequest(HttpRequest request) {
-    return _api.http().sendRequest(request);
-  }
 }

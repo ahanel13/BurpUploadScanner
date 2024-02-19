@@ -40,20 +40,33 @@ public class Downloader {
     }
   }
 
-  public HttpRequestResponse sendPreflightReq() {
-    Sender sender = new Sender(_api, _preflightRequest);
-    sender.execute();
+  public HttpRequestResponse download(String newFilename) {
+    // todo: handle preflight
+    String updatedReq = _reDownloadRequest.toString().replace(_filename, newFilename);
+    return download(HttpRequest.httpRequest(_reDownloadRequest.httpService(), updatedReq));
+  }
 
-    HttpRequestResponse requestResponse = sender.getResponse();
+  public HttpRequestResponse download(HttpRequest newRequest) {
+    // todo: handle preflight
+    Sender sender = new Sender(_api, newRequest);
+    return sender.send();
+  }
+
+  public HttpRequestResponse download() {
+    Sender sender = new Sender(_api, _reDownloadRequest);
+    return sender.send();
+  }
+
+  public HttpRequestResponse sendPreflightReq() {
+    Sender              sender          = new Sender(_api, _preflightRequest);
+    HttpRequestResponse requestResponse = sender.send();
     _preflightResponse = requestResponse.response();
     return requestResponse;
   }
 
   public HttpRequestResponse sendReDownloadReq() {
-    Sender sender = new Sender(_api, _reDownloadRequest);
-    sender.execute();
-
-    HttpRequestResponse requestResponse = sender.getResponse();
+    Sender              sender          = new Sender(_api, _reDownloadRequest);
+    HttpRequestResponse requestResponse = sender.send();
     _reDownloadResponse = requestResponse.response();
     _isReady            = true;
     return requestResponse;
@@ -80,6 +93,14 @@ public class Downloader {
   public boolean isUsed() {
     return _isReady;
   }
+
+  public String getFilename() {
+    return _filename;
+  }
+
+  public String getFileExtension() {
+    return _filename.substring(_filename.lastIndexOf("."));
+  };
 
   ////////////////////////////////////////
   // PRIVATE FIELDS
