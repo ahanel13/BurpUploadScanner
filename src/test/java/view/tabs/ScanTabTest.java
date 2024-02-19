@@ -1,14 +1,12 @@
-package view.templates;
+package view.tabs;
 
 import javax.swing.*;
 import java.io.IOException;
 
-
-public class BaseConfigTemplateTest {
+public class ScanTabTest {
   public static void main(String[] args) throws IOException {
-    JFrame             frame     = new JFrame("BaseConfigTemplate");
-    BaseConfigTemplate debugView = new BaseConfigTemplate();
-    debugView.addColors();
+    JFrame  frame     = new JFrame("DefaultConfigTab");
+    ScanTab debugView = new ScanTab(null, null);
     frame.setContentPane(debugView);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.pack();
