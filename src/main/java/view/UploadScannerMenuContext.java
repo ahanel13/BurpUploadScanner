@@ -1,6 +1,5 @@
 package view;
 
-import burp.api.montoya.core.ToolType;
 import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.ui.contextmenu.ContextMenuEvent;
 import burp.api.montoya.ui.contextmenu.ContextMenuItemsProvider;
@@ -25,13 +24,9 @@ public class UploadScannerMenuContext implements ContextMenuItemsProvider {
   @Override
   public List<Component> provideMenuItems(ContextMenuEvent event) {
     List<Component> menuItemList = new ArrayList<>();
-
-    if (event.isFromTool(ToolType.PROXY, ToolType.TARGET, ToolType.LOGGER)) {
-      requestResponse = event.messageEditorRequestResponse().isPresent() ? event.messageEditorRequestResponse().get()
-          .requestResponse() : event.selectedRequestResponses().get(0);
-      menuItemList.add(retrieveUploadRequest);
-    }
-
+    requestResponse = event.messageEditorRequestResponse().isPresent() ? event.messageEditorRequestResponse().get()
+        .requestResponse() : event.selectedRequestResponses().get(0);
+    menuItemList.add(retrieveUploadRequest);
     return menuItemList;
   }
 
