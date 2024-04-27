@@ -7,8 +7,7 @@ import burp.api.montoya.scanner.audit.issues.AuditIssue;
 import model.checks.PhpChecks;
 import model.utilities.MultipartRequestFactory;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class ScanModel {
   public ScanModel(MontoyaApi api, BaseConfigModel baseConfigModel, HttpRequestResponse uploadRequestResponse) {
@@ -39,10 +38,14 @@ public class ScanModel {
   public void startScan() {
     List<AuditIssue>        auditIssues = new ArrayList<>();
     MultipartRequestFactory reqFactory  = new MultipartRequestFactory(_uploadRequestResponse.request());
+  public HttpRequestResponse sendPreflightReq()
+  throws InterruptedException, ExecutionException {return _downloader.sendPreflightReq();}
 
     if (_baseConfigModel.phpScanCheck()) {
       PhpChecks        phpChecks = new PhpChecks(_api, reqFactory, _downloader);
       List<AuditIssue> issues     = phpChecks.basicRceCheck();
+  public HttpRequestResponse sendReDownloadReq()
+  throws InterruptedException, ExecutionException {return _downloader.sendReDownloadReq();}
 
       if (!issues.isEmpty())
         auditIssues.addAll(issues);

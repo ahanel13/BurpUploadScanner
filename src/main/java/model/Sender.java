@@ -14,14 +14,9 @@ public class Sender extends SwingWorker<HttpRequestResponse, Void> {
     _request = request;
   }
 
-  public HttpRequestResponse send() {
+  public HttpRequestResponse send() throws InterruptedException, ExecutionException {
     super.execute();
-    try {
-      return super.get();
-    }
-    catch (InterruptedException | ExecutionException e) {
-      throw new RuntimeException(e);
-    }
+    return super.get();
   }
 
   @Override

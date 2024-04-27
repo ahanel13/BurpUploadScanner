@@ -7,7 +7,9 @@ import model.utilities.DebounceDocListener;
 import model.utilities.RequestUtils;
 import view.tabs.ScanTab;
 
+import javax.swing.*;
 import java.awt.*;
+import java.util.concurrent.ExecutionException;
 
 public class ScanTabController {
   ////////////////////////////////////////
@@ -33,13 +35,23 @@ public class ScanTabController {
   ////////////////////////////////////////
   private void _addActionPanelListeners() {
     _scanTabView.addSendDownloadReqListener(e-> {
-      HttpRequestResponse requestResponse = _scanModel.sendReDownloadReq();
-      _scanTabView.updateReDownloadWindows(requestResponse);
+      try {
+        HttpRequestResponse requestResponse = _scanModel.sendReDownloadReq();
+        _scanTabView.updateReDownloadWindows(requestResponse);
+      }
+      catch (ExecutionException | InterruptedException ew) {
+        new JOptionPane("Exception occurred when sending redownload request:\n" + ew);
+      }
     });
 
     _scanTabView.addSendPreflightReqListener(e-> {
-      HttpRequestResponse requestResponse = _scanModel.sendPreflightReq();
-      _scanTabView.updatePreflightWindows(requestResponse);
+      try {
+        HttpRequestResponse requestResponse = _scanModel.sendPreflightReq();
+        _scanTabView.updatePreflightWindows(requestResponse);
+      }
+      catch (ExecutionException | InterruptedException ew) {
+        new JOptionPane("Exception occurred when sending redownload request:\n" + ew);
+      }
     });
 
     _scanTabView.addStartScanListener(e-> _scanModel.startScan());

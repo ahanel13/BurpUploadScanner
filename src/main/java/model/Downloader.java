@@ -9,6 +9,7 @@ import burp.api.montoya.http.message.requests.HttpRequest;
 import burp.api.montoya.http.message.responses.HttpResponse;
 import model.utilities.RequestUtils;
 
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,31 +41,31 @@ public class Downloader {
     }
   }
 
-  public HttpRequestResponse download(String newFilename) {
+  public HttpRequestResponse download(String newFilename) throws InterruptedException, ExecutionException {
     // todo: handle preflight
     String updatedReq = _reDownloadRequest.toString().replace(_filename, newFilename);
     return download(HttpRequest.httpRequest(_reDownloadRequest.httpService(), updatedReq));
   }
 
-  public HttpRequestResponse download(HttpRequest newRequest) {
+  public HttpRequestResponse download(HttpRequest newRequest) throws InterruptedException, ExecutionException {
     // todo: handle preflight
     Sender sender = new Sender(_api, newRequest);
     return sender.send();
   }
 
-  public HttpRequestResponse download() {
+  public HttpRequestResponse download() throws InterruptedException, ExecutionException {
     Sender sender = new Sender(_api, _reDownloadRequest);
     return sender.send();
   }
 
-  public HttpRequestResponse sendPreflightReq() {
+  public HttpRequestResponse sendPreflightReq() throws InterruptedException, ExecutionException {
     Sender              sender          = new Sender(_api, _preflightRequest);
     HttpRequestResponse requestResponse = sender.send();
     _preflightResponse = requestResponse.response();
     return requestResponse;
   }
 
-  public HttpRequestResponse sendReDownloadReq() {
+  public HttpRequestResponse sendReDownloadReq() throws InterruptedException, ExecutionException {
     Sender              sender          = new Sender(_api, _reDownloadRequest);
     HttpRequestResponse requestResponse = sender.send();
     _reDownloadResponse = requestResponse.response();
