@@ -1,4 +1,4 @@
-package model.utilities;
+package model.factories;
 
 import burp.api.montoya.http.message.ContentType;
 import burp.api.montoya.http.message.params.HttpParameter;
@@ -15,6 +15,7 @@ public class MultipartRequestFactory {
   ////////////////////////////////////////
   // PUBLIC FUNCTIONS
   ////////////////////////////////////////
+  //---------------------------------------------------------------------------
   public MultipartRequestFactory(HttpRequest httpRequest) {
     baseRequest = httpRequest;
     _parts      = parseMultiPartRequest();
@@ -23,6 +24,7 @@ public class MultipartRequestFactory {
   ////////////////////////////////////////
   // PUBLIC METHODS
   ////////////////////////////////////////
+  //---------------------------------------------------------------------------
   /* This function will replace every value with the given payload for the
    * every occurrence of a MULTIPART_ATTRIBUTE with the name of "filename"
    * baseRequest.withUpdatedParameters(parameters) doesn't support MULTIPART_ATTRIBUTE
@@ -44,8 +46,10 @@ public class MultipartRequestFactory {
     return baseRequest.withBody(newBody);
   }
 
+  //---------------------------------------------------------------------------
   public HttpRequest getRequestWPayloadNFilenameNMime(
-      String payload, String newFilename, String contentType) {
+      String payload, String newFilename, String contentType
+  ) {
     String newBody = baseRequest.bodyToString();
 
     newBody = newBody.replaceFirst("Content-Type:\\s.*", "Content-Type: " + contentType);
@@ -64,16 +68,6 @@ public class MultipartRequestFactory {
     return baseRequest.withBody(newBody);
   }
 
-  private HttpParameter parameterFor(ParsedHttpParameter parameter) {
-    return parameterFor(parameter, parameter.value());
-  }
-
-  private HttpParameter parameterFor(ParsedHttpParameter param, String payload) {
-    String            name = param.name();
-    HttpParameterType type = param.type();
-    return HttpParameter.parameter(name, payload, type);
-  }
-
   ////////////////////////////////////////
   // PRIVATE FIELDS
   ////////////////////////////////////////
@@ -82,6 +76,7 @@ public class MultipartRequestFactory {
   ////////////////////////////////////////
   // PRIVATE METHODS
   ////////////////////////////////////////
+  //---------------------------------------------------------------------------
   private List<ParsedHttpParameter> parseMultiPartRequest() {
     // Check if the request is multipart
     if (baseRequest.contentType() != ContentType.MULTIPART) {
@@ -94,11 +89,23 @@ public class MultipartRequestFactory {
       if (
           part.type() == HttpParameterType.MULTIPART_ATTRIBUTE ||
           part.type() == HttpParameterType.BODY
-          ) {
+      ) {
         parts.add(part);
       }
     }
 
     return parts;
+  }
+
+  //---------------------------------------------------------------------------
+  private HttpParameter parameterFor(ParsedHttpParameter parameter) {
+    return parameterFor(parameter, parameter.value());
+  }
+
+  //---------------------------------------------------------------------------
+  private HttpParameter parameterFor(ParsedHttpParameter param, String payload) {
+    String            name = param.name();
+    HttpParameterType type = param.type();
+    return HttpParameter.parameter(name, payload, type);
   }
 }
