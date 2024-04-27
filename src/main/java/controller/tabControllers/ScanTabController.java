@@ -8,7 +8,6 @@ import model.utilities.DebounceDocListener;
 import model.utilities.RequestUtils;
 import view.tabs.ScanTab;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.concurrent.ExecutionException;
 
@@ -52,7 +51,7 @@ private void _addActionPanelListeners() {
       _scanTabView.updateReDownloadWindows(requestResponse);
     }
     catch (ExecutionException | InterruptedException ew) {
-      new JOptionPane("Exception occurred when sending redownload request:\n" + ew);
+      displayMessage("Exception occurred when sending redownload request:\n" + ew);
     }
   });
 
@@ -62,7 +61,7 @@ private void _addActionPanelListeners() {
       _scanTabView.updatePreflightWindows(requestResponse);
     }
     catch (ExecutionException | InterruptedException ew) {
-      new JOptionPane("Exception occurred when sending redownload request:\n" + ew);
+      displayMessage("Exception occurred when sending redownload request:\n" + ew);
     }
   });
 
