@@ -1,4 +1,4 @@
-package model;
+package model.scan;
 
 import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.http.message.HttpHeader;

@@ -2,8 +2,8 @@ package controller.tabControllers;
 
 import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.http.message.requests.HttpRequest;
-import model.ScanCheckWorker;
-import model.ScanModel;
+import model.scan.ScanCheckWorker;
+import model.scan.ScanModel;
 import model.utilities.DebounceDocListener;
 import model.utilities.RequestUtils;
 import view.tabs.ScanTab;

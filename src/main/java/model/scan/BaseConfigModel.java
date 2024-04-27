@@ -1,4 +1,4 @@
-package model;
+package model.scan;
 
 import burp.api.montoya.persistence.PersistedObject;
 import model.utilities.ResourceLoader;

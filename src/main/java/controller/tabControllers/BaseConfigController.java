@@ -1,6 +1,6 @@
 package controller.tabControllers;
 
-import model.BaseConfigModel;
+import model.scan.BaseConfigModel;
 import view.tabs.BaseConfigTab;
 
 import javax.swing.*;

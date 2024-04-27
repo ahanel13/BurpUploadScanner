@@ -6,10 +6,10 @@ import burp.api.montoya.http.message.requests.HttpRequest;
 import burp.api.montoya.scanner.audit.issues.AuditIssue;
 import burp.api.montoya.scanner.audit.issues.AuditIssueConfidence;
 import burp.api.montoya.scanner.audit.issues.AuditIssueSeverity;
-import model.BaseConfigModel;
-import model.Downloader;
-import model.Sender;
 import model.factories.MultipartRequestFactory;
+import model.scan.BaseConfigModel;
+import model.scan.Downloader;
+import model.scan.Sender;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
