@@ -20,8 +20,8 @@
       <option name="RIGHT_MARGIN" value="120" />
       <option name="KEEP_BLANK_LINES_BETWEEN_PACKAGE_DECLARATION_AND_HEADER" value="1" />
       <option name="KEEP_BLANK_LINES_BEFORE_RBRACE" value="1" />
-      <option name="BLANK_LINES_AROUND_METHOD" value="0" />
       <option name="BLANK_LINES_AROUND_METHOD_IN_INTERFACE" value="0" />
+      <option name="DO_NOT_INDENT_TOP_LEVEL_CLASS_MEMBERS" value="true" />
       <option name="ELSE_ON_NEW_LINE" value="true" />
       <option name="CATCH_ON_NEW_LINE" value="true" />
       <option name="FINALLY_ON_NEW_LINE" value="true" />
@@ -83,6 +83,7 @@
         <option name="INDENT_SIZE" value="2" />
         <option name="CONTINUATION_INDENT_SIZE" value="4" />
         <option name="TAB_SIZE" value="2" />
+        <option name="LABEL_INDENT_ABSOLUTE" value="true" />
       </indentOptions>
       <arrangement>
         <tokens>
@@ -227,6 +228,10 @@
         </tokens>
         <groups>
           <group>
+            <type>DEPENDENT_METHODS</type>
+            <order>BREADTH_FIRST</order>
+          </group>
+          <group>
             <type>GETTERS_AND_SETTERS</type>
             <order>KEEP</order>
           </group>
@@ -234,13 +239,9 @@
             <type>OVERRIDDEN_METHODS</type>
             <order>KEEP</order>
           </group>
-          <group>
-            <type>DEPENDENT_METHODS</type>
-            <order>BREADTH_FIRST</order>
-          </group>
         </groups>
         <rules>
-          <section start_comment="// PUBLIC DATA //">
+          <section>
             <rule>
               <match>
                 <AND>
@@ -288,7 +289,7 @@
               </match>
             </rule>
           </section>
-          <section start_comment="// PUBLIC FUNCTIONS //">
+          <section>
             <rule>
               <match>
                 <AND>
@@ -298,7 +299,7 @@
               </match>
             </rule>
           </section>
-          <section start_comment="// PUBLIC UTILTIES //">
+          <section>
             <rule>
               <match>
                 <AND>
@@ -309,7 +310,7 @@
               </match>
             </rule>
           </section>
-          <section start_comment="// PUBLIC METHODS //">
+          <section>
             <rule>
               <match>
                 <AND>
@@ -320,7 +321,7 @@
               </match>
             </rule>
           </section>
-          <section start_comment="// PACKAGE-PRIVATE DATA //">
+          <section>
             <rule>
               <match>
                 <AND>
@@ -368,7 +369,7 @@
               </match>
             </rule>
           </section>
-          <section start_comment="// PACKAGE-PRIVATE FUNCTIONS //">
+          <section>
             <rule>
               <match>
                 <AND>
@@ -378,7 +379,7 @@
               </match>
             </rule>
           </section>
-          <section start_comment="// PACKAGE-PRIVATE UTILITIES //">
+          <section>
             <rule>
               <match>
                 <AND>
@@ -389,7 +390,7 @@
               </match>
             </rule>
           </section>
-          <section start_comment="// PACKAGE-PRIVATE METHODS //">
+          <section>
             <rule>
               <match>
                 <AND>
@@ -400,7 +401,7 @@
               </match>
             </rule>
           </section>
-          <section start_comment="// PROTECTED DATA //">
+          <section>
             <rule>
               <match>
                 <AND>
@@ -448,7 +449,7 @@
               </match>
             </rule>
           </section>
-          <section start_comment="// PROTECTED FUNCTIONS //">
+          <section>
             <rule>
               <match>
                 <AND>
@@ -458,7 +459,7 @@
               </match>
             </rule>
           </section>
-          <section start_comment="// PROTECTED UTILITIES //">
+          <section>
             <rule>
               <match>
                 <AND>
@@ -469,7 +470,7 @@
               </match>
             </rule>
           </section>
-          <section start_comment="// PROTECTED METHODS //">
+          <section>
             <rule>
               <match>
                 <AND>
@@ -480,7 +481,7 @@
               </match>
             </rule>
           </section>
-          <section start_comment="// PRIVATE DATA //">
+          <section>
             <rule>
               <match>
                 <AND>
@@ -528,7 +529,7 @@
               </match>
             </rule>
           </section>
-          <section start_comment="// PRIVATE FUNCTIONS //">
+          <section>
             <rule>
               <match>
                 <AND>
@@ -558,7 +559,7 @@
               </match>
             </rule>
           </section>
-          <section start_comment="// PRIVATE UTILITIES //">
+          <section>
             <rule>
               <match>
                 <AND>
@@ -569,7 +570,7 @@
               </match>
             </rule>
           </section>
-          <section start_comment="// PRIVATE METHODS //">
+          <section>
             <rule>
               <match>
                 <AND>
