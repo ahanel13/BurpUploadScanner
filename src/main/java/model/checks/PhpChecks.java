@@ -13,6 +13,7 @@ import model.scan.Sender;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -62,18 +63,26 @@ public class PhpChecks extends UploaderCheck {
   ////////////////////////////////////////
   //---------------------------------------------------------------------------
   public void basicRceCheck() throws InterruptedException, ExecutionException {
-    boolean          isVulnerable;
+    if(basicRceCheckCompleted)
+      return; // EXIT HERE
 
-    for (String extension : getFileExts()) {
+    if(fileExts2Check.isEmpty())
+      fileExts2Check = getFileExts(_downloader.getFileExtension());
+
+    for (Iterator<String> iterator = fileExts2Check.iterator(); iterator.hasNext(); ) {
+      String extension = iterator.next();
       for (String type : contentTypes) {
-        if(isInterrupted())
+
+        // Handles if the scan had been stopped by user
+        if (isInterrupted())
           return;
 
-        String      newFilename = getFilename("basicRceCheck", extension);
-        String      randomStr   = getRandomStr();
-        String      payload     = getPayload(randomStr);
-        String      searchStr   = getSearchStr(randomStr);
-        HttpRequest request;
+        String              newFilename       = getFilename("basicRceCheck", extension);
+        String              randomStr         = getRandomStr();
+        String              payload           = getPayload(randomStr);
+        String              searchStr         = getSearchStr(randomStr);
+        HttpRequest         request;
+        boolean             isVulnerable;
         HttpRequestResponse reDownloadReqResp = null;
 
         if (type.equals(ORIGIN_CONT_TYPE))
@@ -89,11 +98,11 @@ public class PhpChecks extends UploaderCheck {
                    will request ".php"
           */
           reDownloadReqResp = _downloader.download(newFilename);
-          isVulnerable = vulnerabilityPresent(reDownloadReqResp, searchStr);
+          isVulnerable      = vulnerabilityPresent(reDownloadReqResp, searchStr);
         }
-        else {
+        else
           isVulnerable = vulnerabilityPresent(requestResponse, searchStr);
-        }
+
 
         if (isVulnerable) {
           report(AuditIssue.auditIssue(
@@ -111,8 +120,11 @@ public class PhpChecks extends UploaderCheck {
           ));
         }
       }
+      iterator.remove(); //remove extension list to check (for scan resume)
     }
-    // todo: this check as completed
+
+    // prevents check from being restarted if completed and resumed
+    basicRceCheckCompleted = true;
   }
 
   //---------------------------------------------------------------------------
@@ -138,12 +150,19 @@ public class PhpChecks extends UploaderCheck {
     //todo: implement
   }
 
+  //---------------------------------------------------------------------------
+  public void setBaseConfigModel(BaseConfigModel baseConfigModel) {
+    _baseConfigModel = baseConfigModel;
+  }
 
   ////////////////////////////////////////
   // PRIVATE FIELDS
   ////////////////////////////////////////
   private final MultipartRequestFactory _requestFactory;
   private final Downloader              _downloader;
+
+  private List<String> fileExts2Check         = new ArrayList<>();
+  private boolean      basicRceCheckCompleted = false;
 
   ////////////////////////////////////////
   // PRIVATE METHODS
@@ -186,9 +205,8 @@ public class PhpChecks extends UploaderCheck {
   }
 
   //---------------------------------------------------------------------------
-  private Iterable<? extends String> getFileExts() {
+  private static List<String> getFileExts(String originalExt) {
     List<String> result = new ArrayList<>();
-    String  originalExt = _downloader.getFileExtension();
 
     result.add(originalExt);
 
@@ -220,6 +238,7 @@ public class PhpChecks extends UploaderCheck {
       ".php", ".php5", ".phtml");
   private static final List<String> contentTypes   = List.of(
       ORIGIN_CONT_TYPE, "application/x-php", "application/octet-stream");
+
   private BaseConfigModel _baseConfigModel;
 
 
@@ -235,6 +254,7 @@ public class PhpChecks extends UploaderCheck {
 
   // Check newFilename.custExt.orgExt
   // Check newFilename.custExt.orgExt; custContType
+
   public static final String[][] PHP_CHECKS = {
       //extension, content-type
       {"", ""},
