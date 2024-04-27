@@ -43,6 +43,17 @@ public class ScanTabController {
     });
 
     _scanTabView.addStartScanListener(e-> _scanModel.startScan());
+    _scanTabView.addStartScanListener(e->{
+      _scanTabView.enableStopBtn();
+      _scanTabView.disableStartBtn();
+    });
+
+    //todo: implement a restart scan
+
+    _scanTabView.addStopScanListener(e->{
+      _scanTabView.disableStopBtn();
+      _scanTabView.enableStartBtn();
+    });
   }
 
   private void _addDownloaderListeners() {

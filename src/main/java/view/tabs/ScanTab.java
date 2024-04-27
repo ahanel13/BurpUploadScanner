@@ -80,6 +80,7 @@ public class ScanTab extends JPanel {
   public void setEndMarkerBackground(Color color)          {_downloaderComp.endMarker.setBackground(color);}
   public void addSendDownloadReqListener(ActionListener l) {_actionPanel.downloaderBtn.addActionListener(l);}
   public void addStartScanListener(ActionListener l)       {_actionPanel.startScanBtn.addActionListener(l);}
+  public void addStopScanListener(ActionListener l)        {_actionPanel.stopScanBtn.addActionListener(l);}
 
   // HttpEditor Update Functions
   ////////////////////////////////////////
@@ -143,6 +144,12 @@ public class ScanTab extends JPanel {
     _triggerActionOn(_downloaderComp.startMarker);
     _triggerActionOn(_downloaderComp.endMarker);
   }
+
+
+  public void enableStartBtn()  {_actionPanel.startScanBtn.setEnabled(true);}
+  public void disableStartBtn() {_actionPanel.startScanBtn.setEnabled(false);}
+  public void enableStopBtn()  {_actionPanel.stopScanBtn.setEnabled(true);}
+  public void disableStopBtn() {_actionPanel.stopScanBtn.setEnabled(false);}
 
   ////////////////////////////////////////
   // PRIVATE FIELDS
