@@ -2,6 +2,7 @@ package controller.tabControllers;
 
 import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.http.message.requests.HttpRequest;
+import model.ScanCheckWorker;
 import model.ScanModel;
 import model.utilities.DebounceDocListener;
 import model.utilities.RequestUtils;
@@ -18,6 +19,7 @@ public class ScanTabController {
   public ScanTabController(ScanModel scanModel, ScanTab scanTabView) {
     _scanModel   = scanModel;
     _scanTabView = scanTabView;
+    _scanWorker  = new ScanCheckWorker(_scanModel);
     _addDownloaderListeners();
     _addActionPanelListeners();
     _syncView2Model();
@@ -27,8 +29,10 @@ public class ScanTabController {
   // PRIVATE FIELDS
   ////////////////////////////////////////
   private static final int DEBOUNCE_DELAY = 300;
-  private final ScanTab   _scanTabView;
-  private final ScanModel _scanModel;
+
+  private final ScanTab         _scanTabView;
+  private final ScanModel       _scanModel;
+  private       ScanCheckWorker _scanWorker;
 
   ////////////////////////////////////////
   // PRIVATE METHODS
@@ -54,10 +58,10 @@ public class ScanTabController {
       }
     });
 
-    _scanTabView.addStartScanListener(e-> _scanModel.startScan());
     _scanTabView.addStartScanListener(e->{
       _scanTabView.enableStopBtn();
       _scanTabView.disableStartBtn();
+      _scanWorker.execute();
     });
 
     //todo: implement a restart scan
@@ -65,6 +69,8 @@ public class ScanTabController {
     _scanTabView.addStopScanListener(e->{
       _scanTabView.disableStopBtn();
       _scanTabView.enableStartBtn();
+      _scanWorker.cancel(false);
+      _scanWorker = new ScanCheckWorker(_scanModel);
     });
   }
 

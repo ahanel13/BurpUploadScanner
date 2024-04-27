@@ -3,9 +3,6 @@ package model;
 import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.http.message.requests.HttpRequest;
-import burp.api.montoya.scanner.audit.issues.AuditIssue;
-import model.checks.PhpChecks;
-import model.utilities.MultipartRequestFactory;
 
 import java.util.concurrent.ExecutionException;
 
@@ -28,33 +25,20 @@ public class ScanModel {
   public String setStartMarker(String s)            {return _downloader.setStartMarker(s);}
   public String setEndMarker(String s)              {return _downloader.setEndMarker(s);}
 
-  public HttpRequest getPreflightRequest()  {return _downloader.getPreflightRequest();}
-  public HttpRequest getReDownloadRequest() {return _downloader.getReDownloadRequest();}
+  public HttpRequest getPreflightRequest()      {return _downloader.getPreflightRequest();}
+  public HttpRequest getReDownloadRequest()     {return _downloader.getReDownloadRequest();}
+  public HttpRequestResponse getUploadReqResp() {return _uploadRequestResponse;}
 
   public BaseConfigModel baseConfigModel()       {return _baseConfigModel;}
-  public HttpRequestResponse sendPreflightReq()  {return _downloader.sendPreflightReq();}
-  public HttpRequestResponse sendReDownloadReq() {return _downloader.sendReDownloadReq();}
+  public Downloader getDownloader()              {return _downloader;}
+  public MontoyaApi getApi()                     {return _api;}
 
-  public void startScan() {
-    List<AuditIssue>        auditIssues = new ArrayList<>();
-    MultipartRequestFactory reqFactory  = new MultipartRequestFactory(_uploadRequestResponse.request());
   public HttpRequestResponse sendPreflightReq()
   throws InterruptedException, ExecutionException {return _downloader.sendPreflightReq();}
 
-    if (_baseConfigModel.phpScanCheck()) {
-      PhpChecks        phpChecks = new PhpChecks(_api, reqFactory, _downloader);
-      List<AuditIssue> issues     = phpChecks.basicRceCheck();
   public HttpRequestResponse sendReDownloadReq()
   throws InterruptedException, ExecutionException {return _downloader.sendReDownloadReq();}
 
-      if (!issues.isEmpty())
-        auditIssues.addAll(issues);
-    }
-
-    for (AuditIssue issue : auditIssues) {
-      _api.siteMap().add(issue);
-    }
-  }
 
   ////////////////////////////////////////
   // PRIVATE FIELDS
