@@ -61,6 +61,11 @@ public class ScanTabController {
     _scanTabView.addStartScanListener(e->{
       _scanTabView.enableStopBtn();
       _scanTabView.disableStartBtn();
+
+      // if scan is being resumed
+      if(_scanWorker.isCancelled())
+        _scanWorker = new ScanCheckWorker(_scanWorker, _scanModel.baseConfigModel());
+
       _scanWorker.execute();
     });
 
@@ -70,7 +75,6 @@ public class ScanTabController {
       _scanTabView.disableStopBtn();
       _scanTabView.enableStartBtn();
       _scanWorker.cancel(false);
-      _scanWorker = new ScanCheckWorker(_scanModel);
     });
   }
 

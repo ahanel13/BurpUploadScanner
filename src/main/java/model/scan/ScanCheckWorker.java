@@ -24,9 +24,14 @@ public class ScanCheckWorker extends SwingWorker<Void, Integer> {
   //---------------------------------------------------------------------------
   // SwingWorkers cannot be restarted, a new worker is required. This is a way
   // to manage/pass on the state of the previous worker.
-  public ScanCheckWorker(ScanCheckWorker cancelledWorker){
+  public ScanCheckWorker(ScanCheckWorker cancelledWorker, BaseConfigModel configModel) {
+    // if the config was changed after the scan stopped
+    if(!cancelledWorker._baseConfigModel.equals(configModel))
+      _baseConfigModel = configModel;
+    else
+      _baseConfigModel = cancelledWorker._baseConfigModel;
+
     _scanModel             = cancelledWorker._scanModel;
-    _baseConfigModel       = cancelledWorker._baseConfigModel;
     _uploadRequestResponse = cancelledWorker._uploadRequestResponse;
     _api                   = cancelledWorker._api;
     _downloader            = cancelledWorker._downloader;
@@ -40,12 +45,16 @@ public class ScanCheckWorker extends SwingWorker<Void, Integer> {
     if(_totalChecks != _completedChecks)
       return;
 
+    // todo: what if the config was changed after it was cancelled?
+
     _checks.clear();
     setProgress(0);
 
     //if PHP Checks are enabled
     if (_baseConfigModel.phpScanCheck()){
       PhpChecks check1 = new PhpChecks(_uploadRequestResponse, _api, _downloader);
+      check1.setBaseConfigModel(_baseConfigModel);
+
       _checks.add(check1);
       _totalChecks += check1.getTotalChecks();
     }
