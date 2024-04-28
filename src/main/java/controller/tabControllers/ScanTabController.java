@@ -3,6 +3,7 @@ package controller.tabControllers;
 import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.http.message.requests.HttpRequest;
 import model.scan.ScanCheckWorker;
+import model.scan.ScanLog;
 import model.scan.ScanModel;
 import model.utilities.DebounceDocListener;
 import model.utilities.RequestUtils;
@@ -24,6 +25,7 @@ public ScanTabController(ScanModel scanModel, ScanTab scanTabView) {
   _scanModel   = scanModel;
   _scanTabView = scanTabView;
   _scanWorker  = new ScanCheckWorker(_scanModel);
+  _scanLog     = new ScanLog();
   _addDownloaderListeners();
   _addActionPanelListeners();
   _syncView2Model();
@@ -37,6 +39,7 @@ private static final int DEBOUNCE_DELAY = 300;
 
 private final ScanTab         _scanTabView;
 private final ScanModel       _scanModel;
+private final ScanLog         _scanLog;
 private       ScanCheckWorker _scanWorker;
 
 
