@@ -90,7 +90,9 @@ public class PhpChecks extends UploaderCheck {
         else
           request = _requestFactory.getRequestWPayloadNFilenameNMime(payload, newFilename, type);
 
+        // todo: store the file name and hash for exporting
         HttpRequestResponse requestResponse = new Sender(api, request).send();
+
 
         if (_downloader.isUsed()) {
           /* todo: update this to make a request to the filename minus
@@ -105,19 +107,7 @@ public class PhpChecks extends UploaderCheck {
 
 
         if (isVulnerable) {
-          report(AuditIssue.auditIssue(
-              "PHP RCE",
-              "PHP RCE",
-              "Rem",
-              request.url(),
-              AuditIssueSeverity.HIGH,
-              AuditIssueConfidence.CERTAIN,
-              "",
-              "",
-              AuditIssueSeverity.HIGH,
-              requestResponse,
-              reDownloadReqResp
-          ));
+          report(request.url(), requestResponse, reDownloadReqResp, payload, searchStr);
         }
       }
       iterator.remove(); //remove extension list to check (for scan resume)
@@ -153,6 +143,27 @@ public class PhpChecks extends UploaderCheck {
   //---------------------------------------------------------------------------
   public void setBaseConfigModel(BaseConfigModel baseConfigModel) {
     _baseConfigModel = baseConfigModel;
+  }
+
+  //---------------------------------------------------------------------------
+  protected void report(
+      String url, HttpRequestResponse reqResp, HttpRequestResponse downReqResp,
+      String payload, String highlight
+  ) {
+    super.report(AuditIssue.auditIssue(
+        "PHP RCE",
+        "The payload `" + payload + "` was injected into the file upload. " +
+        "The application rendered the payload as `" + highlight + "`",
+        "Remediate",
+        url,
+        AuditIssueSeverity.HIGH,
+        AuditIssueConfidence.CERTAIN,
+        "",
+        "",
+        AuditIssueSeverity.HIGH,
+        reqResp,
+        super.highlightResponse(downReqResp, highlight)
+    ));
   }
 
   ////////////////////////////////////////
