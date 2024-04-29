@@ -9,6 +9,8 @@ import burp.api.montoya.http.message.requests.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
 
+// https://www.w3.org/Protocols/rfc1341/7_2_Multipart.html
+// https://discordapp.com/channels/1159124119074381945/1164175825474686996/1195010198310502480
 public class MultipartRequestFactory {
   public final HttpRequest baseRequest;
 
