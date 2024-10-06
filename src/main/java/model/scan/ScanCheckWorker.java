@@ -72,7 +72,7 @@ public class ScanCheckWorker extends SwingWorker<Void, Integer> {
 
         // Keep looping until the thread is interrupted or finishes
         while (check.isAlive()) {
-          Thread.sleep(1000); // Sleep briefly between checks
+          check.join(100);
           if (isCancelled()) {
             // If cancellation is requested, interrupt the thread and exit the loop
             check.interrupt();
