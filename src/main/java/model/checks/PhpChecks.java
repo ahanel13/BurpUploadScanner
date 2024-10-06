@@ -7,8 +7,8 @@ import burp.api.montoya.scanner.audit.issues.AuditIssue;
 import burp.api.montoya.scanner.audit.issues.AuditIssueConfidence;
 import burp.api.montoya.scanner.audit.issues.AuditIssueSeverity;
 import model.factories.MultipartRequestFactory;
-import model.scan.BaseConfigModel;
 import model.scan.Downloader;
+import model.scan.ScanModel;
 import model.scan.Sender;
 
 import java.security.SecureRandom;
@@ -42,10 +42,10 @@ public class PhpChecks extends UploaderCheck {
       rceBackdoorFileCheck();
 
       // PNG Metadata Check
-      if (_baseConfigModel.pngFileType())
+      if (_scanModel.pngFileType())
         rcePngIdatChunkCheck();
 
-      if (_baseConfigModel.gifFileType())
+      if (_scanModel.gifFileType())
         rceGifContentCheck();
 
       api.logging().logToOutput("Completed PHP Checks.");
@@ -141,8 +141,8 @@ public class PhpChecks extends UploaderCheck {
   }
 
   //---------------------------------------------------------------------------
-  public void setBaseConfigModel(BaseConfigModel baseConfigModel) {
-    _baseConfigModel = baseConfigModel;
+  public void setScanModel(ScanModel scanModel) {
+    _scanModel = scanModel;
   }
 
   //---------------------------------------------------------------------------
@@ -250,7 +250,7 @@ public class PhpChecks extends UploaderCheck {
   private static final List<String> contentTypes   = List.of(
       ORIGIN_CONT_TYPE, "application/x-php", "application/octet-stream");
 
-  private BaseConfigModel _baseConfigModel;
+  private ScanModel _scanModel;
 
 
   //---------------------------------------------------------------------------

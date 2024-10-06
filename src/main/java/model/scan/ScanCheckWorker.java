@@ -14,7 +14,6 @@ public class ScanCheckWorker extends SwingWorker<Void, Integer> {
   //---------------------------------------------------------------------------
   public ScanCheckWorker(ScanModel model) {
     _scanModel             = model;
-    _baseConfigModel       = model.baseConfigModel();
     _uploadRequestResponse = model.getUploadReqResp();
     _api                   = model.getApi();
     _downloader            = model.getDownloader();
@@ -24,14 +23,13 @@ public class ScanCheckWorker extends SwingWorker<Void, Integer> {
   //---------------------------------------------------------------------------
   // SwingWorkers cannot be restarted, a new worker is required. This is a way
   // to manage/pass on the state of the previous worker.
-  public ScanCheckWorker(ScanCheckWorker cancelledWorker, BaseConfigModel configModel) {
+  public ScanCheckWorker(ScanCheckWorker cancelledWorker, ScanModel scanModel) {
     // if the config was changed after the scan stopped
-    if(!cancelledWorker._baseConfigModel.equals(configModel))
-      _baseConfigModel = configModel;
+    if(!cancelledWorker._scanModel.equals(scanModel))
+      _scanModel = scanModel;
     else
-      _baseConfigModel = cancelledWorker._baseConfigModel;
+      _scanModel = cancelledWorker._scanModel;
 
-    _scanModel             = cancelledWorker._scanModel;
     _uploadRequestResponse = cancelledWorker._uploadRequestResponse;
     _api                   = cancelledWorker._api;
     _downloader            = cancelledWorker._downloader;
@@ -51,9 +49,9 @@ public class ScanCheckWorker extends SwingWorker<Void, Integer> {
     setProgress(0);
 
     //if PHP Checks are enabled
-    if (_baseConfigModel.phpScanCheck()){
+    if (_scanModel.phpScanCheck()){
       PhpChecks check1 = new PhpChecks(_uploadRequestResponse, _api, _downloader);
-      check1.setBaseConfigModel(_baseConfigModel);
+      check1.setScanModel(_scanModel);
 
       _checks.add(check1);
       _totalChecks += check1.getTotalChecks();
@@ -113,7 +111,6 @@ public class ScanCheckWorker extends SwingWorker<Void, Integer> {
   private final HttpRequestResponse _uploadRequestResponse;
   private final Downloader          _downloader;
   private final MontoyaApi          _api;
-  private final BaseConfigModel     _baseConfigModel;
 
   private int     _totalChecks     = 0;
   private int     _completedChecks = 0;

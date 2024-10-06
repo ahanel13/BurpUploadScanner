@@ -74,7 +74,7 @@ private void _addActionPanelListeners() {
 
     // if scan is being resumed
     if(_scanWorker.isCancelled())
-      _scanWorker = new ScanCheckWorker(_scanWorker, _scanModel.baseConfigModel());
+      _scanWorker = new ScanCheckWorker(_scanWorker, _scanModel);
 
     _scanWorker.execute();
   });
@@ -103,57 +103,57 @@ private void _addDownloaderListeners() {
 
 //-----------------------------------------------------------------------------
 private void _syncView2Model(){
-  _scanTabView.baseConfigTemplate().setReplaceFileName(_scanModel.baseConfigModel().replaceFileName());
-  _scanTabView.baseConfigTemplate().setReplaceFileSize(_scanModel.baseConfigModel().replaceFileSize());
-  _scanTabView.baseConfigTemplate().setReplaceContentType(_scanModel.baseConfigModel().replaceContentType());
-  _scanTabView.baseConfigTemplate().setAddToLoggingChkBox(_scanModel.baseConfigModel().addToLoggingTab());
-  _scanTabView.baseConfigTemplate().setWgetCurlPayloads(_scanModel.baseConfigModel().wgetCurlPayloads());
-  _scanTabView.baseConfigTemplate().setSleepTime(_scanModel.baseConfigModel().sleepTime());
-  _scanTabView.baseConfigTemplate().setThrottleValue(_scanModel.baseConfigModel().throttleTime());
+  _scanTabView.baseConfigTemplate().setReplaceFileName(_scanModel.replaceFileName());
+  _scanTabView.baseConfigTemplate().setReplaceFileSize(_scanModel.replaceFileSize());
+  _scanTabView.baseConfigTemplate().setReplaceContentType(_scanModel.replaceContentType());
+  _scanTabView.baseConfigTemplate().setAddToLoggingChkBox(_scanModel.addToLoggingTab());
+  _scanTabView.baseConfigTemplate().setWgetCurlPayloads(_scanModel.wgetCurlPayloads());
+  _scanTabView.baseConfigTemplate().setSleepTime(_scanModel.sleepTime());
+  _scanTabView.baseConfigTemplate().setThrottleValue(_scanModel.throttleTime());
 
-  _scanTabView.baseConfigTemplate().setGifFileType(_scanModel.baseConfigModel().gifFileType());
-  _scanTabView.baseConfigTemplate().setPngFileType(_scanModel.baseConfigModel().pngFileType());
-  _scanTabView.baseConfigTemplate().setJpegFileType(_scanModel.baseConfigModel().jpegFileType());
-  _scanTabView.baseConfigTemplate().setTiffFileType(_scanModel.baseConfigModel().tiffFileType());
-  _scanTabView.baseConfigTemplate().setIcoFileType(_scanModel.baseConfigModel().icoFileType());
-  _scanTabView.baseConfigTemplate().setSvgFileType(_scanModel.baseConfigModel().svgFileType());
-  _scanTabView.baseConfigTemplate().setMvgFileType(_scanModel.baseConfigModel().mvgFileType());
-  _scanTabView.baseConfigTemplate().setPdfFileType(_scanModel.baseConfigModel().pdfFileType());
-  _scanTabView.baseConfigTemplate().setMp4FileType(_scanModel.baseConfigModel().mp4FileType());
-  _scanTabView.baseConfigTemplate().setDocxFileType(_scanModel.baseConfigModel().docxFileType());
-  _scanTabView.baseConfigTemplate().setXlsxFileType(_scanModel.baseConfigModel().xlsxFileType());
-  _scanTabView.baseConfigTemplate().setSwfFileType(_scanModel.baseConfigModel().swfFileType());
-  _scanTabView.baseConfigTemplate().setCsvFileType(_scanModel.baseConfigModel().csvFileType());
-  _scanTabView.baseConfigTemplate().setZipFileType(_scanModel.baseConfigModel().zipFileType());
-  _scanTabView.baseConfigTemplate().setGzipFileType(_scanModel.baseConfigModel().gzipFileType());
-  _scanTabView.baseConfigTemplate().setHtmlFileType(_scanModel.baseConfigModel().htmlFileType());
-  _scanTabView.baseConfigTemplate().setXmlFileType(_scanModel.baseConfigModel().xmlFileType());
+  _scanTabView.baseConfigTemplate().setGifFileType(_scanModel.gifFileType());
+  _scanTabView.baseConfigTemplate().setPngFileType(_scanModel.pngFileType());
+  _scanTabView.baseConfigTemplate().setJpegFileType(_scanModel.jpegFileType());
+  _scanTabView.baseConfigTemplate().setTiffFileType(_scanModel.tiffFileType());
+  _scanTabView.baseConfigTemplate().setIcoFileType(_scanModel.icoFileType());
+  _scanTabView.baseConfigTemplate().setSvgFileType(_scanModel.svgFileType());
+  _scanTabView.baseConfigTemplate().setMvgFileType(_scanModel.mvgFileType());
+  _scanTabView.baseConfigTemplate().setPdfFileType(_scanModel.pdfFileType());
+  _scanTabView.baseConfigTemplate().setMp4FileType(_scanModel.mp4FileType());
+  _scanTabView.baseConfigTemplate().setDocxFileType(_scanModel.docxFileType());
+  _scanTabView.baseConfigTemplate().setXlsxFileType(_scanModel.xlsxFileType());
+  _scanTabView.baseConfigTemplate().setSwfFileType(_scanModel.swfFileType());
+  _scanTabView.baseConfigTemplate().setCsvFileType(_scanModel.csvFileType());
+  _scanTabView.baseConfigTemplate().setZipFileType(_scanModel.zipFileType());
+  _scanTabView.baseConfigTemplate().setGzipFileType(_scanModel.gzipFileType());
+  _scanTabView.baseConfigTemplate().setHtmlFileType(_scanModel.htmlFileType());
+  _scanTabView.baseConfigTemplate().setXmlFileType(_scanModel.xmlFileType());
 
-  _scanTabView.baseConfigTemplate().setActivescanScanCheck(_scanModel.baseConfigModel().activescanScanCheck());
-  _scanTabView.baseConfigTemplate().setImagetragickScanCheck(_scanModel.baseConfigModel().imagetragickScanCheck());
-  _scanTabView.baseConfigTemplate().setMagickScanCheck(_scanModel.baseConfigModel().magickScanCheck());
-  _scanTabView.baseConfigTemplate().setGsScanCheck(_scanModel.baseConfigModel().gsScanCheck());
-  _scanTabView.baseConfigTemplate().setLibavformatScanCheck(_scanModel.baseConfigModel().libavformatScanCheck());
-  _scanTabView.baseConfigTemplate().setPhpScanCheck(_scanModel.baseConfigModel().phpScanCheck());
-  _scanTabView.baseConfigTemplate().setJspScanCheck(_scanModel.baseConfigModel().jspScanCheck());
-  _scanTabView.baseConfigTemplate().setAspScanCheck(_scanModel.baseConfigModel().aspScanCheck());
-  _scanTabView.baseConfigTemplate().setHtaccessScanCheck(_scanModel.baseConfigModel().htaccessScanCheck());
-  _scanTabView.baseConfigTemplate().setCgiScanCheck(_scanModel.baseConfigModel().cgiScanCheck());
-  _scanTabView.baseConfigTemplate().setSsiScanCheck(_scanModel.baseConfigModel().ssiScanCheck());
-  _scanTabView.baseConfigTemplate().setXxeScanCheck(_scanModel.baseConfigModel().xxeScanCheck());
-  _scanTabView.baseConfigTemplate().setXssScanCheck(_scanModel.baseConfigModel().xssScanCheck());
-  _scanTabView.baseConfigTemplate().setEicarScanCheck(_scanModel.baseConfigModel().eicarScanCheck());
-  _scanTabView.baseConfigTemplate().setPdfInjectionScanCheck(_scanModel.baseConfigModel().pdfInjectionScanCheck());
-  _scanTabView.baseConfigTemplate().setSsrfScanCheck(_scanModel.baseConfigModel().ssrfScanCheck());
-  _scanTabView.baseConfigTemplate().setCsvInjectionScanCheck(_scanModel.baseConfigModel().csvInjectionScanCheck());
-  _scanTabView.baseConfigTemplate().setPathTraversalScanCheck(_scanModel.baseConfigModel().pathTraversalScanCheck());
-  _scanTabView.baseConfigTemplate().setPolyglotScanCheck(_scanModel.baseConfigModel().polyglotScanCheck());
-  _scanTabView.baseConfigTemplate().setFingerpingScanCheck(_scanModel.baseConfigModel().fingerpingScanCheck());
-  _scanTabView.baseConfigTemplate().setQuirksScanCheck(_scanModel.baseConfigModel().quirksScanCheck());
-  _scanTabView.baseConfigTemplate().setUrlReplacerScanCheck(_scanModel.baseConfigModel().urlReplacerScanCheck());
-  _scanTabView.baseConfigTemplate().setRecursiveUploaderScanCheck(_scanModel.baseConfigModel().recursiveUploaderScanCheck());
-  _scanTabView.baseConfigTemplate().setFuzzerScanCheck(_scanModel.baseConfigModel().fuzzerScanCheck());
-  _scanTabView.baseConfigTemplate().setDosScanCheck(_scanModel.baseConfigModel().dosScanCheck());
+  _scanTabView.baseConfigTemplate().setActivescanScanCheck(_scanModel.activescanScanCheck());
+  _scanTabView.baseConfigTemplate().setImagetragickScanCheck(_scanModel.imagetragickScanCheck());
+  _scanTabView.baseConfigTemplate().setMagickScanCheck(_scanModel.magickScanCheck());
+  _scanTabView.baseConfigTemplate().setGsScanCheck(_scanModel.gsScanCheck());
+  _scanTabView.baseConfigTemplate().setLibavformatScanCheck(_scanModel.libavformatScanCheck());
+  _scanTabView.baseConfigTemplate().setPhpScanCheck(_scanModel.phpScanCheck());
+  _scanTabView.baseConfigTemplate().setJspScanCheck(_scanModel.jspScanCheck());
+  _scanTabView.baseConfigTemplate().setAspScanCheck(_scanModel.aspScanCheck());
+  _scanTabView.baseConfigTemplate().setHtaccessScanCheck(_scanModel.htaccessScanCheck());
+  _scanTabView.baseConfigTemplate().setCgiScanCheck(_scanModel.cgiScanCheck());
+  _scanTabView.baseConfigTemplate().setSsiScanCheck(_scanModel.ssiScanCheck());
+  _scanTabView.baseConfigTemplate().setXxeScanCheck(_scanModel.xxeScanCheck());
+  _scanTabView.baseConfigTemplate().setXssScanCheck(_scanModel.xssScanCheck());
+  _scanTabView.baseConfigTemplate().setEicarScanCheck(_scanModel.eicarScanCheck());
+  _scanTabView.baseConfigTemplate().setPdfInjectionScanCheck(_scanModel.pdfInjectionScanCheck());
+  _scanTabView.baseConfigTemplate().setSsrfScanCheck(_scanModel.ssrfScanCheck());
+  _scanTabView.baseConfigTemplate().setCsvInjectionScanCheck(_scanModel.csvInjectionScanCheck());
+  _scanTabView.baseConfigTemplate().setPathTraversalScanCheck(_scanModel.pathTraversalScanCheck());
+  _scanTabView.baseConfigTemplate().setPolyglotScanCheck(_scanModel.polyglotScanCheck());
+  _scanTabView.baseConfigTemplate().setFingerpingScanCheck(_scanModel.fingerpingScanCheck());
+  _scanTabView.baseConfigTemplate().setQuirksScanCheck(_scanModel.quirksScanCheck());
+  _scanTabView.baseConfigTemplate().setUrlReplacerScanCheck(_scanModel.urlReplacerScanCheck());
+  _scanTabView.baseConfigTemplate().setRecursiveUploaderScanCheck(_scanModel.recursiveUploaderScanCheck());
+  _scanTabView.baseConfigTemplate().setFuzzerScanCheck(_scanModel.fuzzerScanCheck());
+  _scanTabView.baseConfigTemplate().setDosScanCheck(_scanModel.dosScanCheck());
 }
 
 //-----------------------------------------------------------------------------

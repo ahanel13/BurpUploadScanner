@@ -6,7 +6,7 @@ import model.utilities.ResourceLoader;
 import java.io.IOException;
 import java.util.Properties;
 
-public class BaseConfigModel implements Cloneable {
+public class BaseConfigModel {
   ////////////////////////////////////////
   // PUBLIC FUNCTIONS
   ////////////////////////////////////////
@@ -33,19 +33,72 @@ public class BaseConfigModel implements Cloneable {
     setDefaultValues(); //todo: update persistence for the entire class
   }
 
-  ////////////////////////////////////////
-  // PUBLIC METHODS
-  ////////////////////////////////////////
-  @Override
-  public BaseConfigModel clone() {
-    try {
-      // class only has primitives, essentially a deep copy
-      return (BaseConfigModel) super.clone();
-    }
-    catch (CloneNotSupportedException e) {
-      throw new AssertionError();
-    }
+  public BaseConfigModel(BaseConfigModel model) {
+    // Copy persisted object
+    this._extensionData = model._extensionData;
+    this._persistedScanConfigModel = model._persistedScanConfigModel;
+    this._defaultProps = model._defaultProps;
+
+    // Copy logging options
+    this._addToLoggingTab = model._addToLoggingTab;
+
+    // Copy scanning configs
+    this._throttleTime = model._throttleTime;
+    this._replaceFileName = model._replaceFileName;
+    this._replaceContentType = model._replaceContentType;
+    this._replaceFileSize = model._replaceFileSize;
+
+    // Copy payload configs
+    this._sleepTime = model._sleepTime;
+    this._wgetCurlPayloads = model._wgetCurlPayloads;
+
+    // Copy file types
+    this._gifFileType = model._gifFileType;
+    this._pngFileType = model._pngFileType;
+    this._jpegFileType = model._jpegFileType;
+    this._tiffFileType = model._tiffFileType;
+    this._icoFileType = model._icoFileType;
+    this._svgFileType = model._svgFileType;
+    this._mvgFileType = model._mvgFileType;
+    this._pdfFileType = model._pdfFileType;
+    this._mp4FileType = model._mp4FileType;
+    this._docxFileType = model._docxFileType;
+    this._xlsxFileType = model._xlsxFileType;
+    this._swfFileType = model._swfFileType;
+    this._csvFileType = model._csvFileType;
+    this._zipFileType = model._zipFileType;
+    this._gzipFileType = model._gzipFileType;
+    this._htmlFileType = model._htmlFileType;
+    this._xmlFileType = model._xmlFileType;
+
+    // Copy scan checks
+    this._activescanScanCheck = model._activescanScanCheck;
+    this._imagetragickScanCheck = model._imagetragickScanCheck;
+    this._magickScanCheck = model._magickScanCheck;
+    this._gsScanCheck = model._gsScanCheck;
+    this._libavformatScanCheck = model._libavformatScanCheck;
+    this._phpScanCheck = model._phpScanCheck;
+    this._jspScanCheck = model._jspScanCheck;
+    this._aspScanCheck = model._aspScanCheck;
+    this._htaccessScanCheck = model._htaccessScanCheck;
+    this._cgiScanCheck = model._cgiScanCheck;
+    this._ssiScanCheck = model._ssiScanCheck;
+    this._xxeScanCheck = model._xxeScanCheck;
+    this._xssScanCheck = model._xssScanCheck;
+    this._eicarScanCheck = model._eicarScanCheck;
+    this._pdfInjectionScanCheck = model._pdfInjectionScanCheck;
+    this._ssrfScanCheck = model._ssrfScanCheck;
+    this._csvInjectionScanCheck = model._csvInjectionScanCheck;
+    this._pathTraversalScanCheck = model._pathTraversalScanCheck;
+    this._polyglotScanCheck = model._polyglotScanCheck;
+    this._fingerpingScanCheck = model._fingerpingScanCheck;
+    this._quirksScanCheck = model._quirksScanCheck;
+    this._urlReplacerScanCheck = model._urlReplacerScanCheck;
+    this._recursiveUploaderScanCheck = model._recursiveUploaderScanCheck;
+    this._fuzzerScanCheck = model._fuzzerScanCheck;
+    this._dosScanCheck = model._dosScanCheck;
   }
+
 
   public void persist() {
     _persistedScanConfigModel.setBoolean(_ADD_TO_LOGGING_TAB_KEY, this._addToLoggingTab);

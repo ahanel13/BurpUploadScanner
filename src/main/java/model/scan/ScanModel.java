@@ -6,10 +6,10 @@ import burp.api.montoya.http.message.requests.HttpRequest;
 
 import java.util.concurrent.ExecutionException;
 
-public class ScanModel {
+public class ScanModel extends BaseConfigModel {
   public ScanModel(MontoyaApi api, BaseConfigModel baseConfigModel, HttpRequestResponse uploadRequestResponse) {
+    super(baseConfigModel);
     _api                   = api;
-    _baseConfigModel       = baseConfigModel.clone();
     _uploadRequestResponse = uploadRequestResponse;
     _downloader            = new Downloader(_api, _uploadRequestResponse);
   }
@@ -29,7 +29,6 @@ public class ScanModel {
   public HttpRequest getReDownloadRequest()     {return _downloader.getReDownloadRequest();}
   public HttpRequestResponse getUploadReqResp() {return _uploadRequestResponse;}
 
-  public BaseConfigModel baseConfigModel()       {return _baseConfigModel;}
   public Downloader getDownloader()              {return _downloader;}
   public MontoyaApi getApi()                     {return _api;}
 
@@ -44,7 +43,6 @@ public class ScanModel {
   // PRIVATE FIELDS
   ////////////////////////////////////////
   private final MontoyaApi          _api;
-  private final BaseConfigModel     _baseConfigModel;
   private final HttpRequestResponse _uploadRequestResponse;
   private final Downloader          _downloader;
 }
