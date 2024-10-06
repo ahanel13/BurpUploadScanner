@@ -9,9 +9,12 @@ import burp.api.montoya.http.message.requests.HttpRequest;
 import burp.api.montoya.http.message.responses.HttpResponse;
 import model.utilities.RequestUtils;
 
+import java.net.URLEncoder;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class Downloader {
   ////////////////////////////////////////
@@ -74,7 +77,8 @@ public class Downloader {
   }
 
   public void setStaticUrl(String url) {
-    _staticUrl = url.replace(FILENAME_TAG, _filename);;
+    _staticUrl = url.replace(FILENAME_TAG, URLEncoder.encode(_filename, UTF_8))
+                    .replace("+", "%20");
     _isReady = false;
 
     _reDownloadRequest = HttpRequest.httpRequestFromUrl(_staticUrl);
