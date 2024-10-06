@@ -4,6 +4,7 @@ import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.core.Marker;
 import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.scanner.audit.issues.AuditIssue;
+import model.scan.ScanLog;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -18,16 +19,18 @@ public abstract class UploaderCheck extends Thread {
   }
 
   // this is just for progress updating, count functions not requests
-  protected final  int       totalChecks;
+  protected final int        totalChecks;
   protected final MontoyaApi api;
+  protected final ScanLog    scanLog;
+
+  protected UploaderCheck(int checks, MontoyaApi api, ScanLog scanLog) {
+    totalChecks  = checks;
+    this.api     = api;
+    this.scanLog = scanLog;
+  }
 
   protected void report(AuditIssue issue) {
     api.siteMap().add(issue);
-  }
-
-  protected UploaderCheck(int checks, MontoyaApi api) {
-    totalChecks = checks;
-    this.api    = api;
   }
 
   protected HttpRequestResponse highlightResponse(HttpRequestResponse resp, String match) {

@@ -8,6 +8,7 @@ import burp.api.montoya.scanner.audit.issues.AuditIssueConfidence;
 import burp.api.montoya.scanner.audit.issues.AuditIssueSeverity;
 import model.factories.MultipartRequestFactory;
 import model.scan.Downloader;
+import model.scan.ScanLog;
 import model.scan.ScanModel;
 import model.scan.Sender;
 
@@ -19,14 +20,16 @@ import java.util.concurrent.ExecutionException;
 
 import static model.utilities.Constants.*;
 
+
 public class PhpChecks extends UploaderCheck {
   ////////////////////////////////////////
   // PUBLIC FUNCTIONS
   ////////////////////////////////////////
   public PhpChecks(
-      HttpRequestResponse response, MontoyaApi api, Downloader downloader
+      HttpRequestResponse response, MontoyaApi api, Downloader downloader,
+      ScanLog scanLog
   ) {
-    super(4, api);
+    super(4, api, scanLog);
     _requestFactory = new MultipartRequestFactory(response.request());
     _downloader     = downloader;
   }
@@ -109,6 +112,8 @@ public class PhpChecks extends UploaderCheck {
         if (isVulnerable) {
           report(request.url(), requestResponse, reDownloadReqResp, payload, searchStr);
         }
+
+        scanLog.addLog(newFilename, requestResponse, reDownloadReqResp);
       }
       iterator.remove(); //remove extension list to check (for scan resume)
     }
@@ -251,36 +256,4 @@ public class PhpChecks extends UploaderCheck {
       ORIGIN_CONT_TYPE, "application/x-php", "application/octet-stream");
 
   private ScanModel _scanModel;
-
-
-  //---------------------------------------------------------------------------
-  // Check newFilename.orgExt
-  // Check newFilename.orgExt; custContType
-
-  // Check newFilename.orgExt.custExt
-  // Check newFilename.orgExt.custExt; custContType
-
-  // Check newFilename.custExt
-  // Check newFilename.custExt; custContType
-
-  // Check newFilename.custExt.orgExt
-  // Check newFilename.custExt.orgExt; custContType
-
-  public static final String[][] PHP_CHECKS = {
-      //extension, content-type
-      {"", ""},
-      {ORIGIN_FILE_EXT, ORIGIN_CONT_TYPE},
-      {ORIGIN_FILE_EXT, "application/x-php"},
-      {ORIGIN_FILE_EXT, "application/octet-stream"},
-      {".php", "application/x-php"},
-      {".php", "application/x-php"},
-      {".php", "application/octet-stream"},
-      {".php", ORIGIN_CONT_TYPE},
-      {".php5", "application/x-php"},
-      {".php5", "application/octet-stream"},
-      {".php5", ORIGIN_CONT_TYPE},
-      {".phtml", "application/x-php"},
-      {".phtml", "application/octet-stream"},
-      {".phtml", ORIGIN_CONT_TYPE},
-  };
 }

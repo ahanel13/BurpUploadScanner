@@ -36,7 +36,9 @@ public class ScanModel extends BaseConfigModel {
   throws InterruptedException, ExecutionException {return _downloader.sendPreflightReq();}
 
   public HttpRequestResponse sendReDownloadReq()
-  throws InterruptedException, ExecutionException {return _downloader.sendReDownloadReq();}
+  throws InterruptedException, ExecutionException {
+    return _downloader.sendReDownloadReq();
+  }
 
 
   ////////////////////////////////////////

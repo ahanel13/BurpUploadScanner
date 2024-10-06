@@ -146,10 +146,12 @@ public class ScanTab extends JPanel {
   }
 
 
-  public void enableStartBtn()  {_actionPanel.startScanBtn.setEnabled(true);}
-  public void disableStartBtn() {_actionPanel.startScanBtn.setEnabled(false);}
-  public void enableStopBtn()  {_actionPanel.stopScanBtn.setEnabled(true);}
-  public void disableStopBtn() {_actionPanel.stopScanBtn.setEnabled(false);}
+  public void enableStartBtn()                {_actionPanel.startScanBtn.setEnabled(true);}
+  public void disableStartBtn()               {_actionPanel.startScanBtn.setEnabled(false);}
+  public void enableStopBtn()                 {_actionPanel.stopScanBtn.setEnabled(true);}
+  public void disableStopBtn()                {_actionPanel.stopScanBtn.setEnabled(false);}
+
+
 
   ////////////////////////////////////////
   // PRIVATE FIELDS

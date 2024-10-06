@@ -12,23 +12,24 @@ import java.util.List;
 public class ScanCheckWorker extends SwingWorker<Void, Integer> {
 
   //---------------------------------------------------------------------------
-  public ScanCheckWorker(ScanModel model) {
+  public ScanCheckWorker(ScanModel model, ScanLog scanLog) {
     _scanModel             = model;
     _uploadRequestResponse = model.getUploadReqResp();
     _api                   = model.getApi();
     _downloader            = model.getDownloader();
     _checks                = new ArrayList<>();
+    _scanLog               = scanLog;
   }
 
   //---------------------------------------------------------------------------
   // SwingWorkers cannot be restarted, a new worker is required. This is a way
   // to manage/pass on the state of the previous worker.
-  public ScanCheckWorker(ScanCheckWorker cancelledWorker, ScanModel scanModel) {
+  public ScanCheckWorker(
+      ScanCheckWorker cancelledWorker, ScanModel scanModel
+  ) {
     // if the config was changed after the scan stopped
-    if(!cancelledWorker._scanModel.equals(scanModel))
-      _scanModel = scanModel;
-    else
-      _scanModel = cancelledWorker._scanModel;
+    if(!cancelledWorker._scanModel.equals(scanModel)) _scanModel = scanModel;
+    else _scanModel = cancelledWorker._scanModel;
 
     _uploadRequestResponse = cancelledWorker._uploadRequestResponse;
     _api                   = cancelledWorker._api;
@@ -36,9 +37,10 @@ public class ScanCheckWorker extends SwingWorker<Void, Integer> {
     _completedChecks       = cancelledWorker._completedChecks;
     _totalChecks           = cancelledWorker._totalChecks;
     _checks                = cancelledWorker._checks;
+    _scanLog               = cancelledWorker._scanLog;
   }
 
-  private void addChecks() {
+private void addChecks() {
     // if a scan was cancelled
     if(_totalChecks != _completedChecks)
       return;
@@ -50,7 +52,8 @@ public class ScanCheckWorker extends SwingWorker<Void, Integer> {
 
     //if PHP Checks are enabled
     if (_scanModel.phpScanCheck()){
-      PhpChecks check1 = new PhpChecks(_uploadRequestResponse, _api, _downloader);
+      PhpChecks check1 = new PhpChecks(
+          _uploadRequestResponse, _api, _downloader, _scanLog);
       check1.setScanModel(_scanModel);
 
       _checks.add(check1);
@@ -111,6 +114,7 @@ public class ScanCheckWorker extends SwingWorker<Void, Integer> {
   private final HttpRequestResponse _uploadRequestResponse;
   private final Downloader          _downloader;
   private final MontoyaApi          _api;
+  private final ScanLog             _scanLog;
 
   private int     _totalChecks     = 0;
   private int     _completedChecks = 0;

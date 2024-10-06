@@ -24,8 +24,8 @@ public class ScanTabController {
 public ScanTabController(ScanModel scanModel, ScanTab scanTabView) {
   _scanModel   = scanModel;
   _scanTabView = scanTabView;
-  _scanWorker  = new ScanCheckWorker(_scanModel);
   _scanLog     = new ScanLog();
+  _scanWorker  = new ScanCheckWorker(_scanModel, _scanLog);
   _addDownloaderListeners();
   _addActionPanelListeners();
   _syncView2Model();
